@@ -2,7 +2,7 @@ xquery version "3.1";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
 
-import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand" at "xmldb:exist:///db/apps/BetMas/modules/expand.xqm";
+import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand" at "xmldb:exist:///db/apps/BetMasWeb/modules/expand.xqm";
 
 let $context :=
 

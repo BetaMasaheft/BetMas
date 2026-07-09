@@ -13,4 +13,7 @@ db/apps/BetMas/modules/titles.xqm
 db/apps/**/clavisUpdate.xql
 db/apps/BetMasWeb/modules/exptit.xqm
 db/apps/BetMasWeb/modules/titles.xqm
+db/apps/BetMasWeb/modules/expand.xqm
+db/apps/BetMasWeb/modules/titlesData.xqm
+db/apps/BetMasWeb/modules/generateFormattedBibliography.xqm
 

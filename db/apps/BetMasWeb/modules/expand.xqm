@@ -1,11 +1,13 @@
 xquery version "3.1";
 
 module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand";
-import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMasWeb/modules/titles.xqm";
-import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
+import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMasWeb/modules/titlesData.xqm";
+import module namespace gfb = "https://www.betamasaheft.uni-hamburg.de/BetMas/gfb" at "xmldb:exist:///db/apps/BetMasWeb/modules/generateFormattedBibliography.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
+declare namespace b = "betmas.biblio";
 declare variable $expand:zotero := collection('/db/apps/EthioStudies') ;
 declare variable $expand:BMurl := 'https://betamasaheft.eu/';
 declare variable $expand:editorslist := doc('/db/apps/lists/editors.xml') ;
@@ -18,7 +20,7 @@ declare variable $expand:listPrefixDef :=
     <prefixDef
         ident="bm"
         matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="https://www.zotero.org/groups/358366/ethiostudies/items/tag/bm:$1">
+       replacementPattern="https://www.zotero.org/groups/358366/ethiostudies/items/tag/bm:$1">
     </prefixDef>
     <prefixDef
         ident="betmas"
@@ -176,6 +178,13 @@ declare function expand:id($id) {
             'https://betamasaheft.eu/' || $id
 };
 
+declare function expand:ids($node as node()) as xs:string {
+  if ($node/@xml:id) then
+    ($node/@xml:id)
+  else
+    $node/name()  || $node/ancestor-or-self::*/@xml:id [1] || $node/position()
+};
+
 declare function expand:token($val) {
     (:   refactoring from post.xslt post:token :)
     if (contains($val, ' '))
@@ -246,11 +255,15 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                         taking advantage of the <ref target="https://betamasaheft.eu">exist-db database instance</ref> where
                         the data is stored and of the many external resources to which this data points to.</p>,
                         $expand:listPrefixDef,
+let $mainid := $node/ancestor::t:TEI/@xml:id
+                        let $taxid := $expand:canontax//t:category[@xml:id]
+                        return
+                        if (not($mainid = $taxid/@xml:id)) then
                         <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="xmldb:exist:///db/apps/lists/canonicaltaxonomy.xml">
             <xi:fallback>
                <p>Definitions of prefixes used.</p>
             </xi:fallback>
-         </xi:include>,
+         </xi:include> else (),
 <refsDecl xmlns="http://www.tei-c.org/ns/1.0">
 {
 let $text :=  $node/ancestor::t:TEI//t:div[@type = 'edition']
@@ -264,7 +277,7 @@ let $cS :=
         match="//div[@type='edition']"
         use="@xml:id" delim=".">
         {
-       expand:groupCS($cS)
+       expand:strip-ns(expand:groupCS($cS))
    }
     </citeStructure>
 }
@@ -287,8 +300,32 @@ let $cS :=
                 return
                     <titleStmt
                         xmlns="http://www.tei-c.org/ns/1.0">
-                        <title type="full">{try{titles:printTitleMainID(string($node/ancestor-or-self::t:TEI/@xml:id))} catch * {util:log('INFO', concat('no full title added for ', string($node/ancestor-or-self::t:TEI/@xml:id)))}}</title>
+                        <title type="full">{try{expand:printTitleMainID(string($node/ancestor-or-self::t:TEI/@xml:id))} catch * {util:log('INFO', concat('no full title added for ', string($node/ancestor-or-self::t:TEI/@xml:id)))}}</title>
                         {expand:tei2fulltei($node/node(), $bibliography)}
+                         {
+                            let $gened := $node//t:editor[@role = 'generalEditor']/@key
+                            for $resp in distinct-values($gened)
+                            return
+                                <respStmt
+                                    xml:id="ged-{$resp}"
+                                    corresp="https://betamasaheft.eu/team.html#{$resp}">
+                                    <resp>general editor</resp>
+                                    <name>{$expand:editorslist//t:item[@xml:id = string($resp)]/text()}</name>
+                                </respStmt>
+                        }
+                         {
+                            let $ekeys := $node//t:editor[not(@role = 'generalEditor')]/@key
+                            for $resp in distinct-values($ekeys)
+                            let $editor:= $node//t:editor[@key = $resp][not(@role='generalEditor')][1]
+                            let $role := $editor/@role
+                            return
+                                <respStmt
+                                    xml:id="{if ($role) then concat(substring($role,1,3),'-',$resp) else concat('ed-',$resp)}"
+                                    corresp="https://betamasaheft.eu/team.html#{$resp}">
+                                    <resp>{if ($role) then string($role) else 'editor'}</resp>
+                                    <name>{$expand:editorslist//t:item[@xml:id = string($resp)]/text()}</name>
+                                </respStmt>
+                        }
                         {
                             let $ekeys := $node//t:editor/@key
                             let $cwhos := $node/ancestor-or-self::t:TEI//t:change/@who
@@ -301,6 +338,7 @@ let $cS :=
                                     <name>{$expand:editorslist//t:item[@xml:id = string($resp)]/text()}</name>
                                 </respStmt>
                         }
+
                     </titleStmt>
             case element(t:revisionDesc)
             return
@@ -309,7 +347,7 @@ let $cS :=
                     }
            case element(t:change)
             return
-            <change xmlns="http://www.tei-c.org/ns/1.0" who="#{$node/@who}" when="{$node/@when}">{let $resp := $node/@who return $expand:editorslist//t:item[@xml:id = string($resp)]/text()}: {$node/text()}</change>
+            <change xmlns="http://www.tei-c.org/ns/1.0" who="#{$node/@who}" when="{$node/@when}"><!--{let $resp := $node/@who return $expand:editorslist//t:item[@xml:id = string($resp)]/text()}: -->{$node/text()}</change>
             case element(t:profileDesc)
                 return
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
@@ -392,26 +430,26 @@ let $cS :=
                         else
                             (),
                         if ($node/@ref and not($node/text())) then
-                            titles:printTitleMainID($node/@ref)
+                            expand:printTitleMainID($node/@ref)
                         else
                             (),
                         if ($node/@type = 'authFile' and (string-length($node/text()) = 0)) then
-                            titles:printTitleMainID($node/@corresp)
+                            expand:printTitleMainID($node/@corresp)
                         else
                             (),
                         if ( $node[not(text())] and $node/@corresp and $node/@type[not(. ='authFile')]) then
                         let $corrnode := $node/ancestor-or-self::t:TEI/id($node/@corresp)
                         return
                             if ($corrnode) then
-                                let $buildID := titles:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' element '|| $corrnode/name()|| ' with id ' || string($node/@corresp)
+                                let $buildID := expand:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' element '|| $corrnode/name()|| ' with id ' || string($node/@corresp)
                                 return
                                     $buildID
                            else if (starts-with($node/@corresp, '#')) then
-                                let $buildID := titles:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' id ' || string($node/@corresp)
+                                let $buildID := expand:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' id ' || string($node/@corresp)
                                 return
                                     $buildID
                             else
-                                titles:printTitleMainID($node/@corresp)
+                                titles:printTitleID($node/@corresp)
                         else
                             (),
                         expand:tei2fulltei($node/node(), $bibliography))
@@ -420,13 +458,15 @@ let $cS :=
             case element(t:editor)
                 return
                     let $k := $node/@key
-
+                    let $role := $node/@role
                     return
                         element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                             (
                             $node/@*,
                             attribute corresp {concat('https://betamasaheft.eu/team.html#', $k)},
-                            attribute {'xml:id'} {$k},
+                            attribute {'xml:id'} {
+                    if ($role) then concat(substring($role,1,2),'-', $k) else $k
+                },
                             $expand:editorslist//t:item[@xml:id = string($k)]/text(),
                             expand:tei2fulltei($node/node(), $bibliography)
                             )
@@ -473,7 +513,7 @@ let $cS :=
                                 (),
                             expand:tei2fulltei($node/node(), $bibliography))
                         }
-            case element(t:locus)
+   (:         case element(t:locus)
                 return
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         ($node/@*,
@@ -571,7 +611,7 @@ let $cS :=
                         else
                             (),
                         expand:tei2fulltei($node/node(), $bibliography))
-                    }
+                    }:)
             case element(t:idno)
                 return
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
@@ -580,12 +620,10 @@ let $cS :=
                             let $mainFacs := $node/@facs
                             return
                                 attribute corresp {
-                                    if (starts-with($mainFacs, 'http') or contains($mainFacs, 'vatlib') or contains($mainFacs, 'gallica')) then
-                                        $mainFacs
-                                    else    if (starts-with($mainFacs, '#')) then
+                                    if (starts-with($mainFacs, 'http') or (starts-with($mainFacs, '#')) or contains($mainFacs, 'vatlib') or contains($mainFacs, 'gallica')) then
                                         $mainFacs
                                     else
-                                        concat($expand:BMurl, 'api/iiif/', $node/ancestor-or-self::t:TEI/@xml:id/data(), '/manifest')
+                                       concat($expand:BMurl, 'api/iiif/',  $node/ancestor-or-self::t:TEI/@xml:id, '/manifest',  (if ($node/parent::t:altIdentifier/@xml:id) then '?alt=' || string($node/parent::t:altIdentifier/@xml:id) else if ($node/parent::t:altIdentifier) then '?alt=alt' else ()))
                                 }
                         else
                             (),
@@ -646,7 +684,7 @@ let $cS :=
                                  else :)
                                  expand:tei2fulltei($node/node(), $bibliography)
                         )
-                    }} catch * {util:log('INFO', $err:description), util:log('INFO', $node)}
+                    }} catch * {util:log('INFO', $err:description), util:log('INFO', (concat('error in the node ',name($node))))}
                     (:                    anything which is not a node of those named above, including text() and attributes:)
             default
                 return
@@ -748,7 +786,7 @@ return
 ,
 let $col := switch2:col($node/ancestor-or-self::t:TEI/@type) return
 (<idno xmlns="http://www.tei-c.org/ns/1.0" type="collection">{$col}</idno>,
-<idno xmlns="http://www.tei-c.org/ns/1.0" type="url">https://betamasaheft.eu/{$col}/{$id}</idno>),
+<idno xmlns="http://www.tei-c.org/ns/1.0" type="url">https://betamasaheft.eu/{$col}/{$id}/main</idno>),
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="URI">https://betamasaheft.eu/{$id}</idno>,
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="filename">{$id}.xml</idno>,
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="ID">{$id}</idno>))
@@ -763,7 +801,7 @@ element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                             case 'notBefore' return 'not before'
                             case 'notAfter' return 'not after'
                             case 'cert' return 'certainty:'
-                            case 'resp' return titles:printTitleMainID($att)
+                            case 'resp' return expand:printTitleMainID($att)
                             default return $att/name()) || ' ' || $att/data())
                         return
                             string-join($atts, ' ')
@@ -793,9 +831,17 @@ element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
 declare function expand:attributes($node, $bibliography) {
     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
         ($node/@*[not(name() = 'corresp')][not(name() = 'resp')][not(name() = 'who')][not(name() = 'ref')][not(name() = 'sameAs')][not(name() = 'calendar')],
-        if ($node/@corresp) then
+         (
+        if (not($node/@xml:id) and $node/ancestor-or-self::t:div[@type='edition']) then
+          attribute xml:id { local-name($node)  || (if ($node/ancestor-or-self::*/@xml:id [1]) then string-join($node/ancestor-or-self::*/@xml:id [1]) || $node/position() else (generate-id())) }
+        else
+          ()),
+        if ($node/@corresp and $node[not(@type = 'external')] ) then
             attribute corresp {$expand:BMurl || (if(starts-with($node/@corresp, '#')) then string($node/ancestor-or-self::t:TEI/@xml:id) || string($node/@corresp) else string($node/@corresp))}
         else
+          if ($node/@corresp and $node[@type = 'external'] ) then
+            attribute corresp { (if(starts-with($node/@corresp, '#')) then string($node/ancestor-or-self::t:TEI/@xml:id) || string($node/@corresp) else string($node/@corresp))}
+            else
             (),
         if ($node/@calendar) then
             attribute calendar {'#' || $node/@calendar/data()}
@@ -847,10 +893,26 @@ declare function expand:wholike($attribute) {
     attribute {name($attribute)} {expand:id($attribute/data())}
 };
 
+declare function expand:syncBibliography($expanded as element()) {
+    let $bm-cites := distinct-values($expanded//t:ptr/@target[starts-with(., 'bm:')])
+    let $bibliography := doc('/db/apps/lists/bibliography.xml')/b:bibliography
+    for $cite in $bm-cites
+    let $exists := $bibliography//b:entry[@id = $cite]
+    return
+        if (empty($exists)) then
+            let $entry := gfb:updateentry($cite)
+            let $updated := update insert $entry into $bibliography/b:entries
+            let $updatetotal := update value $bibliography/b:total with count(distinct-values(($bibliography//b:entry/@id, $bm-cites)))
+            return util:log('INFO', concat('Added new bibliography entry for: ', $cite))
+        else ()
+};
+
 declare function expand:file($filepath) {
     let $doc := doc($filepath)
     (:util:expand needs to go to a node, therefore the processing instructions need to be added back:)
     let $expanded := util:expand($doc/t:TEI)
+    let $syncBib:=expand:syncBibliography($expanded)
+
     let $zotero :=
       for $ptr in distinct-values($expanded//t:ptr/@target[starts-with(., 'bm:')])
                         let $z := if($expand:zotero//t:biblStruct[t:note[@type='tags']/t:note[@type='tag'] = $ptr])
@@ -878,6 +940,18 @@ declare function expand:file($filepath) {
         }
 };
 
+declare function expand:strip-ns($nodes) {
+  for $n in $nodes
+  return
+    typeswitch($n)
+      case element()
+        return element {local-name($n)} {
+          $n/@*,
+          expand:strip-ns($n/node())
+        }
+      default return $n
+};
+
 (:
 declare function expand:optionsexpand($model, $bibliography){
 if($model/t:choice[t:corr][t:sic]) then
@@ -895,17 +969,49 @@ else
 
 declare function expand:biblCorrTok($corresp, $node){
 let $c :=if(starts-with($corresp, '#')) then concat($node/ancestor-or-self::t:TEI/@xml:id, $corresp) else string($corresp)
-let $anchor := if(starts-with($corresp, '#')) then substring-after($corresp, '#') else string($corresp)
+let $anchor := if(contains($corresp, '#')) then substring-after($corresp, '#') else string($corresp)
 let $anchornode := $node/id($anchor)
 let $listWit := if ($anchornode/name() = 'listWit') then for $witness in $anchornode return titles:printTitleID($witness/@corresp) else ()
-let $prefix := if($listWit ge 1) then $listWit else if(string-length($anchornode/name()) ge 1) then ($anchornode/name(), ', ') else ()
+let $prefix := if($listWit ge 1) then $listWit else if(string-length($anchornode/name()) ge 1) then (' ', $anchornode/name(), ' ') else ()
 let $lang := if (string-length($anchornode/@xml:lang) ge 1) then concat(' [', $node//t:language[@ident = $anchornode/@xml:lang], ']') else ()
+let $wit :=  if ($anchornode/name() = 'witness' and $anchornode[not(@type = 'external')] and not($anchornode/text()))
+        then
+            (
+            let $filename := if (contains($anchornode/@corresp, '#')) then
+                substring-before($anchornode/@corresp, '#')
+            else
+                $anchornode/@corresp
+            let $file := collection('/db/apps/BetMasData/')/id($filename)
+            return
+                ($file//t:msIdentifier/t:idno)
+            )
+        else
+            ()
+let $text := if ($anchornode//text()) then $anchornode//text() else if ($wit) then string($wit) else substring-after($corresp, '#')
 return
 ($prefix,
-<ref xmlns="http://www.tei-c.org/ns/1.0" target="/{$c}">{titles:printTitleID($c)}</ref>)
+<ref xmlns="http://www.tei-c.org/ns/1.0" target="https://betamasaheft.eu/{$node/ancestor-or-self::t:TEI/@xml:id}#{$anchor}">{$text}</ref>)
 };
 declare function expand:biblCorresp($corresp, $node){
-<note xmlns="http://www.tei-c.org/ns/1.0" type='about'>(about: {
-if(contains($corresp, '\s')) then for $corr in tokenize($corresp, '\s') return expand:biblCorrTok($corr, $node) else expand:biblCorrTok($corresp, $node)
-})</note>
+let $string := normalize-space($corresp) return
+<note xmlns="http://www.tei-c.org/ns/1.0" type='about'>about {
+if(contains($string, ' ')) then for $corr at $p in tokenize($string, ' ') return
+(expand:biblCorrTok($corr, $node), if ($p = count(tokenize($string, ' '))) then
+            ()
+        else
+            ', ')
+else expand:biblCorrTok($corresp, $node)
+}</note>
 };
+
+declare function expand:printTitleMainID($id)
+   {if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
+           (titles:decidePlaceNameSource($id))
+(:           because wikidata identifiers are not speaking, the result of this operation is that the
+eventually added result is added to the place list names:)
+       else (: always look at the root of the given node parameter of the function and then switch :)
+           let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
+           let $resource := collection('/db/apps/BetMasData')//t:TEI[@xml:id = $mainID]
+           return
+                   titles:switcher($resource/@type, $resource)
+   };
