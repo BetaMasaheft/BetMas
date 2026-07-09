@@ -7,6 +7,10 @@ on:
       - completed
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_branch || github.ref_name }}
+  cancel-in-progress: true
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: betamasaheft/betamasaheft
@@ -15,8 +19,13 @@ jobs:
   build:
     name: Build and Push Multi-Arch Image
     runs-on: ubuntu-latest
-    # Only run if format check workflow succeeded (or if manually triggered)
-    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
+    # Only build and push images from master: after a successful format check
+    # on master, or when manually dispatched on master
+    if: >-
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'master') ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master')
     permissions:
       contents: read
       packages: write
@@ -78,4 +87,3 @@ jobs:
           cache-to: type=gha,mode=max
           secrets: |
             "github_token=${{ secrets.BOT_CONTAINER_PAT }}"
-
