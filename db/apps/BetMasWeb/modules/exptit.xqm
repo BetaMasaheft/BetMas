@@ -36,9 +36,9 @@ if(count($titleMe) = 0 or $titleMe = "" ) then () else
         default
             return
                 (:            the string could be really just anything, but in the expanded data, it will often be a URI, maybe prefixed with the official betmas URI.:)
-                if (starts-with($titleMe, 'https://betamasaheft.eu')) then
+                if (starts-with($titleMe, $config:BMurl)) then
                     (:                check if it is a local URI :)
-                    let $id := substring-after($titleMe, concat('https://betamasaheft.eu', '/'))
+                    let $id := substring-after($titleMe, $config:BMurl)
                     return
                         exptit:printTitleID($id)
                 else
@@ -102,7 +102,7 @@ function exptit:printTitleID($id as xs:string)
     (: if the id has a subid, than split it :)
     else if (contains($id, '#')) then
     (   let $mainIDstart := substring-before($id, '#')
-        let $mainID := if(starts-with($mainIDstart, $config:baseURI)) then substring-after($mainIDstart, $config:baseURI) else $mainIDstart
+        let $mainID := if(starts-with($mainIDstart, $config:BMurl)) then substring-after($mainIDstart, $config:BMurl) else $mainIDstart
         let $SUBid := substring-after($id, '#')
         let $node := $exptit:col//id($mainID)
         return

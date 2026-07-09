@@ -44,3 +44,10 @@
 # local dev stuff
 node_modules/
 .env
+
+.vscode/
+.zed/
+.cursor/
+
+.moderne/
+.claude/

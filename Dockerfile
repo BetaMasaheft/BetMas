@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG EXISTDB_VERSION=6.4.0
+ARG EXISTDB_VERSION=6.4.1
 FROM ubuntu:latest AS build
 
 # zip and git are needed to make xars and clone repos
