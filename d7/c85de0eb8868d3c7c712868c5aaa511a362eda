@@ -1,0 +1,20 @@
+.github/workflows/docker-build.yml
+  s_01b300408a1123::t_b6b1207c692ef8 10-13
+  s_01b300408a1123::t_eaa6bde6c0c92c 22-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d7c85de0eb8868d3c7c712868c5aaa511a362eda",
+  "prompts": {},
+  "sessions": {
+    "s_01b300408a1123": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e564e4bd-212c-4b09-88e1-41f486bbe2e0",
+        "model": "claude-fable-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
