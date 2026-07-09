@@ -83,7 +83,8 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.image_tag }}
           build-args: |
             EXISTDB_VERSION=${{ matrix.existdb_version }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=${{ matrix.existdb_version }}
+          # ignore-error: a failed cache export must not fail an otherwise successful build
+          cache-to: type=gha,mode=max,scope=${{ matrix.existdb_version }},ignore-error=true
           secrets: |
             "github_token=${{ secrets.BOT_CONTAINER_PAT }}"
