@@ -1,0 +1,24 @@
+db/apps/BetMasWeb/modules/viewItem.xqm
+  s_e250159a6e67a4::t_fc257994d62d94 848-852
+  s_e250159a6e67a4::t_fb88a8a2788ed8 1551
+  s_e250159a6e67a4::t_3e5b060cd6a576 787
+  s_e250159a6e67a4::t_6e4d2e0481736a 751
+  s_e250159a6e67a4::t_c0259f1d700e96 1559
+  s_e250159a6e67a4::t_aedd5e307d449c 725
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "0c2824710b27a5084c042350a6fe2d3ed3058a2c",
+  "prompts": {},
+  "sessions": {
+    "s_e250159a6e67a4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "89106294-b8b5-4a8a-9cc1-1be28a02c528",
+        "model": "claude-fable-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
