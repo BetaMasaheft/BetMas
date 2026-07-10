@@ -722,7 +722,7 @@ declare %private function viewItem:worktitle($t) {
                     (),
                 if ($t/@ref) then
                     <a
-                        href="/{viewItem:URI2ID($t/@ref)}"
+                        href="{$config:appUrl}/{viewItem:URI2ID($t/@ref)}"
                         target="_blank">{$t/text()}</a>
                 else
                     viewItem:TEI2HTML($t/node()),
@@ -748,7 +748,7 @@ declare %private function viewItem:placename($name) {
                     (),
                 if ($name/@ref) then
                     <a
-                        href="/{viewItem:URI2ID($name/@ref)}"
+                        href="{$config:appUrl}/{viewItem:URI2ID($name/@ref)}"
                         target="_blank">{$name/text()}</a>
                 else
                     viewItem:TEI2HTML($name/node()),
@@ -784,7 +784,7 @@ declare %private function viewItem:persname($name) {
                     (),
                 if ($name/@ref) then
                     <a
-                        href="/{viewItem:URI2ID($name/@ref)}"
+                        href="{$config:appUrl}/{viewItem:URI2ID($name/@ref)}"
                         target="_blank">{$name/text()}</a>
                 else
                     viewItem:TEI2HTML($name/node()),
@@ -845,7 +845,11 @@ declare %private function viewItem:workAuthorList($parentname, $p, $a) {
 declare %private function viewItem:URI2ID($string) {
     let $string := normalize-space(string-join($string)) => replace('\s', '')
     return
-        if (starts-with($string, $config:appUrl)) then
+        (: the expanded data carries the canonical prefix ($expand:BMurl),
+         : not the host this instance is served from :)
+        if (starts-with($string, $config:BMurl)) then
+            substring-after($string, $config:BMurl)
+        else if ($config:appUrl != '' and starts-with($string, $config:appUrl)) then
             substring-after($string, ($config:appUrl || '/'))
         else
             $string
@@ -1544,7 +1548,7 @@ declare %private function viewItem:namedEntityTitle($entity) {
   if((count($entity/ancestor::t:msItem) gt 2) and (count($entity/ancestor::t:TEI//t:msItem) gt 100)) then
    
    (string-join($entity//text()),
-    if (matches($entity/@ref, 'LIT')) then <a  xmlns="http://www.w3.org/1999/xhtml" href="/{viewItem:URI2ID($entity/@ref)}">({viewItem:cae($entity)})</a>
+    if (matches($entity/@ref, 'LIT')) then <a  xmlns="http://www.w3.org/1999/xhtml" href="{$config:appUrl}/{viewItem:URI2ID($entity/@ref)}">({viewItem:cae($entity)})</a>
     else
         ()
     )
@@ -1552,7 +1556,7 @@ declare %private function viewItem:namedEntityTitle($entity) {
     (
     <a target="_blank"
         xmlns="http://www.w3.org/1999/xhtml"
-        href="/{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
+        href="{$config:appUrl}/{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
     if (matches($entity/@ref, 'LIT')) then
         (' (' || viewItem:cae($entity) || ')')
     else
