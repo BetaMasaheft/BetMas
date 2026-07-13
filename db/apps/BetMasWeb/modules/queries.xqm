@@ -4142,7 +4142,11 @@ declare function q:selectors($nodeName, $nodes, $type) {
 
                         for $n in $nodes[. != ''][. != ' ']
                         (:                        let $t := util:log('info', $n):)
-                        let $id := if (starts-with($n, $config:appUrl)) then
+                        (: the data carries the canonical prefix ($config:BMurl),
+                         : not the host this instance is served from :)
+                        let $id := if (starts-with($n, $config:BMurl)) then
+                            substring-after($n, $config:BMurl)
+                        else if ($config:appUrl != '' and starts-with($n, $config:appUrl)) then
                             substring-after($n, ($config:appUrl || '/'))
                         else
                             $n
