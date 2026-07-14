@@ -5,7 +5,7 @@
   "private": true,
   "devDependencies": {
     "prettier": "^3.9.4",
-    "prettier-plugin-xquery": "^1.6.2"
+    "prettier-plugin-xquery": "^1.6.3"
   },
   "scripts": {
     "format:check": "prettier --check 'db/**/*.{xq,xql,xqm,xquery,js}'",
