@@ -31,7 +31,9 @@ console.log(dts)
 
 /*should also call dts directly to display passage which is being collated and created divs with that content beside the collation*/
 
-var apicall = '/api/collatex?format=json&dts=' + dts.join(',') + '&nU=' + nU.join(',')
+/* document-relative like the page's other assets, so the call stays under
+   the app base wherever the app is not served from the origin root */
+var apicall = 'api/collatex?format=json&dts=' + dts.join(',') + '&nU=' + nU.join(',')
 /*console.log('collating@!')*/
 var container = $('#collationResult')
 
