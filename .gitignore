@@ -4,6 +4,10 @@
 # Build artifacts
 /db/apps/*/build/*
 
+# Generated at first container start by BetMasInitInstance/finish.xq from
+# environment variables; must never be committed or baked into a xar
+/db/apps/BetMasWeb/services.xml
+
 # Ignore anything that's on the server but not in the mono repo
 
 # This is in the dillmann repo on github
