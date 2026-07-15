@@ -63,7 +63,7 @@ declare variable $config:BMurl := 'https://betamasaheft.eu/';
  : Resolve an external service endpoint. A deployment relocates a service
  : by setting the corresponding environment variable on the eXist process
  : (e.g. `docker run -e COLLATEX_URL=...`); betmas-init captures set
- : variables into modules/services.xml at instance initialisation, because
+ : variables into services.xml at the app root at instance initialisation, because
  : fn:environment-variable is a DBA-only read in eXist and request-time
  : code (running as guest) cannot see them. Falls back to the given
  : default (= production wiring) when the document or entry is missing.
