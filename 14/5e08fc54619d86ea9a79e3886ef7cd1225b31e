@@ -1,0 +1,22 @@
+db/apps/BetMasInitInstance/finish.xq
+  s_16a6cdccdd371f::t_e4a704c0622c58 27
+db/apps/BetMasWeb/fuseki/fuseki.xqm
+  s_16a6cdccdd371f::t_aaffa94cf8d96c 16-17,24-25
+  s_16a6cdccdd371f::t_7979e1a2fad18f 18-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "145e08fc54619d86ea9a79e3886ef7cd1225b31e",
+  "prompts": {},
+  "sessions": {
+    "s_16a6cdccdd371f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc75cbc0-e576-4db7-a2e7-0e4670c53636",
+        "model": "claude-fable-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
