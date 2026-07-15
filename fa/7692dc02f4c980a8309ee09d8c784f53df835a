@@ -1,0 +1,21 @@
+db/apps/BetMasWeb/modules/config.xqm
+  s_16a6cdccdd371f::t_b5b5a8e75bce24 62-84
+db/apps/BetMasWeb/restviews/collatex.xqm
+  s_16a6cdccdd371f::t_596d8c2e7fb652 52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "fa7692dc02f4c980a8309ee09d8c784f53df835a",
+  "prompts": {},
+  "sessions": {
+    "s_16a6cdccdd371f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc75cbc0-e576-4db7-a2e7-0e4670c53636",
+        "model": "claude-fable-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
