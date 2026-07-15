@@ -1,0 +1,31 @@
+.gitignore
+  s_16a6cdccdd371f::t_ecf85926212a98 7-10
+db/apps/BetMasInitInstance/finish.xq
+  s_16a6cdccdd371f::t_318b3b95889be0 21-24,37-40
+  s_16a6cdccdd371f::t_3a0c4d2acb2db9 17-20,25-32
+  s_16a6cdccdd371f::t_027611c00ee0ec 41
+db/apps/BetMasWeb/modules/config.xqm
+  s_16a6cdccdd371f::t_b5b5a8e75bce24 62,70-72,76-88
+  s_16a6cdccdd371f::t_9bec07a9ed2b56 63-69,74-75
+  s_16a6cdccdd371f::t_44a2c4b796daaa 73
+db/apps/BetMasWeb/restviews/collatex.xqm
+  s_16a6cdccdd371f::t_596d8c2e7fb652 52
+db/apps/BetMasWeb/build.xml
+  s_16a6cdccdd371f::t_9f6627a8ace46e 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "d9e0d260529a7f4a456a9573d7c28f8f9ce2c867",
+  "prompts": {},
+  "sessions": {
+    "s_16a6cdccdd371f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc75cbc0-e576-4db7-a2e7-0e4670c53636",
+        "model": "claude-fable-5"
+      },
+      "human_author": null
+    }
+  }
+}
