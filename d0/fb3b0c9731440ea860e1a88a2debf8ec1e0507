@@ -1,0 +1,22 @@
+db/apps/BetMasWeb/modules/dtsclient.xqm
+  s_16a6cdccdd371f::t_555235ce378c11 34-36
+  s_16a6cdccdd371f::t_2df3e3483e7d74 26-28
+  s_16a6cdccdd371f::t_c4af9e994921bc 20
+  s_16a6cdccdd371f::t_92c79837940414 225
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "d0fb3b0c9731440ea860e1a88a2debf8ec1e0507",
+  "prompts": {},
+  "sessions": {
+    "s_16a6cdccdd371f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc75cbc0-e576-4db7-a2e7-0e4670c53636",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
