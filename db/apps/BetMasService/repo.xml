@@ -9,7 +9,6 @@
     <type>library</type>
     <target>BetMasService</target>
     <prepare>pre-install.xql</prepare>
-    <finish>Pietro</finish>
     <permissions user="BetaMasaheftAdmin" group="dba" mode="rwxrwxr-x"/>
 <deployed>2022-01-05T13:54:18.876+01:00</deployed>
 </meta>
