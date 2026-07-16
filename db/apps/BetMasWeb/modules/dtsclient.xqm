@@ -17,20 +17,23 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace functx = "http://www.functx.com";
 import module namespace localdts = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/localdts" at "xmldb:exist:///db/apps/BetMasWeb/modules/localdts.xqm";
 import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/viewItem" at "xmldb:exist:///db/apps/BetMasWeb/modules/viewItem.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
 
 
 declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
 (:    let $t := util:log('info', string-join(($edition, $ref, $start, $end), ' - ')):)
-    let $approot :=
-    'https://betamasaheft.eu'
-    (:'http://localhost:8080/exist/apps/BetMas':)
+    (: this instance's own DTS API, not a hardcoded host: the client
+       otherwise send-requests production's endpoints from any deployment :)
+    let $approot := $config:appUrl
     let $APIroot := '/api/dts/'
     let $NavAPI := 'navigation'
     let $ColAPI := 'collections'
     let $DocAPI := 'document'
     let $AnnoAPI := 'annotations'
-    let $baseid := '?id=https://betamasaheft.eu/'
+    (: the ?id= value is the canonical corpus URN baked into the data, not
+       the serving host, so it stays $config:BMurl regardless of deployment :)
+    let $baseid := '?id=' || $config:BMurl
     let $ps := (if ($ref = '') then
         ()
     else
@@ -219,7 +222,7 @@ DTSannoCollectionLink">{
                         class="w3-bar-item w3-black w3-small">
                         <a
                             target="_blank"
-                            href="http://voyant-tools.org/?input=https://betamasaheft.eu/works/{$id}.xml">Voyant</a>
+                            href="http://voyant-tools.org/?input={$config:BMurl}works/{$id}.xml">Voyant</a>
                     </div>
                     {
                         if ($ref != '' or $start != '') then
