@@ -1,0 +1,3906 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "BetMasApi",
+		"description": "API for Beta maṣāḥəft: Manuscripts of Ethiopia and Eritrea. Generated from the existing RESTXQ (%rest:*) annotations in local/ and specifications/ as a first step towards migrating this app to the eXist-db 'roaster' OpenAPI router.",
+		"version": "0.1.0",
+		"contact": {
+			"name": "Beta maṣāḥəft",
+			"url": "https://betamasaheft.eu"
+		}
+	},
+	"security": [],
+	"tags": [
+		{
+			"name": "SK"
+		},
+		{
+			"name": "WC"
+		},
+		{
+			"name": "api"
+		},
+		{
+			"name": "apiL"
+		},
+		{
+			"name": "apiLx"
+		},
+		{
+			"name": "apiS"
+		},
+		{
+			"name": "apiT"
+		},
+		{
+			"name": "apiTit"
+		},
+		{
+			"name": "apisparql"
+		},
+		{
+			"name": "att"
+		},
+		{
+			"name": "chojnacki"
+		},
+		{
+			"name": "clavis"
+		},
+		{
+			"name": "dts"
+		},
+		{
+			"name": "dtsXML"
+		},
+		{
+			"name": "enrich"
+		},
+		{
+			"name": "iiif"
+		},
+		{
+			"name": "jsonapi"
+		},
+		{
+			"name": "persdts"
+		},
+		{
+			"name": "persiiif"
+		},
+		{
+			"name": "places"
+		},
+		{
+			"name": "quotations"
+		},
+		{
+			"name": "roles"
+		},
+		{
+			"name": "shine"
+		},
+		{
+			"name": "void"
+		}
+	],
+	"paths": {
+		"/BetMasWeb/bond/{bond}/rdf": {
+			"get": {
+				"operationId": "apisparql:constructURIbond",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "bond",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/BetMasWeb/{id}/rdf": {
+			"get": {
+				"operationId": "apisparql:constructURIid",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/BetMasWeb/{id}/{class}/annotation/{n}/rdf": {
+			"get": {
+				"operationId": "apisparql:constructURIannotation",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "class",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "n",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/BetMasWeb/{id}/{class}/{subid}/rdf": {
+			"get": {
+				"operationId": "apisparql:constructURIsubid",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "class",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "subid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/Chojnacki/{id}": {
+			"get": {
+				"operationId": "chojnacki:allChojnacki",
+				"tags": ["chojnacki"],
+				"summary": "given an institution or place id checks the marc records from Vatican Library for relevant related data",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/KML/place/{placeid}": {
+			"get": {
+				"operationId": "places:kmlPlaceAttestation",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "placeid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/KML/places/{id}": {
+			"get": {
+				"operationId": "places:kmlattestation",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/KML/{collection}/places": {
+			"get": {
+				"operationId": "places:kmltextALL",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "collection",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/RDFJSON/{collection}/{id}": {
+			"get": {
+				"operationId": "apisparql:sparqlITEMgraphJson",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "collection",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/RDFXML/{collection}/{id}": {
+			"get": {
+				"operationId": "apisparql:sparqlITEMgraph",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "collection",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/RoleAttestations": {
+			"get": {
+				"operationId": "roles:RoleAttestations",
+				"tags": ["roles"],
+				"summary": "given a role, search other attestations of it and print the persName around them and related infos",
+				"parameters": [
+					{
+						"name": "role",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/SPARQL": {
+			"get": {
+				"operationId": "apisparql:sparqlQuery",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "query",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/SPARQL/SdCunits/{type}": {
+			"get": {
+				"operationId": "apisparql:SdCunits",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "type",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/SPARQL/json": {
+			"get": {
+				"operationId": "apisparql:sparqljsonQuery",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "query",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/SPARQL/relations/{id}": {
+			"get": {
+				"operationId": "apisparql:sparqlQueryJSON",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/SPARQL/versions/{id}/{chapterID}": {
+			"get": {
+				"operationId": "apisparql:sparqlQueryVersions",
+				"tags": ["apisparql"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "chapterID",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/WordCount/{manuscriptID}/{workID}": {
+			"get": {
+				"operationId": "WC:WordCount",
+				"tags": ["WC"],
+				"summary": "given the id of a manuscript returns the word count for eventual transcriptions of that work in the given witness",
+				"parameters": [
+					{
+						"name": "manuscriptID",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "workID",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/additions/{id}/addition/{addID}": {
+			"get": {
+				"operationId": "api:additiontext",
+				"tags": ["api"],
+				"summary": "gets the formatted content of an addition in an item, given the id of the file and that of the addition item",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "addID",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/attestations/{type}/{id}": {
+			"get": {
+				"operationId": "att:attestations",
+				"tags": ["att"],
+				"summary": "given a id returns the attestations and cooccurring entities",
+				"parameters": [
+					{
+						"name": "type",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/cataloguesZotero": {
+			"get": {
+				"operationId": "api:getcataloguesZotero",
+				"tags": ["api"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/clavis": {
+			"get": {
+				"operationId": "clavis:Clavis",
+				"tags": ["clavis"],
+				"parameters": [
+					{
+						"name": "q",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/clavis/all": {
+			"get": {
+				"operationId": "clavis:ClavisALL",
+				"tags": ["clavis"],
+				"summary": "returns a JSON object with the aligned known clavis ids",
+				"parameters": [
+					{
+						"name": "type",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/clavis/{id}": {
+			"get": {
+				"operationId": "clavis:ClavisbyID",
+				"tags": ["clavis"],
+				"summary": "returns a JSON object with the aligned known clavis ids",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/count": {
+			"get": {
+				"operationId": "api:count",
+				"tags": ["api"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dcat": {
+			"get": {
+				"operationId": "void:DCAT",
+				"tags": ["void"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts": {
+			"get": {
+				"operationId": "dts:dtsmain",
+				"tags": ["dts"],
+				"summary": "Main access point to DTS style API returning passages from text",
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/annotations": {
+			"get": {
+				"operationId": "dts:WebAnnotationsMain",
+				"tags": ["dts"],
+				"summary": "annotations main collection, returns a list of collections of annotations, one for each resource type and one for all items in the db with indexable terms",
+				"parameters": [
+					{
+						"name": "version",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/annotations/{coll}": {
+			"get": {
+				"operationId": "dts:WebAnnotationsColl",
+				"tags": ["dts"],
+				"summary": "annotations collection for a type of items (manuscripts, works or narrative units), returns a list of collections of annotations, one for which available index types 'persons', 'places','keywords', 'loci', 'works' if there are all indexable terms for that index, from items in that resources collection. An additiona Annotation Collaction for each item is added whcih is instead an annotation collection of annotation collections.",
+				"parameters": [
+					{
+						"name": "coll",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "version",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/annotations/{coll}/items/{BMid}": {
+			"get": {
+				"operationId": "dts:WebAnnotationsItem",
+				"tags": ["dts"],
+				"summary": "annotations collection for a type of items (manuscripts, works or narrative units), and a specific item in that collection of resources. Returns a collection of annotation collections if available annotations are present in the item for each type 'persons', 'places','keywords', 'loci', 'works'.",
+				"parameters": [
+					{
+						"name": "coll",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "BMid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "begin",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "version",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/annotations/{coll}/items/{BMid}/{indexName}": {
+			"get": {
+				"operationId": "dts:WebAnnotationsItemIndex",
+				"tags": ["dts"],
+				"summary": "annotations collection for a type of items (manuscripts, works or narrative units), and a specific item in that collection of resources and a specific index type among 'persons', 'places','keywords', 'loci', 'works'. The annotations in the single reference annotation collation are retrieved by adding an $id parameter with the full reference.",
+				"parameters": [
+					{
+						"name": "coll",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "BMid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "indexName",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "begin",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "version",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/annotations/{coll}/{indexName}": {
+			"get": {
+				"operationId": "dts:WebAnnotationsIndex",
+				"tags": ["dts"],
+				"summary": "annotations collection for a type of items (manuscripts, works or narrative units), and a specific index type among 'persons', 'places','keywords', 'loci', 'works' and 'items'. Indexed passages are grouped by their reference and one annotation collection with that id is provided. the annotations in the single reference annotation collation are retrieved by adding an $id parameter with the full reference",
+				"parameters": [
+					{
+						"name": "coll",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "indexName",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "begin",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "version",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/collections": {
+			"get": {
+				"operationId": "dts:Collection",
+				"tags": ["dts"],
+				"summary": "dts/collection https://github.com/distributed-text-services/specifications/blob/master/Collection-Endpoint.md",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "version",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "nav",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": "children"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request / invalid URN pattern",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/collections/{id}": {
+			"get": {
+				"operationId": "dtsXML:CollectionsID",
+				"tags": ["dtsXML"],
+				"summary": "bespoke json format, former dts proposal draft, returns a list",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/document": {
+			"get": {
+				"operationId": "dts:anyDocumentDEFAULT",
+				"tags": ["dts"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "ref",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "end",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/indexes": {
+			"get": {
+				"operationId": "dts:Indexes",
+				"tags": ["dts"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "indexName",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "ref",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "level",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "begin",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "end",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "groupBy",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "max",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "version",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/navigation": {
+			"get": {
+				"operationId": "dts:Cit",
+				"tags": ["dts"],
+				"summary": "dts/navigation https://github.com/distributed-text-services/specifications/blob/master/Navigation-Endpoint.md",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "ref",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "level",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "end",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "groupBy",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "max",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "version",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No text to navigate",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/text/{id}": {
+			"get": {
+				"operationId": "dtsXML:get-workJSON",
+				"tags": ["dtsXML"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/text/{id}/{level1}": {
+			"get": {
+				"operationId": "dtsXML:get-toplevelJSON",
+				"tags": ["dtsXML"],
+				"summary": "returns the lines of the second level of subdivision (subchapters) e.g. XXX. 2, 4 XXX. 2, 4-7",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "level1",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/text/{id}/{level1}/{level2}/{line}": {
+			"get": {
+				"operationId": "dtsXML:get-level2JSON",
+				"tags": ["dtsXML"],
+				"summary": "returns the lines of the second level of subdivision (chapters)",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "level1",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "level2",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "line",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/text/{id}/{level1}/{line}": {
+			"get": {
+				"operationId": "dtsXML:get-level1JSON",
+				"tags": ["dtsXML"],
+				"summary": "returns the lines of the first level of subdivision (chapters)",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "level1",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "line",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/dts/{api}/template": {
+			"get": {
+				"operationId": "dts:URItemplates",
+				"tags": ["dts"],
+				"summary": "not being sure about what to do with the URI templates in the documentation draft, the templates answer to this call, and can be thus retrived",
+				"parameters": [
+					{
+						"name": "api",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Unknown template type",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/enrichMe/{id}/{anchor}": {
+			"get": {
+				"operationId": "enrich:teipart",
+				"tags": ["enrich"],
+				"summary": "retrives a single part of a tei file, e.g. a single node",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "anchor",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/gazetteer": {
+			"get": {
+				"operationId": "places:placesGazetteer",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/gazetteer/all": {
+			"get": {
+				"operationId": "places:placesGazetteerAll",
+				"tags": ["places"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/gazetteer/place/{id}": {
+			"get": {
+				"operationId": "places:placesGazetteerOneplace",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/geoJson/institutions": {
+			"get": {
+				"operationId": "places:alljsonIns",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/geoJson/places": {
+			"get": {
+				"operationId": "places:alljsonPl",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/geoJson/places/{id}": {
+			"get": {
+				"operationId": "places:json",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/hasrole/{role}": {
+			"get": {
+				"operationId": "roles:role",
+				"tags": ["roles"],
+				"summary": "returns an object which includes an array of objects with data about persons to which in some resource a specific role has been assigned, for each id, canonical title and the list of resources for which he/she covers such role, are given.",
+				"parameters": [
+					{
+						"name": "role",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/hasrole/{role}/{ID}": {
+			"get": {
+				"operationId": "roles:roleID",
+				"tags": ["roles"],
+				"summary": "returns an object which includes an array of objects with data about persons to which in some resource a specific role has been assigned, for each id, canonical title and the list of resources for which he/she covers such role, are given.",
+				"parameters": [
+					{
+						"name": "role",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "ID",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/iiif/collection/{institutionid}": {
+			"get": {
+				"operationId": "iiif:RepoCollection",
+				"tags": ["iiif"],
+				"parameters": [
+					{
+						"name": "institutionid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/iiif/collections": {
+			"get": {
+				"operationId": "iiif:allManifests",
+				"tags": ["iiif"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/iiif/witnesses/{workID}": {
+			"get": {
+				"operationId": "iiif:WitnessesCollection",
+				"tags": ["iiif"],
+				"parameters": [
+					{
+						"name": "workID",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/iiif/{id}/canvas/p{n}": {
+			"get": {
+				"operationId": "iiif:canvas",
+				"tags": ["iiif"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "n",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "alt",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/iiif/{id}/manifest": {
+			"get": {
+				"operationId": "iiif:manifest",
+				"tags": ["iiif"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "alt",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request / no manifest available",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/iiif/{id}/range/{rangeId}": {
+			"get": {
+				"operationId": "iiif:singerange",
+				"tags": ["iiif"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "rangeId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "alt",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request / no range available",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/iiif/{id}/sequence/normal": {
+			"get": {
+				"operationId": "iiif:sequence",
+				"tags": ["iiif"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "alt",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/kwicsearch": {
+			"get": {
+				"operationId": "apiS:kwicSearch",
+				"tags": ["apiS"],
+				"summary": "returns a map containing the KWIC hits from the evaluation of an xpath containing lucene full text index queries for the API search.",
+				"parameters": [
+					{
+						"name": "q",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/latest": {
+			"get": {
+				"operationId": "api:latest",
+				"tags": ["api"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/listRepositoriesName": {
+			"get": {
+				"operationId": "api:listRepositoriesName",
+				"tags": ["api"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/html": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/loadmsItems/{mainid}/{msItem}": {
+			"get": {
+				"operationId": "api:loadmsItems",
+				"tags": ["api"],
+				"parameters": [
+					{
+						"name": "mainid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "msItem",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 10
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/manuscripts/{repo}/list/ids/json": {
+			"get": {
+				"operationId": "apiL:listRepoJSON",
+				"tags": ["apiL"],
+				"summary": "returns a json object with an array of object one for each resource in the specified repository with id and title",
+				"parameters": [
+					{
+						"name": "repo",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/otherMssText/{id}/{SUBid}": {
+			"get": {
+				"operationId": "api:get-othertext",
+				"tags": ["api"],
+				"summary": "returns a xml fragment with the element in a resource which has the given anchor",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "SUBid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "element",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/placeNames/manuscripts/all": {
+			"get": {
+				"operationId": "places:placesInManuscriptsTTL",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/placeNames/manuscripts/{id}": {
+			"get": {
+				"operationId": "places:placesInOneManuscriptTTL",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/placeNames/void": {
+			"get": {
+				"operationId": "places:placesInWorksTTLVoid",
+				"tags": ["places"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/placeNames/works/all": {
+			"get": {
+				"operationId": "places:placesInWorksTTL",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/placeNames/works/{id}": {
+			"get": {
+				"operationId": "places:placesInOneWorkTTL",
+				"tags": ["places"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/post/{id}/tei": {
+			"get": {
+				"operationId": "api:get-POSTPROCESSED-tei-by-ID",
+				"tags": ["api"],
+				"summary": "given the file id, returns the source TEI xml",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/quotations/{text}/{passage}": {
+			"get": {
+				"operationId": "quotations:allquotations",
+				"tags": ["quotations"],
+				"summary": "given a passage in a text, search places where this passage has been quoted",
+				"parameters": [
+					{
+						"name": "text",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "passage",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/search": {
+			"get": {
+				"operationId": "apiS:search",
+				"tags": ["apiS"],
+				"summary": "returns a json object containing the hits from the evaluation of an xpath containing lucene full text index queries for the API search.",
+				"parameters": [
+					{
+						"name": "q",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "element",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": "title"
+						}
+					},
+					{
+						"name": "collection",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "script",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "material",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "homophones",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": "true"
+						}
+					},
+					{
+						"name": "descendants",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": "true"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/sharedKeyword/{keyword}": {
+			"get": {
+				"operationId": "SK:SharedKeyword",
+				"tags": ["SK"],
+				"summary": "gets an array of objects in JSON, containing the id and title of resources in the db which have the same keywords or value for a typed element.",
+				"parameters": [
+					{
+						"name": "keyword",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "element",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": "persName"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/string/{id}": {
+			"get": {
+				"operationId": "api:teiNode2string",
+				"tags": ["api"],
+				"summary": "transforms into string text a single part of a tei file, e.g. a single node which contains many references to persons, places etc.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "element",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/titleTest": {
+			"get": {
+				"operationId": "apiS:titleTest",
+				"tags": ["apiS"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/void": {
+			"get": {
+				"operationId": "void:general",
+				"tags": ["void"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/void/{id}": {
+			"get": {
+				"operationId": "void:entity",
+				"tags": ["void"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/turtle": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/witnessesOfContainer/{id}": {
+			"get": {
+				"operationId": "api:witnessesOfContainerWork",
+				"tags": ["api"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/xml/{id}": {
+			"get": {
+				"operationId": "api:get-workXML",
+				"tags": ["api"],
+				"summary": "The following function retrive the text of the selected work and returns it with basic informations for next and following into a small XML tree",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/xml/{id}/{level1}": {
+			"get": {
+				"operationId": "apiT:get-level1XML",
+				"tags": ["apiT"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "level1",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/xml/{id}/{level1}/{level2}/{line}": {
+			"get": {
+				"operationId": "apiT:get-level2lineXML",
+				"tags": ["apiT"],
+				"summary": "returns the lines of the second level of subdivision (subchapters)",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "level1",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "level2",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "line",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/xml/{id}/{level1}/{line}": {
+			"get": {
+				"operationId": "apiT:get-level1LineXML",
+				"tags": ["apiT"],
+				"summary": "returns the lines of the first level subdivision",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "level1",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "line",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/xmlpart/{id}": {
+			"get": {
+				"operationId": "api:teipart",
+				"tags": ["api"],
+				"summary": "retrives a single part of a tei file, e.g. a single node",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "element",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/{collection}/list/json": {
+			"get": {
+				"operationId": "apiL:collectionJSON",
+				"tags": ["apiL"],
+				"summary": "returns a json object with an array of object one for each resource in the specified collection",
+				"parameters": [
+					{
+						"name": "collection",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "perpage",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 25
+						}
+					},
+					{
+						"name": "term",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "repo",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/{collection}/list/xml": {
+			"get": {
+				"operationId": "apiLx:collection",
+				"tags": ["apiLx"],
+				"summary": "returns a json object with an array of object one for each resource in the specified collection",
+				"parameters": [
+					{
+						"name": "collection",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "perpage",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 25
+						}
+					},
+					{
+						"name": "term",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/{id}/author": {
+			"get": {
+				"operationId": "api:getauthorfromrelation",
+				"tags": ["api"],
+				"summary": "returns the relation element with the author attribution",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "No attribution info found for the given id",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/{id}/json": {
+			"get": {
+				"operationId": "api:get-tei2json-by-ID",
+				"tags": ["api"],
+				"summary": "given the file id, returns the source TEI in a json serialization",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/{id}/tei": {
+			"get": {
+				"operationId": "api:get-tei-by-ID-route",
+				"tags": ["api"],
+				"summary": "given the file id, returns the source TEI xml",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/{id}/title": {
+			"get": {
+				"operationId": "apiTit:get-FormattedTitle",
+				"tags": ["apiTit"],
+				"summary": "given the file id, returns the main title",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/{id}/title/json": {
+			"get": {
+				"operationId": "apiTit:get-FormattedTitleJson",
+				"tags": ["apiTit"],
+				"summary": "given the file id, returns the main title",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/{id}/{SUBid}/title": {
+			"get": {
+				"operationId": "apiTit:get-FormattedTitleandID",
+				"tags": ["apiTit"],
+				"summary": "given the file id and an anchor, returns the formatted main title and the title of the reffered section",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "SUBid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/{id}/{type}/{subid}": {
+			"get": {
+				"operationId": "api:teipartbyURI",
+				"tags": ["api"],
+				"summary": "retrives a single part of a tei file given a URI as formatted in the RDF, e.g. a single node",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "type",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "subid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found / unrecognized type",
+						"content": {
+							"application/xml": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/json/api/{id}": {
+			"get": {
+				"operationId": "jsonapi:maintest",
+				"tags": ["jsonapi"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/vnd.api+json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/permanent/{sha}/api/dts": {
+			"get": {
+				"operationId": "persdts:dtsmain",
+				"tags": ["persdts"],
+				"summary": "Main access point to DTS style API returning passages from text",
+				"parameters": [
+					{
+						"name": "sha",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/permanent/{sha}/api/dts/collections": {
+			"get": {
+				"operationId": "persdts:Collection",
+				"tags": ["persdts"],
+				"summary": "dts/collection https://github.com/distributed-text-services/specifications/blob/master/Collection-Endpoint.md",
+				"parameters": [
+					{
+						"name": "sha",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": ""
+						}
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "nav",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"default": "children"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request / invalid URN pattern",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/permanent/{sha}/api/iiif/{id}/canvas/p{n}": {
+			"get": {
+				"operationId": "persiiif:canvas",
+				"tags": ["persiiif"],
+				"parameters": [
+					{
+						"name": "sha",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "n",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/permanent/{sha}/api/iiif/{id}/manifest": {
+			"get": {
+				"operationId": "persiiif:manifest",
+				"tags": ["persiiif"],
+				"parameters": [
+					{
+						"name": "sha",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request / no manifest available",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/permanent/{sha}/api/iiif/{id}/sequence/normal": {
+			"get": {
+				"operationId": "persiiif:sequence",
+				"tags": ["persiiif"],
+				"parameters": [
+					{
+						"name": "sha",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/shine/api/collections": {
+			"get": {
+				"operationId": "shine:main",
+				"tags": ["shine"],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/shine/api/collections/{uuid}/resources": {
+			"get": {
+				"operationId": "shine:collection",
+				"tags": ["shine"],
+				"parameters": [
+					{
+						"name": "uuid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/shine/api/resources/{uuid}/metadata": {
+			"get": {
+				"operationId": "shine:resMeta",
+				"tags": ["shine"],
+				"parameters": [
+					{
+						"name": "uuid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/shine/api/resources/{uuid}/sections": {
+			"get": {
+				"operationId": "shine:resSection",
+				"tags": ["shine"],
+				"parameters": [
+					{
+						"name": "uuid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/shine/api/sections/{uuid}/content_units": {
+			"get": {
+				"operationId": "shine:CU",
+				"tags": ["shine"],
+				"parameters": [
+					{
+						"name": "uuid",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

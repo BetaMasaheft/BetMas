@@ -1,42 +1,28 @@
 xquery version "3.1" encoding "UTF-8";
+
 (:~
  : rest XQ module producing general VoID
  : @author Pietro Liuzzo
  :)
 
-module namespace void = "https://www.betamasaheft.uni-hamburg.de/BetMas/void";
-import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
-import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
-import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMasApi/api" at "xmldb:exist:///db/apps/BetMasApi/local/rest.xqm";
+module namespace void = "https://www.betamasaheft.uni-hamburg.de/BetMasApi/void";
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
-declare namespace test="http://exist-db.org/xquery/xqsuite";
+declare namespace test = "http://exist-db.org/xquery/xqsuite";
 
-declare variable $void:response200turtle := <rest:response>
-            <http:response
-                status="200">
-                <http:header
-                    name="Content-Type"
-                    value="text/turtle; charset=utf-8"/>
-                <http:header
-                    name="Access-Control-Allow-Origin"
-                    value="*"
-                    />
-            </http:response>
-        </rest:response>;
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
+import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
+import module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMasApi/api" at "../local/rest.xqm";
 
-declare
-%rest:GET
-%rest:path("/api/void")
-%output:method("text")
-function void:general() {
-$void:response200turtle,
-        '
-@prefix : <'||$config:appUrl||'> .
+declare function void:general($request as map(*)) {
+	"
+@prefix : <" ||
+		$config:appUrl ||
+		'> .
         @prefix void: <http://rdfs.org/ns/void#> .
         @prefix dcterms: <http://purl.org/dc/terms/> .
         @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -45,7 +31,9 @@ $void:response200turtle,
         dcterms:title "Beta Maṣāḥǝft";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
-        foaf:homepage <'||$config:appUrl||'>;
+        foaf:homepage <' ||
+		$config:appUrl ||
+		'>;
         dcterms:description "The project Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen
         Äthiopiens: eine multimediale Forschungsumgebung) is a long-term project funded
         within the framework of the Academies Programme (coordinated by the Union of the German
@@ -55,126 +43,238 @@ $void:response200turtle,
         environment that shall manage complex data related to predominantly Christian manuscript
         tradition of the Ethiopian and Eritrean Highlands.";
         dcterms:license <http://opendatacommons.org/licenses/odbl/1.0/>;
-        void:sparqlEndpoint <'||$config:appUrl||'/api/SPARQL?query=> ;
-        void:sparqlEndpoint <'||$config:appUrl||'/api/SPARQL/json?query=> ;
-        void:uriLookupEndpoint <'||$config:appUrl||'/api/dts> ;
-        void:uriLookupEndpoint <'||$config:appUrl||'/api/iiif/collections> ;
-        void:exampleResource <'||$config:appUrl||'/rdf/manuscripts/BAVcerulli37.rdf> ;
-        void:exampleResource <'||$config:appUrl||'/rdf/works/LIT4275ChronAmdS.rdf> ;
-        void:exampleResource <'||$config:appUrl||'/rdf/places/LOC1261Adulis.rdf> ;
+        void:sparqlEndpoint <' ||
+		$config:appUrl ||
+		"/api/SPARQL?query=> ;
+        void:sparqlEndpoint <" ||
+		$config:appUrl ||
+		"/api/SPARQL/json?query=> ;
+        void:uriLookupEndpoint <" ||
+		$config:appUrl ||
+		"/api/dts> ;
+        void:uriLookupEndpoint <" ||
+		$config:appUrl ||
+		"/api/iiif/collections> ;
+        void:exampleResource <" ||
+		$config:appUrl ||
+		"/rdf/manuscripts/BAVcerulli37.rdf> ;
+        void:exampleResource <" ||
+		$config:appUrl ||
+		"/rdf/works/LIT4275ChronAmdS.rdf> ;
+        void:exampleResource <" ||
+		$config:appUrl ||
+		"/rdf/places/LOC1261Adulis.rdf> ;
 
-        .'};
+        ."
+};
 
-
-declare
-%rest:GET
-%rest:path("/api/void/{$id}")
-%output:method("text")
-%test:arg("id", "LIT1719Bookso") %test:assertExists
-function void:entity($id as xs:string*) {
-
-($void:response200turtle,
-let $item := $exptit:col/id($id)
-let $coll := switch2:col($item/@type)
-let $dctermsContributor := ''
-let $dctermsCreated := ''
-let $dctermsModified := ''
-let $thisUrl := $config:appUrl||'/'||$coll||'/'||$id
-return
-        '
-@prefix : <'||$config:appUrl||'> .
+declare %test:arg("id", "LIT1719Bookso") %test:assertExists function void:entity($request as map(*)) {
+	let $id as xs:string* := $request?parameters?id
+	return (
+		let $item := $exptit:col/id($id)
+		let $coll := switch2:col($item/@type)
+		let $dctermsContributor := ""
+		let $dctermsCreated := ""
+		let $dctermsModified := ""
+		let $thisUrl := $config:appUrl || "/" || $coll || "/" || $id
+		return "
+@prefix : <" ||
+			$config:appUrl ||
+			"> .
         @prefix void: <http://rdfs.org/ns/void#> .
         @prefix dcterms: <http://purl.org/dc/terms/> .
         @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 
-        :'||$id||'_RDF a void:Dataset;
-        dcterms:title "'||exptit:printTitleID($id)||'";
+        :" ||
+			$id ||
+			'_RDF a void:Dataset;
+        dcterms:title "' ||
+			exptit:printTitleID($id) ||
+			'";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
-        dcterms:source <'||$config:appUrl||'/'||$id||'.xml>;
-        foaf:homepage <'||$thisUrl||'/main>;
-        '||(if($coll = 'manuscripts' or $coll='works') then 'foaf:page <'||$thisUrl||'/text>;' else ())||'
-        foaf:page <'||$thisUrl||'/analytic>;
-        foaf:page <'||$thisUrl||'/graph>;
+        dcterms:source <' ||
+			$config:appUrl ||
+			"/" ||
+			$id ||
+			".xml>;
+        foaf:homepage <" ||
+			$thisUrl ||
+			"/main>;
+        " ||
+			(
+				if ($coll = "manuscripts" or $coll = "works") then
+					"foaf:page <" || $thisUrl || "/text>;"
+				else (
+				)
+			) ||
+			"
+        foaf:page <" ||
+			$thisUrl ||
+			"/analytic>;
+        foaf:page <" ||
+			$thisUrl ||
+			"/graph>;
         dcterms:license <http://opendatacommons.org/licenses/odbl/1.0/>;
         void:feature <http://www.w3.org/ns/formats/RDF_XML>;
-        void:dataDump <'||$config:appUrl||'/rdf/'||$coll||'/'||$id||'.rdf> ;
+        void:dataDump <" ||
+			$config:appUrl ||
+			"/rdf/" ||
+			$coll ||
+			"/" ||
+			$id ||
+			".rdf> ;
         .
 
-         :'||$id||'_RDFa a void:Dataset;
-        dcterms:title "'||exptit:printTitleID($id)||'";
+         :" ||
+			$id ||
+			'_RDFa a void:Dataset;
+        dcterms:title "' ||
+			exptit:printTitleID($id) ||
+			'";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
-        dcterms:source <'||$config:appUrl||'/'||$id||'.xml>;
-        foaf:homepage <'||$thisUrl||'/main>;
-        '||(if($coll = 'manuscripts' or $coll='works') then 'foaf:page <'||$thisUrl||'/text>;' else ())||'
-        foaf:page <'||$thisUrl||'/analytic>;
-        foaf:page <'||$thisUrl||'/graph>;
+        dcterms:source <' ||
+			$config:appUrl ||
+			"/" ||
+			$id ||
+			".xml>;
+        foaf:homepage <" ||
+			$thisUrl ||
+			"/main>;
+        " ||
+			(
+				if ($coll = "manuscripts" or $coll = "works") then
+					"foaf:page <" || $thisUrl || "/text>;"
+				else (
+				)
+			) ||
+			"
+        foaf:page <" ||
+			$thisUrl ||
+			"/analytic>;
+        foaf:page <" ||
+			$thisUrl ||
+			"/graph>;
         dcterms:license <http://opendatacommons.org/licenses/odbl/1.0/>;
         void:feature <http://www.w3.org/ns/formats/RDFa>;
-        void:dataDump <'||$config:appUrl||'/'||$coll||'/'||$id||'/main> ;
+        void:dataDump <" ||
+			$config:appUrl ||
+			"/" ||
+			$coll ||
+			"/" ||
+			$id ||
+			"/main> ;
         .
 
-        '
-        ||
-        (
-        if($coll='works' or $coll='manuscripts')
-        then
-        '
+        " ||
+			(
+				if ($coll = "works" or $coll = "manuscripts") then
+					"
 
-        :'||$id||'_JSONLD a void:Dataset;
-        dcterms:title "'||exptit:printTitleID($id)||'";
+        :" ||
+						$id ||
+						'_JSONLD a void:Dataset;
+        dcterms:title "' ||
+						exptit:printTitleID($id) ||
+						'";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
-        dcterms:source <'||$config:appUrl||'/'||$id||'.xml>;
-        foaf:homepage <'||$thisUrl||'/main>;
-        foaf:page <'||$thisUrl||'/text>;
-        foaf:page <'||$thisUrl||'/analytic>;
-        foaf:page <'||$thisUrl||'/graph>;
-        foaf:page <'||$thisUrl||'/viewer>;
+        dcterms:source <' ||
+						$config:appUrl ||
+						"/" ||
+						$id ||
+						".xml>;
+        foaf:homepage <" ||
+						$thisUrl ||
+						"/main>;
+        foaf:page <" ||
+						$thisUrl ||
+						"/text>;
+        foaf:page <" ||
+						$thisUrl ||
+						"/analytic>;
+        foaf:page <" ||
+						$thisUrl ||
+						"/graph>;
+        foaf:page <" ||
+						$thisUrl ||
+						"/viewer>;
         dcterms:license <http://opendatacommons.org/licenses/odbl/1.0/>;
         void:feature <http://www.w3.org/ns/formats/JSON-LD>;
-        void:uriLookupEndpoint <'||$config:appUrl||'/api/dts/collections?id='||$config:appUrl||'/'||$id||'> ;
-        '||(if($coll='manuscripts' and $item//t:idno[@facs]) then 'void:uriLookupEndpoint <'||$config:appUrl||'/api/iiif/'||$id||'/manifest> ; '  else ()) || '
+        void:uriLookupEndpoint <" ||
+						$config:appUrl ||
+						"/api/dts/collections?id=" ||
+						$config:appUrl ||
+						"/" ||
+						$id ||
+						"> ;
+        " ||
+						(
+							if ($coll = "manuscripts" and $item//t:idno[@facs]) then
+								"void:uriLookupEndpoint <" || $config:appUrl || "/api/iiif/" || $id || "/manifest> ; "
+							else (
+							)
+						) ||
+						"
         .
 
-        '
-        else ())
-        ||
-        (
-        if($coll='works' or $coll='manuscripts' or $coll='places' or $coll='institutions')
-        then
-        '
-        :'||$id||'_TTL a void:Dataset;
-        dcterms:title "'||exptit:printTitleID($id)||'";
+        "
+				else (
+				)
+			) ||
+			(
+				if ($coll = "works" or $coll = "manuscripts" or $coll = "places" or $coll = "institutions") then
+					"
+        :" ||
+						$id ||
+						'_TTL a void:Dataset;
+        dcterms:title "' ||
+						exptit:printTitleID($id) ||
+						'";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
-        dcterms:source <'||$config:appUrl||'/'||$id||'.xml>;
-        foaf:homepage <'||$thisUrl||'/main>;
-        foaf:page <'||$thisUrl||'/text>;
-        foaf:page <'||$thisUrl||'/analytic>;
-        foaf:page <'||$thisUrl||'/graph>;
+        dcterms:source <' ||
+						$config:appUrl ||
+						"/" ||
+						$id ||
+						".xml>;
+        foaf:homepage <" ||
+						$thisUrl ||
+						"/main>;
+        foaf:page <" ||
+						$thisUrl ||
+						"/text>;
+        foaf:page <" ||
+						$thisUrl ||
+						"/analytic>;
+        foaf:page <" ||
+						$thisUrl ||
+						"/graph>;
         dcterms:license <http://opendatacommons.org/licenses/odbl/1.0/>;
         void:feature <http://www.w3.org/ns/formats/Turtle>;
-        ' ||
-        (if($coll='works' or $coll='manuscripts')
-        then 'void:dataDump <'||$config:appUrl||'/api/placeNames/'||$coll||'/'||$id||'> ;'
-        else
-        'void:dataDump <'||$config:appUrl||'/api/gazetteer/place/' ||$id||'> ;')||'
+        " ||
+						(
+							if ($coll = "works" or $coll = "manuscripts") then
+								"void:dataDump <" || $config:appUrl || "/api/placeNames/" || $coll || "/" || $id || "> ;"
+							else
+								"void:dataDump <" || $config:appUrl || "/api/gazetteer/place/" || $id || "> ;"
+						) ||
+						"
         .
 
-        ' else ()))};
+        "
+				else (
+				)
+			)
+	)
+};
 
-
-
-declare
-%rest:GET
-%rest:path("/api/dcat")
-%output:method("text")
-function void:DCAT() {
-$void:response200turtle,
-        '
-@prefix : <'||$config:appUrl||'> .
+declare function void:DCAT($request as map(*)) {
+	"
+@prefix : <" ||
+		$config:appUrl ||
+		'> .
         @prefix dcat: <http://www.w3.org/ns/dcat#> .
         @prefix dct: <http://purl.org/dc/terms/> .
         @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -216,4 +316,5 @@ $void:response200turtle,
        dct:title "Beta maṣāḥǝft endpoint returning  SPARQL Query Results XML format." ;
        dcat:mediaType "application/xml" ;
 
-       .'};
+       .'
+};
