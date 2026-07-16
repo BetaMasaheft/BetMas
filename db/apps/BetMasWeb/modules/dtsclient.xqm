@@ -25,8 +25,7 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
 (:    let $t := util:log('info', string-join(($edition, $ref, $start, $end), ' - ')):)
     (: this instance's own DTS API, not a hardcoded host: the client
        otherwise send-requests production's endpoints from any deployment :)
-    let $approot := $config:appUrl
-    let $APIroot := '/api/dts/'
+    let $APIroot := $config:BMurl || 'api/dts/'
     let $NavAPI := 'navigation'
     let $ColAPI := 'collections'
     let $DocAPI := 'document'
@@ -57,27 +56,27 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
             ('.' || $start || '-' || $end)
         else
             ()
-    let $citationuri := ($approot || '/' || $id || $edition || $refstart)
-    let $fullid := $approot || '/' || $id || $edition
+    let $citationuri := ($config:BMurl || $id || $edition || $refstart)
+    let $fullid := $config:BMurl || $id || $edition
     let $fullidpar := $baseid || $id || $edition
-    let $uricol := ($approot || $APIroot || $ColAPI || $fullidpar)
-    let $urinav := ($approot || $APIroot || $NavAPI || $fullidpar || $parm)
-    let $uridoc := ($approot || $APIroot || $DocAPI || $fullidpar || $parm)
-    let $urianno := ($approot || $APIroot || $AnnoAPI || '/' || $collection || '/items/' || $id)
-    let $fullxml := $approot || '/' || $id || '.xml'
-    let $DTScol := if (starts-with($fullid, $approot)) then
+    let $uricol := ( $APIroot || $ColAPI || $fullidpar)
+    let $urinav := ( $APIroot || $NavAPI || $fullidpar || $parm)
+    let $uridoc := ( $APIroot || $DocAPI || $fullidpar || $parm)
+    let $urianno := ( $APIroot || $AnnoAPI || '/' || $collection || '/items/' || $id)
+    let $fullxml := $config:BMurl || $id || '.xml'
+    let $DTScol := if (starts-with($fullid, $config:BMurl)) then
         localdts:Collection($fullid, 1, 'children')
     else
         dtsc:request($uricol)
-    let $DTSnav := if (starts-with($fullid, $approot)) then
+    let $DTSnav := if (starts-with($fullid, $config:BMurl)) then
         localdts:Navigation($fullid, $ref, '', $start, $end, '', '', '', 'no')
     else
         dtsc:request($urinav)
-    let $DTSanno := if (starts-with($fullid, $approot)) then
+    let $DTSanno := if (starts-with($fullid, $config:BMurl)) then
         localdts:Annotations($collection, $id, '1', '1', 'no')
     else
         dtsc:request($urianno)
-    let $DTSdoc := if (starts-with($fullid, $approot)) then
+    let $DTSdoc := if (starts-with($fullid, $config:BMurl)) then
         localdts:Document($fullid, $ref, $start, $end)
     else
         dtsc:requestXML($uridoc)
@@ -253,7 +252,7 @@ DTSannoCollectionLink">{
                                         href="#{$r}">↓</a>
                                     <span
                                         class="w3-text w3-tag"
-                                        style="word-break:break-all;">{$approot}/{$id}{$edition}.{$r}</span>
+                                        style="word-break:break-all;">{$config:BMurl}{$id}{$edition}.{$r}</span>
                                 </span>
                             </div>
                     }
@@ -274,7 +273,7 @@ DTSannoCollectionLink">{
             </div>
     <div class="w3-rest">
     { (: Cache the XML request outside the loop to avoid making the same HTTP request multiple times :)
-         let $fullxmlDoc := if (starts-with($fullid, $approot)) then
+         let $fullxmlDoc := if (starts-with($fullid, $config:BMurl)) then
              (: For local requests, use the DTSdoc we already have or fetch from collection :)
              if ($DTSdoc instance of element()) then
                  $DTSdoc
@@ -290,8 +289,8 @@ DTSannoCollectionLink">{
              dtsc:requestXML($fullxml)[2]
          return
          (:ranges:)
-         if ($start != '' and $end != '')   then 
-            ( let $fullxmlDocClean:=$fullxmlDoc/node()[name()!='http:response']            
+         if ($start != '' and $end != '')   then
+            ( let $fullxmlDocClean:=$fullxmlDoc/node()[name()!='http:response']
             let $ab:=$fullxmlDocClean//t:ab[1]
             (:calculate start:)
             let $folio :=replace($start, '^([0-9]+).*$' , '$1')
@@ -303,7 +302,7 @@ DTSannoCollectionLink">{
             let $line := if($lines castable as xs:integer) then $lines else ()
             let $pb:=$ab/t:pb[@n = concat($folio, $side)][1]
             let $cb:=if($col) then ($pb/following::t:cb[@n=$col])[1] else $pb
-            let $start-node := if($line) then ($cb/following::t:lb[@n=$line])[1]else if ($col) then $cb else $pb 
+            let $start-node := if($line) then ($cb/following::t:lb[@n=$line])[1]else if ($col) then $cb else $pb
                 (:calculate end:)
             let $folio1 :=replace($end, '^([0-9]+).*$' , '$1')
             let $side1 :=replace($end, '^[0-9]+([rv]).*$', '$1')
@@ -314,14 +313,14 @@ DTSannoCollectionLink">{
             let $line1 := if($lines1 castable as xs:integer) then $lines1 else ()
             let $pb1:=$ab/t:pb[@n = concat($folio1, $side1)][1]
             let $cb1:=if($col1) then ($pb1/following::t:cb[@n=$col1])[1] else $pb1
-            let $end-node := if($line1) then ($cb1/following::t:lb[@n=$line1])[last()] else if ($col1) then $cb1 else $pb1 
+            let $end-node := if($line1) then ($cb1/following::t:lb[@n=$line1])[last()] else if ($col1) then $cb1 else $pb1
             return
                 if ($start-node and $end-node) then
                   let $slice:=($start-node, $ab//node()[ . >> $start-node ][ . << $end-node ]
 , $end-node)
         return viewItem:textfragment(<ab xmlns="http://www.tei-c.org/ns/1.0">{$slice}</ab>)
                 else <div>No text found for range {$start}-{$end}</div>)
-         else 
+         else
          try {
                         viewItem:textfragment($docnode)
                     } catch * {
@@ -386,7 +385,7 @@ let $DTSURL :=
 for $d in $DTSURL//*:pair
 let $base := $d/*:base/text()
 let $id := $d/*:id/text()
-return 
+return
 dtsc:DTStext($base, $id)
 :)
     let $cleanbase := (if ($base = '') then
