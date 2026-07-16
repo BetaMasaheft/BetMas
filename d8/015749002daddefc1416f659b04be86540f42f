@@ -1,0 +1,21 @@
+db/apps/BetMasWeb/newSearch.html
+  s_16a6cdccdd371f::t_7c66d314768752 127
+db/apps/BetMasWeb/sparql.html
+  s_16a6cdccdd371f::t_2cd163484d9dfb 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "d8015749002daddefc1416f659b04be86540f42f",
+  "prompts": {},
+  "sessions": {
+    "s_16a6cdccdd371f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc75cbc0-e576-4db7-a2e7-0e4670c53636",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
