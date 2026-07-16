@@ -13,7 +13,16 @@ declare namespace sr = "http://www.w3.org/2005/sparql-results#";
 
 (:Assumes that Fuseki is running in Tomcat, and that Tomcat server.xml has been edited to run on port 8081, instead of 8080. :)
 (: Note: the version in BetMas had port 8081, in BetMasWeb 3030 :)
-declare variable $fusekisparql:port := 'http://localhost:3030/';
+(: Fuseki base URL (env: FUSEKI_URL, captured at instance initialisation —
+   see config:service-url). Must end with a slash: dataset names are
+   concatenated directly onto it.
+   NB this only relocates a *Fuseki* instance: the URLs built below are
+   dataset-scoped ({base}{dataset}/query, /update) and the results are
+   parsed as SPARQL XML. The QLever service (sparql-service repo) exposes
+   a different surface (GET /?query= on a single index), so migrating to
+   it means adapting this module, not just overriding the URL. :)
+declare variable $fusekisparql:port :=
+    config:service-url('FUSEKI_URL', 'http://localhost:3030/');
 
 
 (:~ given a SPARQL query this will pass it to the selected dataset  and return SPARQL Results in XML:)

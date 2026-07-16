@@ -49,7 +49,7 @@ then (<info>please provide at least 2 dts URIs separated with comma</info>)  els
      let $req :=
         <http:request
         http-version="1.1"
-            href="{xs:anyURI('http://localhost:8081/collatex-servlet-1.7.1/collate')}"
+            href="{xs:anyURI($config:collatexUrl)}"
             method="POST">
             <http:header
                 name="Content-Type"

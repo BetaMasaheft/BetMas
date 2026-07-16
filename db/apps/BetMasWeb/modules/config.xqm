@@ -59,6 +59,33 @@ declare variable $config:baseURI := $config:appUrl || "/";
  :)
 declare variable $config:BMurl := 'https://betamasaheft.eu/';
 
+(:~
+ : Resolve an external service endpoint. A deployment relocates a service
+ : by setting the corresponding environment variable on the eXist process
+ : (e.g. `docker run -e COLLATEX_URL=...`); betmas-init captures set
+ : variables into services.xml at the app root at instance initialisation, because
+ : fn:environment-variable is a DBA-only read in eXist and request-time
+ : code (running as guest) cannot see them. Falls back to the given
+ : default (= production wiring) when the document or entry is missing.
+ :)
+declare function config:service-url($env-name as xs:string, $default as xs:string) as xs:string {
+    try {
+        (doc('/db/apps/BetMasWeb/services.xml')
+            //service[@env eq $env-name][normalize-space(.) ne '']/string(),
+         $default)[1]
+    } catch * {
+        $default
+    }
+};
+
+(:~
+ : CollateX collation endpoint (env: COLLATEX_URL). The default is the
+ : servlet deployment on the production host; the containerised
+ : collatex-service serves the same API at http://<host>:17105/collate.
+ :)
+declare variable $config:collatexUrl :=
+    config:service-url('COLLATEX_URL', 'http://localhost:8081/collatex-servlet-1.7.1/collate');
+
 declare variable $config:DOI := '10.25592/BetaMasaheft';
 
 declare variable $config:response200 := <rest:response>
