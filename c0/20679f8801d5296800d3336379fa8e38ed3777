@@ -1,0 +1,23 @@
+db/apps/BetMasWeb/modules/scriptlinks.xqm
+  s_16a6cdccdd371f::t_2b3b2d5ff8c51f 62-65
+db/apps/BetMasWeb/resources/js/dtsAnno.js
+  s_16a6cdccdd371f::t_79f41a8341adb9 1-7,15-19,21
+  s_16a6cdccdd371f::t_ba0c998fd029d0 8-14
+  s_16a6cdccdd371f::t_d2e0456dbeccaa 87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "c020679f8801d5296800d3336379fa8e38ed3777",
+  "prompts": {},
+  "sessions": {
+    "s_16a6cdccdd371f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc75cbc0-e576-4db7-a2e7-0e4670c53636",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
