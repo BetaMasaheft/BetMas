@@ -32,14 +32,16 @@ let $services :=
 
 let $_ := util:log('info', 'Storing ' || $app_url || ' as the root of the application.	')
 
-return xmldb:store('/db/apps/BetMasWeb/modules', 'loc.xqm', $loc_module),
+return (
+    xmldb:store('/db/apps/BetMasWeb/modules', 'loc.xqm', $loc_module),
 
-(: guest must be able to read but never write this document: it holds
-   URLs the server itself will POST to :)
-(xmldb:store('/db/apps/BetMasWeb', 'services.xml', $services),
- sm:chmod(xs:anyURI('/db/apps/BetMasWeb/services.xml'), 'rw-r--r--')),
+    (: guest must be able to read but never write this document: it holds
+       URLs the server itself will POST to :)
+    (xmldb:store('/db/apps/BetMasWeb', 'services.xml', $services),
+     sm:chmod(xs:anyURI('/db/apps/BetMasWeb/services.xml'), 'rw-r--r--')),
 
-(: Store tuttle configuration :)
-xmldb:store('/db/apps/tuttle/data', 'tuttle.xml', doc('./tuttle.xml')),
+    (: Store tuttle configuration :)
+    xmldb:store('/db/apps/tuttle/data', 'tuttle.xml', doc('./tuttle.xml')),
 
-util:eval(xs:anyURI('/db/apps/BetMasService/modules/registerRESTXQ.xql'))
+    util:eval(xs:anyURI('/db/apps/BetMasService/modules/registerRESTXQ.xql'))
+)
