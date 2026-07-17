@@ -1,0 +1,19 @@
+db/apps/BetMasInitInstance/finish.xq
+  s_f621eb37f8854e::t_3dcbef1757e44c 35-36,38-41,43-44,46-47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "8c0f33014326003124ebd52dcbee066a6df049f1",
+  "prompts": {},
+  "sessions": {
+    "s_f621eb37f8854e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "50c55e94-39a7-4bfc-8532-53c810e8d334",
+        "model": "claude-fable-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
