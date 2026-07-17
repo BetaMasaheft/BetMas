@@ -1,0 +1,26 @@
+docker/data.Dockerfile
+  s_f621eb37f8854e::t_c96b43be4bb236 1-20,22,25-39,49-52,54-57,59-61,63-65,67-69,71-73,75-77,79-81,83-85,87-89,91-95,98,102-135
+  s_f621eb37f8854e::t_6c6f128fcf83ea 47
+  s_f621eb37f8854e::t_242b303331aae9 21,23-24,40-46,48,53,58,62,66,70,74,78,82,86,90,96-97,99-101,136-141
+.github/workflows/build-data.yml
+  s_f621eb37f8854e::t_94115f5ac54359 1-122
+Dockerfile
+  s_f621eb37f8854e::t_74cc6d0cae1530 18-25
+  s_f621eb37f8854e::t_396ee72b457fe6 26-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "e74caec53c2f1be179282c89ba3d22eae503e6ad",
+  "prompts": {},
+  "sessions": {
+    "s_f621eb37f8854e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "50c55e94-39a7-4bfc-8532-53c810e8d334",
+        "model": "claude-fable-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
