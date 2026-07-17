@@ -1,6 +1,24 @@
-function updateindex(indexUrl){   
+// Resolve a DTS API URL under the app base on any deployment. The DTS
+// responses embed absolute self-URLs (host = wherever the API answered);
+// strip any scheme+host and re-root under BM_APP_URL (injected per page)
+// so the fetch stays same-origin under the app base instead of a hardcoded
+// host.
+function bmApi(u) {
+    var base = (typeof BM_APP_URL !== 'undefined') ? BM_APP_URL : '';
+    u = $.trim(String(u));
+    // already an absolute URL under our own app base (e.g. an appUrl-built
+    // @id on this same deployment): use it unchanged, do not re-prepend.
+    if (base && u.indexOf(base) === 0) { return u; }
+    // otherwise reduce to a path (dropping any foreign scheme+host, e.g. a
+    // canonical betamasaheft.eu @id) and re-root under the app base.
+    var path = u.replace(/^https?:\/\/[^\/]+/, '');
+    if (path.charAt(0) !== '/') { path = '/' + path; }
+    return base + path;
+}
+
+function updateindex(indexUrl){
 /*console.log(indexUrl)*/
-var api = 'http://localhost:8080/exist/apps/BetMasWeb/' + indexUrl
+var api = bmApi(indexUrl)
 $.getJSON(api, function (d) {
 var last = d.view.last
 var ln = last.lastIndexOf('page=')
@@ -66,7 +84,7 @@ $('body').on('click', '.indexItem', function () {
 var indexItem = $(this)
 var indexUrl = indexItem.data('source')
 var dtsanno = indexItem.data('id')
-var api = 'http://localhost:8080/exist/apps/BetMas'+$.trim(indexUrl)+'?id='+$.trim(dtsanno)
+var api = bmApi($.trim(indexUrl))+'?id='+$.trim(dtsanno)
 /*console.log(api)*/
 $.getJSON(api, function (d) {
    var members = d.member

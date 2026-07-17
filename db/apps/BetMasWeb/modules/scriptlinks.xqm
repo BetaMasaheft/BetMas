@@ -59,6 +59,10 @@ declare function scriptlinks:footerjsSelector() as element()* {
 (:~html page script and styles to be included :)
 declare function scriptlinks:scriptStyle(){
 (
+        (: App base for client-side JS: lets scripts build URLs under the app
+           base on any deployment instead of hardcoding a host or assuming the
+           app is served at the origin root. :)
+        <script type="text/javascript">{'var BM_APP_URL = "' || $config:appUrl || '";'}</script>,
         <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>,
         <link rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/font-awesome-4.7.0/css/font-awesome.min.css"  />   ,
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/css/keyboard-basic.min.css"  />,
