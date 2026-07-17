@@ -15,11 +15,20 @@ COPY db/apps/parser /tmp/parser
 RUN mkdir /tmp/dependencies
 RUN mkdir /tmp/stage-2
 
-ADD  http://exist-db.org:8098/exist/apps/public-repo/public/expath-crypto-module-6.0.1.xar /tmp/dependencies/expath-crypto.xar
-ADD  http://exist-db.org:8098/exist/apps/public-repo/public/shared-resources-0.9.1.xar /tmp/dependencies/shared-resources.xar
-ADD  https://exist-db.org/exist/apps/public-repo/public/monex-4.2.4.xar /tmp/dependencies/00monex.xar
-ADD  https://github.com/eeditiones/tuttle/releases/download/v2.1.0/tuttle-2.1.0.xar /tmp/dependencies/01tuttle.xar
-ADD  https://github.com/eeditiones/roaster/releases/download/v1.11.0/roaster-1.11.0.xar /tmp/dependencies/00roaster.xar
+# autodeploy installs in lexicographic filename order (digits < uppercase <
+# lowercase): number the dependencies so libraries install before the app and
+# data xars that declare them
+ARG CRYPTO_VERSION=6.0.1
+ARG SHARED_VERSION=0.9.1
+ARG MONEX_VERSION=4.2.4
+ARG ROASTER_VERSION=1.12.1
+ARG TUTTLE_VERSION=2.1.0
+ARG PUBLIC_REPO=https://exist-db.org/exist/apps/public-repo/public
+ADD  ${PUBLIC_REPO}/expath-crypto-module-${CRYPTO_VERSION}.xar /tmp/dependencies/00-expath-crypto.xar
+ADD  ${PUBLIC_REPO}/shared-resources-${SHARED_VERSION}.xar /tmp/dependencies/01-shared-resources.xar
+ADD  ${PUBLIC_REPO}/monex-${MONEX_VERSION}.xar /tmp/dependencies/02-monex.xar
+ADD  ${PUBLIC_REPO}/roaster-${ROASTER_VERSION}.xar /tmp/dependencies/03-roaster.xar
+ADD  ${PUBLIC_REPO}/tuttle-${TUTTLE_VERSION}.xar /tmp/dependencies/04-tuttle.xar
 
 WORKDIR /tmp/BetMas
 RUN zip -0r /tmp/dependencies/XXX_BetMas.xar .

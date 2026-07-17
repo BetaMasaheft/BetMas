@@ -1,0 +1,122 @@
+name: Build Data Base Image
+
+# The slow build: data packages + expanded corpus autodeployed and indexed
+# into ghcr.io/betamasaheft/betmas-data. Nothing waits on this interactively —
+# app images layer on top of the most recent published base.
+#
+# Triggers: weekly cron, manual dispatch, and repository_dispatch sent by the
+# expanded repo when its main branch moves.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 1 * * 1"
+  repository_dispatch:
+    types: [expanded-updated]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: betamasaheft/betmas-data
+
+jobs:
+  build:
+    name: Build and Push betmas-data
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          build-mount-path: /var/lib/docker/
+          remove-dotnet: "true"
+          remove-android: "true"
+          remove-haskell: "true"
+          remove-codeql: "true"
+          remove-docker-images: "true"
+          root-reserve-mb: 4096
+          temp-reserve-mb: 1024
+
+      - name: Restart docker
+        run: sudo service docker restart
+
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      # Pin every data repo to the commit it has right now: correct Docker
+      # caching, and the SHAs become OCI labels on the image (provenance).
+      - name: Resolve data repo refs
+        id: refs
+        run: |
+          resolve () { git ls-remote "https://github.com/BetaMasaheft/$1.git" "refs/heads/$2" | cut -f1; }
+          {
+            echo "works=$(resolve Works master)"
+            echo "manuscripts=$(resolve Manuscripts master)"
+            echo "authority_files=$(resolve Authority-Files master)"
+            echo "persons=$(resolve Persons master)"
+            echo "places=$(resolve Places master)"
+            echo "institutions=$(resolve Institutions master)"
+            echo "narrative=$(resolve Narrative master)"
+            echo "studies=$(resolve Studies master)"
+            echo "corpora=$(resolve corpora main)"
+            expanded=$(git ls-remote "https://x-access-token:${{ secrets.BOT_CONTAINER_PAT }}@github.com/BetaMasaheft/expanded.git" refs/heads/main | cut -f1)
+            echo "expanded=$expanded"
+            echo "expanded_short=${expanded:0:9}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Set image tags
+        id: meta
+        run: |
+          if [ "${{ github.ref_name }}" = "master" ]; then
+            TAGS="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+            TAGS="$TAGS,${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$(date -u +%Y%m%d)"
+            TAGS="$TAGS,${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:exp-${{ steps.refs.outputs.expanded_short }}"
+          else
+            TAGS="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev-${{ github.ref_name }}"
+          fi
+          echo "tags=$TAGS" >> "$GITHUB_OUTPUT"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: betmas-bot
+          password: ${{ secrets.BOT_CONTAINER_PAT }}
+
+      - name: Build and push data base image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/data.Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          build-args: |
+            EXISTDB_VERSION=release
+            WORKS_REF=${{ steps.refs.outputs.works }}
+            MANUSCRIPTS_REF=${{ steps.refs.outputs.manuscripts }}
+            AUTHORITY_FILES_REF=${{ steps.refs.outputs.authority_files }}
+            PERSONS_REF=${{ steps.refs.outputs.persons }}
+            PLACES_REF=${{ steps.refs.outputs.places }}
+            INSTITUTIONS_REF=${{ steps.refs.outputs.institutions }}
+            NARRATIVE_REF=${{ steps.refs.outputs.narrative }}
+            STUDIES_REF=${{ steps.refs.outputs.studies }}
+            CORPORA_REF=${{ steps.refs.outputs.corpora }}
+            EXPANDED_REF=${{ steps.refs.outputs.expanded }}
+          cache-from: type=gha,scope=data
+          # ignore-error: a failed cache export must not fail an otherwise successful build
+          cache-to: type=gha,mode=max,scope=data,ignore-error=true
+          secrets: |
+            "github_token=${{ secrets.BOT_CONTAINER_PAT }}"
