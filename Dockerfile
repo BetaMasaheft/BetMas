@@ -8,7 +8,6 @@ RUN apt update && apt install -y zip git
 COPY db/apps/BetMas /tmp/BetMas
 COPY db/apps/BetMasService /tmp/BetMasService
 COPY db/apps/BetMasInitInstance /tmp/BetMasInitInstance
-COPY db/apps/BetMasWeb /tmp/BetMasWeb
 COPY db/apps/lists /tmp/lists
 COPY db/apps/parser /tmp/parser
 
@@ -17,9 +16,9 @@ RUN mkdir /tmp/stage-2
 
 ADD  http://exist-db.org:8098/exist/apps/public-repo/public/expath-crypto-module-6.0.1.xar /tmp/dependencies/expath-crypto.xar
 ADD  http://exist-db.org:8098/exist/apps/public-repo/public/shared-resources-0.9.1.xar /tmp/dependencies/shared-resources.xar
+ADD  http://exist-db.org:8098/exist/apps/public-repo/public/roaster-1.12.1.xar /tmp/dependencies/00roaster.xar
 ADD  https://exist-db.org/exist/apps/public-repo/public/monex-4.2.4.xar /tmp/dependencies/00monex.xar
 ADD  https://github.com/eeditiones/tuttle/releases/download/v2.1.0/tuttle-2.1.0.xar /tmp/dependencies/01tuttle.xar
-ADD  https://github.com/eeditiones/roaster/releases/download/v1.11.0/roaster-1.11.0.xar /tmp/dependencies/00roaster.xar
 
 WORKDIR /tmp/BetMas
 RUN zip -0r /tmp/dependencies/XXX_BetMas.xar .
@@ -29,8 +28,6 @@ RUN  zip -0r /tmp/dependencies/lists.xar .
 WORKDIR /tmp/parser
 RUN  zip -0r /tmp/dependencies/parser.xar .
 
-WORKDIR /tmp/BetMasWeb
-RUN  zip -0r /tmp/dependencies/BetMasWeb.xar .
 WORKDIR /tmp/BetMasService
 RUN  zip -0r /tmp/dependencies/BetMasService.xar .
 
@@ -45,6 +42,11 @@ RUN  zip -0r /tmp/dependencies/Works.xar .
 ADD https://github.com/BetaMasaheft/Manuscripts.git /tmp/Manuscripts
 WORKDIR /tmp/Manuscripts
 RUN  zip -0r /tmp/dependencies/Manuscripts.xar .
+
+ADD https://github.com/BetaMasaheft/BetMasWeb.git /tmp/BetMasWeb
+WORKDIR /tmp/BetMasWeb
+RUN  zip -0r /tmp/dependencies/BetMasWeb.xar .
+
 
 # ADD https://github.com/BetaMasaheft/Dillmann.git /tmp/Dillmann
 # WORKDIR /tmp/Dillmann/gez-en-2.6
@@ -91,7 +93,7 @@ RUN zip -0r /tmp/dependencies/expanded.xar .
 # RUN  zip -0r /tmp/dependencies/chojnacki.xar .
 
 
-FROM duncdrum/existdb:${EXISTDB_VERSION}
+FROM existdb/existdb:${EXISTDB_VERSION}
 
 # RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "xmldb:create-collection('/db/apps', 'log')" ]
 

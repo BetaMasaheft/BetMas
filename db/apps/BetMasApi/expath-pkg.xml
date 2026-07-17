@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://expath.org/ns/pkg" name="https://betamasaheft.eu/BetMasApi" abbrev="BetMasApi" version="0.1" spec="1.0">
-    <title>BetMasApi</title>
+  <title>BetMasApi</title>
+  <dependency package="https://betamasaheft.eu/betmasweb/" semver-min="0.1"/>
+  <dependency package="http://e-editiones.org/roaster" semver-min="1.12.1"/>
+  <dependency processor="http://exist-db.org" semver-min="6.4.0"/>
 </package>
