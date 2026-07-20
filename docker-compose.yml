@@ -1,7 +1,9 @@
 services:
   betmas:
-    build: .
-    image: ghcr.io/drrataplan/betamasaheft:6.2.0-manuscript-expanded
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+    image: ghcr.io/betamasaheft/betamasaheft:release-expanded
     ports:
       - 8083:8080
     environment:

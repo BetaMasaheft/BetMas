@@ -1,4 +1,8 @@
-name: Build and Push Docker Image
+name: Build and Push App Image
+
+# The fast build: application xars layered onto the published betmas-data
+# base (see build-data.yml). Runs on every master push instead of the old
+# ~3h monolith rebuild.
 
 on:
   workflow_run:
@@ -17,7 +21,7 @@ env:
 
 jobs:
   build:
-    name: Build and Push Multi-Arch Image
+    name: Build and Push App Image
     runs-on: ubuntu-latest
     # Only build and push images from master: after a successful format check
     # on master, or when manually dispatched on master
@@ -29,11 +33,10 @@ jobs:
     permissions:
       contents: read
       packages: write
-    strategy:
-      matrix:
-        existdb_version: ['6.4.0', 'release']
 
     steps:
+      # The base is ~11GB before this job adds its own layers; the default
+      # runner disk is too tight once both arches are pulled/built.
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
@@ -48,6 +51,7 @@ jobs:
 
       - name: Restart docker
         run: sudo service docker restart
+
       - name: Checkout code
         uses: actions/checkout@v7
         with:
@@ -58,14 +62,6 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
-
-      - name: Set image tag
-        id: meta
-        run: |
-          IMAGE_TAG="${{ matrix.existdb_version }}-expanded"
-          echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
-          echo "Using eXist-db version: ${{ matrix.existdb_version }}"
-          echo "Image tag: $IMAGE_TAG"
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v4
@@ -78,13 +74,15 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
+          file: docker/app.Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.image_tag }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:release-expanded
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           build-args: |
-            EXISTDB_VERSION=${{ matrix.existdb_version }}
-          cache-from: type=gha,scope=${{ matrix.existdb_version }}
+            BETMAS_DATA_IMAGE=${{ env.REGISTRY }}/betamasaheft/betmas-data:latest
+            APP_COMMIT=${{ github.event.workflow_run.head_sha || github.sha }}
+          cache-from: type=gha,scope=app
           # ignore-error: a failed cache export must not fail an otherwise successful build
-          cache-to: type=gha,mode=max,scope=${{ matrix.existdb_version }},ignore-error=true
-          secrets: |
-            "github_token=${{ secrets.BOT_CONTAINER_PAT }}"
+          cache-to: type=gha,mode=max,scope=app,ignore-error=true
