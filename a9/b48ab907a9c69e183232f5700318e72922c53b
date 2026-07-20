@@ -1,0 +1,22 @@
+docker-compose.yml
+  s_f621eb37f8854e::t_4bbb0a07bfb346 3-6
+.github/workflows/docker-build.yml
+  s_f621eb37f8854e::t_c148c4412305f4 1-5,24,77,80-82,84-86,88
+  s_f621eb37f8854e::t_6ac3e38f90ed9a 38-39,54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "a9b48ab907a9c69e183232f5700318e72922c53b",
+  "prompts": {},
+  "sessions": {
+    "s_f621eb37f8854e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "50c55e94-39a7-4bfc-8532-53c810e8d334",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
