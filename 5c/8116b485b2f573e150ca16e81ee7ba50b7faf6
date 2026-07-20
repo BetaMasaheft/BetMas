@@ -1,0 +1,20 @@
+docker/app.Dockerfile
+  s_f621eb37f8854e::t_2225005761403c 10-11
+  s_f621eb37f8854e::t_39b47cb0b911c0 19-22,25-26,35-37,42-49,61,64-66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "5c8116b485b2f573e150ca16e81ee7ba50b7faf6",
+  "prompts": {},
+  "sessions": {
+    "s_f621eb37f8854e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "50c55e94-39a7-4bfc-8532-53c810e8d334",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
