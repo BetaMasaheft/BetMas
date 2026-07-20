@@ -107,61 +107,35 @@ this does the small popups on links to perseus, geonames, wikipedia
 
 ## Docker deployments
 
-Docker is used to bake an image of BetMas in two stages. First, an `expansion` routine is used to
-transform data: references are resolved into absolute references, etcetera. In a second layer the
-application is installed to the latest version in this repo.
+The image is built in two layers, published separately:
 
-### Building the Docker Image
+- **`betmas-data`** (`docker/data.Dockerfile`, `.github/workflows/build-data.yml`): eXist plus the
+  registry dependencies, all data repos and the private `expanded` corpus, autodeployed and indexed
+  at build time. This is the slow build (~3h) — it rebuilds on a weekly schedule, on manual dispatch,
+  or when `expanded`'s `main` branch moves, and nobody waits on it interactively. Published as
+  `ghcr.io/betamasaheft/betmas-data`.
+- **App image** (`docker/app.Dockerfile`, `.github/workflows/docker-build.yml`): the application xars
+  in this repo (`BetMasService`, `BetMasWeb`, `parser`, `BetMas`) layered onto the current
+  `betmas-data:latest`. This is the fast build (minutes) and runs on every push to `master`.
+  Published as `ghcr.io/betamasaheft/betamasaheft:release-expanded`.
 
-The Docker image is automatically built and pushed to GitHub Container Registry (GHCR) via CI when:
-- Code is pushed to the `master` or `main` branch
-- The workflow is manually triggered via GitHub Actions
-
-The image tag format is `{EXISTDB_VERSION}-manuscript-expanded`, where `EXISTDB_VERSION` matches the eXist-db version in the base image (default: `6.4.0`).
-
-#### Local Build
-
-To build the image locally, you'll need a GitHub Personal Access Token (PAT) with access to the private `expanded` repository:
+### Building the App Image Locally
 
 ```bash
-# Build with BuildKit and secret for private repo access
-# The EXISTDB_VERSION build arg defaults to 6.4.0
-DOCKER_BUILDKIT=1 docker build \
-  --build-arg EXISTDB_VERSION=6.4.0 \
-  --secret id=github_token,env=GITHUB_TOKEN \
-  -t ghcr.io/betamasaheft/betamasaheft:6.4.0-manuscript-expanded \
+docker build \
+  -f docker/app.Dockerfile \
+  -t ghcr.io/betamasaheft/betamasaheft:local \
   .
 ```
 
-To build with a different eXist-db version:
-```bash
-DOCKER_BUILDKIT=1 docker build \
-  --build-arg EXISTDB_VERSION=6.5.0 \
-  --secret id=github_token,env=GITHUB_TOKEN \
-  -t ghcr.io/betamasaheft/betamasaheft:6.5.0-manuscript-expanded \
-  .
-```
-
-Set the `GITHUB_TOKEN` environment variable with your PAT:
-```bash
-export GITHUB_TOKEN=your_github_pat_token
-```
-
-#### Multi-Architecture Build
-
-The CI builds multi-architecture images (linux/amd64, linux/arm64). To build locally for multiple architectures:
+To build against a locally-built data image instead of the published one (e.g. while iterating on
+`docker/data.Dockerfile`), pass `BETMAS_DATA_IMAGE`:
 
 ```bash
-# Create a buildx builder instance
-docker buildx create --use --name multiarch
-
-# Build and push for multiple platforms
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  --build-arg EXISTDB_VERSION=6.4.0 \
-  --secret id=github_token,env=GITHUB_TOKEN \
-  -t ghcr.io/betamasaheft/betamasaheft:6.4.0-manuscript-expanded \
-  --push \
+docker build \
+  -f docker/app.Dockerfile \
+  --build-arg BETMAS_DATA_IMAGE=betmas-data:local \
+  -t ghcr.io/betamasaheft/betamasaheft:local \
   .
 ```
 
@@ -169,7 +143,7 @@ docker buildx build \
 
 Pull the pre-built image from GHCR:
 ```bash
-docker pull ghcr.io/betamasaheft/betamasaheft:6.4.0-manuscript-expanded
+docker pull ghcr.io/betamasaheft/betamasaheft:release-expanded
 ```
 
 Run the container:
@@ -178,20 +152,19 @@ docker run -d \
   -p 8080:8080 \
   -e APP_URL=http://localhost:8080/exist/apps/BetMasWeb \
   --name betmas \
-  ghcr.io/betamasaheft/betamasaheft:6.4.0-manuscript-expanded
+  ghcr.io/betamasaheft/betamasaheft:release-expanded
 ```
 
 The application will be available at `http://localhost:8080/exist/apps/BetMasWeb`
 
 ### CI Build Process
 
-The GitHub Actions workflow (`.github/workflows/docker-build.yml`) handles:
-- Multi-architecture builds (amd64 and arm64)
-- Authentication with private repositories
-- Pushing to GitHub Container Registry
-- Build caching for faster subsequent builds
+`.github/workflows/docker-build.yml` builds and pushes the app image (multi-arch, amd64 and arm64)
+after every successful `Format Check` run on `master`, or on manual dispatch. It always builds
+against `betmas-data:latest` — it does not wait for or trigger a data rebuild.
 
-Images are published to: `ghcr.io/betamasaheft/betamasaheft:<version>`
+`.github/workflows/build-data.yml` builds and pushes `betmas-data` on its own schedule (see above);
+run it manually via GitHub Actions if a data repo needs to land sooner.
 
 ## Code Formatting with Prettier
 
