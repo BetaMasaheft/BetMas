@@ -107,7 +107,7 @@ declare function coord:GNorWD($placeexternalid as xs:string) {
 declare function coord:getGeoNamesCoord($string as xs:string) {
     let $gnid := substring-after($string, 'gn:')
     let $xml-url := concat('http://api.geonames.org/get?geonameId=', $gnid, '&amp;username=betamasaheft')
-    let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+    let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"><http:header name="User-Agent" value="BetaMasaheft/1.0 (https://betamasaheft.eu; contact via GitHub BetaMasaheft org)"/></http:request>
     let $data := http:send-request($request)[2]
     let $string := $data//lng/text() || ',' || $data//lat/text()
     return
@@ -126,7 +126,7 @@ declare function coord:getWikiDataCoord($Qid as xs:string) {
    }
  }'
     let $query := 'https://query.wikidata.org/sparql?query=' || xmldb:encode-uri($sparql)
-     let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
+     let $request := <http:request href="{xs:anyURI($query)}" method="GET"><http:header name="User-Agent" value="BetaMasaheft/1.0 (https://betamasaheft.eu; contact via GitHub BetaMasaheft org)"/></http:request>
     let $req := http:send-request($request)[2]
     let $removePoint := replace(($req//sparql:result/sparql:binding[@name eq "coordLabel"])[1], 'Point\(', '')
     let $removetrailing := replace($removePoint, '\)', '')
@@ -140,7 +140,7 @@ declare function coord:getWikiDataCoord($Qid as xs:string) {
 declare function coord:getPleiadesCoord($string as xs:string) {
    let $plid := substring-after($string, 'pleiades:')
    let $url := concat('http://peripleo.pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
- let $request := <http:request href="{xs:anyURI($url)}" method="GET"/>
+ let $request := <http:request href="{xs:anyURI($url)}" method="GET"><http:header name="User-Agent" value="BetaMasaheft/1.0 (https://betamasaheft.eu; contact via GitHub BetaMasaheft org)"/></http:request>
     let $file := http:send-request($request)[2]
   
 let $file-info := 
@@ -161,7 +161,7 @@ declare function coord:getPleiadesNames($string as xs:string) {
 
    let $plid := substring-after($string, 'https://pleiades.stoa.org/places/')
    let $url := concat('http://pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
-  let $file := try{let $request := <http:request href="{xs:anyURI($url)}" method="GET"/>
+  let $file := try{let $request := <http:request href="{xs:anyURI($url)}" method="GET"><http:header name="User-Agent" value="BetaMasaheft/1.0 (https://betamasaheft.eu; contact via GitHub BetaMasaheft org)"/></http:request>
     return http:send-request($request)[2]} catch *{$err:description}
   
 let $file-info := 
@@ -182,7 +182,7 @@ let $sparql := 'SELECT * WHERE {
 
 let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($sparql)
 
-let $req := try{let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
+let $req := try{let $request := <http:request href="{xs:anyURI($query)}" method="GET"><http:header name="User-Agent" value="BetaMasaheft/1.0 (https://betamasaheft.eu; contact via GitHub BetaMasaheft org)"/></http:request>
     return http:send-request($request)[2]} catch * {$err:description}
 return
 $req//sparql:result/sparql:binding[@name eq "label"]/sparql:literal[@xml:lang='en']/text()
