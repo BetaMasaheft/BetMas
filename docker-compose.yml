@@ -22,5 +22,16 @@ services:
     depends_on:
       - betmas
 
+  # `docker compose --profile full up`. No host ports - reached via
+  # nginx or directly by server-side app code on the compose network.
+  fuseki: # dummy, in-memory; QLever joins later, side by side (decision #7)
+    profiles: [full]
+    image: stain/jena-fuseki:latest
+    command: ["/jena-fuseki/fuseki-server", "--mem", "/betamasaheft"]
+
+  collatex:
+    profiles: [full]
+    image: ghcr.io/betamasaheft/collatex-service:main
+
 volumes:
   counter-data:
