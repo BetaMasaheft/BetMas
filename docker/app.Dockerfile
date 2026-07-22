@@ -6,7 +6,7 @@
 # this image never re-runs the data step — produces the release-expanded tag.
 #
 # BetMasService/parser still come from db/apps/ (no standalone repo yet).
-# BetMasApi/BetMasWeb are fetched from their own repos instead.
+# BetMasApi/BetMasWeb/Dillmann are fetched from their own repos instead.
 #
 # Local build (base from ghcr, or --build-arg BETMAS_DATA_IMAGE=betmas-data:local):
 #   docker build -f docker/app.Dockerfile -t betamasaheft:local .
@@ -18,11 +18,13 @@ ARG BUILDER_IMAGE=ghcr.io/eeditiones/builder:latest
 # like a data.Dockerfile data package, not COPY'd from here.
 ARG BETMASAPI_REF=main
 ARG BETMASWEB_REF=main
+ARG DILLMANN_REF=master
 
 FROM ${BUILDER_IMAGE} AS build
 
 ARG BETMASAPI_REF
 ARG BETMASWEB_REF
+ARG DILLMANN_REF
 
 COPY db/apps/BetMasService /tmp/BetMasService
 COPY db/apps/parser /tmp/parser
@@ -51,6 +53,16 @@ RUN jar cfM0 /tmp/apps/13-parser.xar .
 WORKDIR /tmp/BetMas
 RUN jar cfM0 /tmp/apps/14-BetMas.xar .
 
+# Dillmann shares this instance rather than its own container (#556) -
+# matches prod. Unlike collatex-service/sparql-service/iipsrv-fixtures
+# (separate containers, own published images), this couples Dillmann's
+# release cadence to this image's rebuild. Decoupling it the same way
+# would be a real win - means accepting a prod-topology diff first.
+ADD https://github.com/BetaMasaheft/DillmannData/releases/latest/download/dill-data.xar /tmp/apps/15-DillmannData.xar
+ADD https://github.com/BetaMasaheft/Dillmann.git#${DILLMANN_REF} /tmp/Dillmann
+WORKDIR /tmp/Dillmann
+RUN ant && mv build/*.xar /tmp/apps/16-Dillmann.xar
+
 WORKDIR /tmp/BetMasInitInstance
 RUN jar cfM0 /tmp/stage-2/BetMasInitInstance.xar .
 
@@ -59,12 +71,14 @@ FROM ${BETMAS_DATA_IMAGE}
 
 ARG BETMASAPI_REF
 ARG BETMASWEB_REF
+ARG DILLMANN_REF
 ARG APP_COMMIT=unpinned
 LABEL org.opencontainers.image.source="https://github.com/BetaMasaheft/BetMas" \
-      org.opencontainers.image.description="BetaMasaheft app image: BetMasWeb + BetMasService + BetMasApi + parser on the betmas-data base" \
+      org.opencontainers.image.description="BetaMasaheft app image: BetMasWeb + BetMasService + BetMasApi + parser + Dillmann on the betmas-data base" \
       eu.betamasaheft.ref.betmas=${APP_COMMIT} \
       eu.betamasaheft.ref.betmasapi=${BETMASAPI_REF} \
-      eu.betamasaheft.ref.betmasweb=${BETMASWEB_REF}
+      eu.betamasaheft.ref.betmasweb=${BETMASWEB_REF} \
+      eu.betamasaheft.ref.dillmann=${DILLMANN_REF}
 
 COPY --from=build /tmp/apps/*.xar /exist/autodeploy/
 
