@@ -1,0 +1,26 @@
+docker/app.Dockerfile
+  s_f621eb37f8854e::t_e51ecc3f5db430 62-63,65
+  s_f621eb37f8854e::t_65dd45a29e8e96 9
+  s_f621eb37f8854e::t_8a6b5775ee5cb8 21,27
+  s_f621eb37f8854e::t_cfd25f547f4644 74,77,80-81
+  s_f621eb37f8854e::t_4cc91f9428bdfc 56-61,64
+docker/nginx.conf
+  s_f621eb37f8854e::t_85b9f76fb52f7a 3,13-16
+  s_f621eb37f8854e::t_b324cd1f0b2d74 17-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "69e89762165d6ab4859339fd7d34d26633920b89",
+  "prompts": {},
+  "sessions": {
+    "s_f621eb37f8854e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "50c55e94-39a7-4bfc-8532-53c810e8d334",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
