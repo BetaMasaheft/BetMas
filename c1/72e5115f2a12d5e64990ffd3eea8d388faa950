@@ -1,0 +1,23 @@
+docker-compose.yml
+  s_f621eb37f8854e::t_6966fd73bb84d3 21-29
+  s_f621eb37f8854e::t_c96c3ddd5a7b44 2-7,14
+docker/nginx.conf
+  s_f621eb37f8854e::t_32f56e8cca9628 1-9
+  s_f621eb37f8854e::t_ace6b7f8e49f33 10-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "c172e5115f2a12d5e64990ffd3eea8d388faa950",
+  "prompts": {},
+  "sessions": {
+    "s_f621eb37f8854e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "50c55e94-39a7-4bfc-8532-53c810e8d334",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
