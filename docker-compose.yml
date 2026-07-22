@@ -37,5 +37,9 @@ services:
     profiles: [full]
     image: ghcr.io/betamasaheft/sparql-service:main
 
+  iipsrv: # fixture pyramidal TIFFs baked in, not real scans (#122)
+    profiles: [full]
+    image: ghcr.io/betamasaheft/iipsrv-fixtures:main
+
 volumes:
   counter-data:
