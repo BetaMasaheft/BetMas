@@ -5,10 +5,8 @@
 # dependencies, all data packages and the expanded corpus, indexed. Rebuilding
 # this image never re-runs the data step — produces the release-expanded tag.
 #
-# App sources still come from db/apps/ in this repo; they flip to the
-# standalone repos when those become canonical and the copies here freeze.
-# BetMasApi already lives only in its own repo, so it's fetched from there
-# now — same pattern the rest will move to.
+# BetMasService/parser still come from db/apps/ (no standalone repo yet).
+# BetMasApi/BetMasWeb are fetched from their own repos instead.
 #
 # Local build (base from ghcr, or --build-arg BETMAS_DATA_IMAGE=betmas-data:local):
 #   docker build -f docker/app.Dockerfile -t betamasaheft:local .
@@ -16,16 +14,17 @@
 ARG BETMAS_DATA_IMAGE=ghcr.io/betamasaheft/betmas-data:latest
 ARG BUILDER_IMAGE=ghcr.io/eeditiones/builder:latest
 
-# BetMasApi is canonical in its own repo (never mirrored into db/apps/), so
-# it's fetched like a data.Dockerfile data package, not COPY'd from here.
+# Canonical in their own repos (never mirrored into db/apps/), so fetched
+# like a data.Dockerfile data package, not COPY'd from here.
 ARG BETMASAPI_REF=main
+ARG BETMASWEB_REF=main
 
 FROM ${BUILDER_IMAGE} AS build
 
 ARG BETMASAPI_REF
+ARG BETMASWEB_REF
 
 COPY db/apps/BetMasService /tmp/BetMasService
-COPY db/apps/BetMasWeb /tmp/BetMasWeb
 COPY db/apps/parser /tmp/parser
 COPY db/apps/BetMas /tmp/BetMas
 COPY db/apps/BetMasInitInstance /tmp/BetMasInitInstance
@@ -37,12 +36,12 @@ RUN mkdir /tmp/apps /tmp/stage-2
 # roaster >= 1.12.1 (the latter ships in the base).
 WORKDIR /tmp/BetMasService
 RUN jar cfM0 /tmp/apps/10-BetMasService.xar .
-WORKDIR /tmp/BetMasWeb
-RUN jar cfM0 /tmp/apps/11-BetMasWeb.xar .
 
-# BetMasApi ships its own expath ant build (zips with its own excludes:
-# test/, docker/, node_modules); build it instead of jar cfM0-ing the raw
-# checkout so we get the same xar its own CI produces.
+# Both ship their own ant build (same xar their own CI produces).
+ADD https://github.com/BetaMasaheft/BetMasWeb.git#${BETMASWEB_REF} /tmp/BetMasWeb
+WORKDIR /tmp/BetMasWeb
+RUN ant && mv build/BetMasWeb-*.xar /tmp/apps/11-BetMasWeb.xar
+
 ADD https://github.com/BetaMasaheft/BetMasApi.git#${BETMASAPI_REF} /tmp/BetMasApi
 WORKDIR /tmp/BetMasApi
 RUN ant && mv build/BetMasApi-*.xar /tmp/apps/12-BetMasApi.xar
@@ -59,11 +58,13 @@ RUN jar cfM0 /tmp/stage-2/BetMasInitInstance.xar .
 FROM ${BETMAS_DATA_IMAGE}
 
 ARG BETMASAPI_REF
+ARG BETMASWEB_REF
 ARG APP_COMMIT=unpinned
 LABEL org.opencontainers.image.source="https://github.com/BetaMasaheft/BetMas" \
       org.opencontainers.image.description="BetaMasaheft app image: BetMasWeb + BetMasService + BetMasApi + parser on the betmas-data base" \
       eu.betamasaheft.ref.betmas=${APP_COMMIT} \
-      eu.betamasaheft.ref.betmasapi=${BETMASAPI_REF}
+      eu.betamasaheft.ref.betmasapi=${BETMASAPI_REF} \
+      eu.betamasaheft.ref.betmasweb=${BETMASWEB_REF}
 
 COPY --from=build /tmp/apps/*.xar /exist/autodeploy/
 
