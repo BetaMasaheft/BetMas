@@ -6,7 +6,10 @@ services:
       dockerfile: docker/app.Dockerfile
     image: ghcr.io/betamasaheft/betamasaheft:release-expanded
     environment:
-      APP_URL: http://localhost:8080/exist/apps/BetMasWeb
+      # nginx is the sole public entry point (proxies "/" to this app), so
+      # the app's externally-visible base is root now, not its own eXist
+      # mount path.
+      APP_URL: http://localhost:8080
   counter-app:
     build: ./counter-app
     image: ghcr.io/drrataplan/betamasaheft-counter-app:latest
