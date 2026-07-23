@@ -14,6 +14,10 @@ services:
       # harmless to set unconditionally - config:service-url() only
       # resolves this when something actually calls out to Fuseki.
       FUSEKI_URL: http://fuseki:3030/
+      # Same story as FUSEKI_URL above - only live under the full profile,
+      # harmless otherwise. Matches collatex-service's own EXPOSE 17105 and
+      # /collate endpoint.
+      COLLATEX_URL: http://collatex:17105/collate
   counter-app:
     build: ./counter-app
     image: ghcr.io/drrataplan/betamasaheft-counter-app:latest
