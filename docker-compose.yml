@@ -10,6 +10,10 @@ services:
       # the app's externally-visible base is root now, not its own eXist
       # mount path.
       APP_URL: http://localhost:8080
+      # Only reachable with the full profile (fuseki isn't in core), but
+      # harmless to set unconditionally - config:service-url() only
+      # resolves this when something actually calls out to Fuseki.
+      FUSEKI_URL: http://fuseki:3030/
   counter-app:
     build: ./counter-app
     image: ghcr.io/drrataplan/betamasaheft-counter-app:latest
