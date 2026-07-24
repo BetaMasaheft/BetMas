@@ -6,7 +6,7 @@
 # this image never re-runs the data step — produces the release-expanded tag.
 #
 # BetMasService/parser still come from db/apps/ (no standalone repo yet).
-# BetMasApi/BetMasWeb/Dillmann are fetched from their own repos instead.
+# BetMasApi/BetMasWeb/Dillmann/guidelinesApp are fetched from their own repos instead.
 #
 # Local build (base from ghcr, or --build-arg BETMAS_DATA_IMAGE=betmas-data:local):
 #   docker build -f docker/app.Dockerfile -t betamasaheft:local .
@@ -19,12 +19,14 @@ ARG BUILDER_IMAGE=ghcr.io/eeditiones/builder:latest
 ARG BETMASAPI_REF=main
 ARG BETMASWEB_REF=main
 ARG DILLMANN_REF=master
+ARG GUIDELINESAPP_REF=master
 
 FROM ${BUILDER_IMAGE} AS build
 
 ARG BETMASAPI_REF
 ARG BETMASWEB_REF
 ARG DILLMANN_REF
+ARG GUIDELINESAPP_REF
 
 COPY db/apps/BetMasService /tmp/BetMasService
 COPY db/apps/parser /tmp/parser
@@ -63,6 +65,18 @@ ADD https://github.com/BetaMasaheft/Dillmann.git#${DILLMANN_REF} /tmp/Dillmann
 WORKDIR /tmp/Dillmann
 RUN ant && mv build/*.xar /tmp/apps/16-Dillmann.xar
 
+# Guidelines shares this instance too (betmas-e2e#67 - never wired into any
+# container before this). Same shape as Dillmann: release-asset data +
+# schema deps, then the app built from source. html-templating (its other
+# declared dependency) needs no separate install - it's an eXist core
+# module, already proven working in this image via BetMasWeb's own
+# %templates:wrap usage.
+ADD https://github.com/BetaMasaheft/Schema/releases/latest/download/betamas-schemas.xar /tmp/apps/17-Schema.xar
+ADD https://github.com/BetaMasaheft/guidelines/releases/latest/download/guidelines-data.xar /tmp/apps/18-GuidelinesData.xar
+ADD https://github.com/BetaMasaheft/guidelinesApp.git#${GUIDELINESAPP_REF} /tmp/guidelinesApp
+WORKDIR /tmp/guidelinesApp
+RUN ant && mv build/*.xar /tmp/apps/19-guidelinesApp.xar
+
 WORKDIR /tmp/BetMasInitInstance
 RUN jar cfM0 /tmp/stage-2/BetMasInitInstance.xar .
 
@@ -72,13 +86,15 @@ FROM ${BETMAS_DATA_IMAGE}
 ARG BETMASAPI_REF
 ARG BETMASWEB_REF
 ARG DILLMANN_REF
+ARG GUIDELINESAPP_REF
 ARG APP_COMMIT=unpinned
 LABEL org.opencontainers.image.source="https://github.com/BetaMasaheft/BetMas" \
-      org.opencontainers.image.description="BetaMasaheft app image: BetMasWeb + BetMasService + BetMasApi + parser + Dillmann on the betmas-data base" \
+      org.opencontainers.image.description="BetaMasaheft app image: BetMasWeb + BetMasService + BetMasApi + parser + Dillmann + Guidelines on the betmas-data base" \
       eu.betamasaheft.ref.betmas=${APP_COMMIT} \
       eu.betamasaheft.ref.betmasapi=${BETMASAPI_REF} \
       eu.betamasaheft.ref.betmasweb=${BETMASWEB_REF} \
-      eu.betamasaheft.ref.dillmann=${DILLMANN_REF}
+      eu.betamasaheft.ref.dillmann=${DILLMANN_REF} \
+      eu.betamasaheft.ref.guidelinesapp=${GUIDELINESAPP_REF}
 
 COPY --from=build /tmp/apps/*.xar /exist/autodeploy/
 
