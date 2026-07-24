@@ -74,7 +74,9 @@ RUN ant && mv build/*.xar /tmp/apps/16-Dillmann.xar
 ADD https://github.com/BetaMasaheft/Schema/releases/latest/download/betamas-schemas.xar /tmp/apps/17-Schema.xar
 ADD https://github.com/BetaMasaheft/guidelines/releases/latest/download/guidelines-data.xar /tmp/apps/18-GuidelinesData.xar
 ADD https://github.com/BetaMasaheft/guidelinesApp.git#${GUIDELINESAPP_REF} /tmp/guidelinesApp
-WORKDIR /tmp/guidelinesApp
+# unlike BetMasWeb/BetMasApi/Dillmann, this repo's build.xml lives in a
+# nested guidelines/ subdirectory, not the repo root
+WORKDIR /tmp/guidelinesApp/guidelines
 RUN ant && mv build/*.xar /tmp/apps/19-guidelinesApp.xar
 
 WORKDIR /tmp/BetMasInitInstance
