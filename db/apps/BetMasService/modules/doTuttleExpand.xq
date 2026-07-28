@@ -1,6 +1,6 @@
 module namespace tuttle-expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand";
 
-import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand" at "xmldb:exist:///db/apps/BetMas/modules/expand.xqm";
+import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand" at "xmldb:exist:///db/apps/BetMasService/modules/expand.xqm";
 
 declare %private function local:split-path ($path) {
 	let $filename := tokenize($path, "/")[last()]

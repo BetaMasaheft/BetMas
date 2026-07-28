@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-import module namespace gfb = "https://www.betamasaheft.uni-hamburg.de/BetMas/gfb" at "xmldb:exist:///db/apps/BetMas/modules/generateFormattedBibliography.xqm";
+import module namespace gfb = "https://www.betamasaheft.uni-hamburg.de/BetMas/gfb" at "xmldb:exist:///db/apps/BetMasService/modules/generateFormattedBibliography.xqm";
 
 let $collection := collection('/db/apps/BetMasData')
 return gfb:makeBib($collection)

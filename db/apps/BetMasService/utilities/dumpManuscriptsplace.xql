@@ -39,6 +39,6 @@ let $file :=
 )
 let $filename := 'allmanuscripts.ttl'
 return
-    xmldb:store('/db/apps/BetMas/ttl', $filename, $file )
+    xmldb:store('/db/apps/BetMasService/ttl', $filename, $file )
         
 
