@@ -57,15 +57,12 @@ import module namespace console = "http://exist-db.org/xquery/console";
  : along with this program.  If not, see <http://www.gnu.org/licenses/>.
  :)
 
-import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace config="http://betamasaheft.eu/parser/config" at "config.xqm";
 import module namespace functx = "http://www.functx.com";
 
 declare namespace f = "http://fidal.parser";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace http = "http://expath.org/ns/http-client";
-declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json="http://www.json.org";
 
 declare variable $morpho:collection:='parser';
@@ -100,16 +97,13 @@ declare variable $morpho:int := $morpho:letters//f:realization[@type='int']/text
  : even if the fidal parameter is not set, it will check if the input string is in Ethiopic and if it is not it will convert it to feed the rest of the functions only Fidal
  : returns the response in XML using the http://fidal.parser namespace
  :)
-declare
-%rest:GET
-%rest:path("/morpho/xml/{$query}")
-%rest:query-param("transcriptionType", "{$transcriptionType}", "BM")
-%rest:query-param("fidal", "{$fidal}", "true")					
-%rest:query-param("fuzzy", "{$fuzzy}", "false")
-%rest:query-param("NoDil", "{$NoDil}", "false")
-%rest:query-param("mismatch", "{$mismatch}", "false")
-%output:method("xml")
-function morpho:XML($query as xs:string?, $transcriptionType as xs:string*, $fidal as xs:string*, $fuzzy as xs:string*, $mismatch as xs:string*, $NoDil as xs:string*){
+declare function morpho:XML($request as map(*)){
+let $query := $request?parameters?query
+let $transcriptionType := $request?parameters?transcriptionType
+let $fidal := $request?parameters?fidal
+let $fuzzy := $request?parameters?fuzzy
+let $NoDil := $request?parameters?NoDil
+let $mismatch := $request?parameters?mismatch
 
 let $query := morpho:cleanQ($query, $fidal, $transcriptionType)
 return
@@ -141,17 +135,14 @@ return
 (:~
 : maps the results in the f: namespace to the alpheios xsd schema at https://raw.githubusercontent.com/alpheios-project/xml_ctl_files/master/schemas/trunk/lexicon.xsd
  :)
-declare
-%rest:GET
-%rest:path("/morpho/geta/{$query}")
-%rest:query-param("transcriptionType", "{$transcriptionType}", "BM")
-%rest:query-param("fidal", "{$fidal}", "true")
-%rest:query-param("fuzzy", "{$fuzzy}", "false")
-%rest:query-param("NoDil", "{$NoDil}", "false")
-%rest:query-param("mismatch", "{$mismatch}", "false")
-%output:method("xml")
-function morpho:GETA($query as xs:string?, $transcriptionType as xs:string*, $fidal as xs:string*, $fuzzy as xs:string*, $mismatch as xs:string*, $NoDil as xs:string*){
-$config:response200XML,
+declare function morpho:GETA($request as map(*)){
+let $query := $request?parameters?query
+let $transcriptionType := $request?parameters?transcriptionType
+let $fidal := $request?parameters?fidal
+let $fuzzy := $request?parameters?fuzzy
+let $NoDil := $request?parameters?NoDil
+let $mismatch := $request?parameters?mismatch
+return
 <results>
 <query   xml:lang="gez">{util:unescape-uri($query, 'UTF-8')}</query>
 {
@@ -276,17 +267,14 @@ return
 (:~
 : maps the results in the f: namespace to the alpheios xsd schema at https://raw.githubusercontent.com/alpheios-project/xml_ctl_files/master/schemas/trunk/lexicon.xsd
  :)
-declare
-%rest:GET
-%rest:path("/morpho/alpheios/{$query}")
-%rest:query-param("transcriptionType", "{$transcriptionType}", "BM")
-%rest:query-param("fidal", "{$fidal}", "true")
-%rest:query-param("fuzzy", "{$fuzzy}", "false")
-%rest:query-param("NoDil", "{$NoDil}", "false")
-%rest:query-param("mismatch", "{$mismatch}", "false")
-%output:method("xml")
-function morpho:ALPHEIOS($query as xs:string?, $transcriptionType as xs:string*, $fidal as xs:string*, $fuzzy as xs:string*, $mismatch as xs:string*, $NoDil as xs:string*){
-$config:response200XML,
+declare function morpho:ALPHEIOS($request as map(*)){
+let $query := $request?parameters?query
+let $transcriptionType := $request?parameters?transcriptionType
+let $fidal := $request?parameters?fidal
+let $fuzzy := $request?parameters?fuzzy
+let $NoDil := $request?parameters?NoDil
+let $mismatch := $request?parameters?mismatch
+return
 <words>
 <phrase   xml:lang="gez">{util:unescape-uri($query, 'UTF-8')}</phrase>
 {
@@ -402,17 +390,14 @@ return
  : even if the fidal parameter is not set, it will check if the input string is in Ethiopic and if it is not it will convert it to feed the rest of the functions only Fidal
  : returns the response as an HTML page with a form to perform further searches.
  :)
-declare
-%rest:GET
-%rest:path("/morpho")
-%rest:query-param("query", "{$query}", "")
-%rest:query-param("transcriptionType", "{$transcriptionType}", "BM")
-%rest:query-param("fidal", "{$fidal}", "true")
-%rest:query-param("fuzzy", "{$fuzzy}", "false")
-%rest:query-param("NoDil", "{$NoDil}", "false")
-%rest:query-param("mismatch", "{$mismatch}", "false")
-%output:method("html")
-function morpho:morphoparser($query as xs:string*, $transcriptionType as xs:string*, $fidal as xs:string*, $fuzzy as xs:string*, $NoDil as xs:string*,$mismatch as xs:string*){
+declare function morpho:morphoparser($request as map(*)){
+let $query := $request?parameters?query
+let $transcriptionType := $request?parameters?transcriptionType
+let $fidal := $request?parameters?fidal
+let $fuzzy := $request?parameters?fuzzy
+let $NoDil := $request?parameters?NoDil
+let $mismatch := $request?parameters?mismatch
+return
 <html>
 <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -647,12 +632,8 @@ else (<div class="alert alert-dismissible alert-info">No occurrences of this wor
  : the type of verb is guessed using morpho:guessType() on the basis of the root parameter.
  : the root can be any perfect form in the paradigm.
  :)
-declare
-%rest:GET
-%rest:path("/morpho/paradigm")
-%rest:query-param("root", "{$root}", "")
-%output:method("html")
-function morpho:morphoParadigm($root as xs:string*){
+declare function morpho:morphoParadigm($request as map(*)){
+let $root := $request?parameters?root
 let $root :=  util:unescape-uri($root, 'UTF-8')
 let $allrelevantPatterns := morpho:guessType($root, $morpho:patterns)
 (:let $test := console:log($allrelevantPatterns):)
@@ -760,18 +741,15 @@ return
  : To do this the root is parsed without awareness of prefixes and suffixes to the root itself
  : the result is returned as an HTML page with a table 
  :)
-declare
-%rest:GET
-%rest:path("/morpho/conj")
-%rest:query-param("root", "{$root}", "")
-%rest:query-param("mode", "{$mode}", "Perfect")
-%rest:query-param("group", "{$group}", "I")
-%rest:query-param("type", "{$type}", "1a")
-%rest:query-param("pronouns", "{$pronouns}", "false")
-%rest:query-param("transcriptionType", "{$transcriptionType}", "BM")
-%output:method("html")
-function morpho:morphoConjugation($root as xs:string*, $group as xs:string*, $type as xs:string*, $transcriptionType as xs:string*,$pronouns as xs:string*, $mode as xs:string*){
-(:conjugation can be done only knowing already the root of the specific type for that mode, so, starting from 1a2a3a is not possible, 
+declare function morpho:morphoConjugation($request as map(*)){
+let $root := $request?parameters?root
+let $group := $request?parameters?group
+let $type := $request?parameters?type
+let $transcriptionType := $request?parameters?transcriptionType
+let $pronouns := $request?parameters?pronouns
+let $mode := $request?parameters?mode
+return
+(:conjugation can be done only knowing already the root of the specific type for that mode, so, starting from 1a2a3a is not possible,
 it needs to know the exact starting point to attach prefixes and suffixes, 
 i.e. it can only occurr after the imput has been disambiguated.
 if user gives MAIN root, then the root can be built from pattern in patterns, based on the values of the parameters
@@ -866,13 +844,9 @@ $formtext
  : To do this the root is parsed without awareness of prefixes and suffixes to the root itself
  : the result is returned as an HTML page with a table 
  :)
-declare
-%rest:GET
-%rest:path("/morpho/decl")
-%rest:query-param("root", "{$root}", "")
-%rest:query-param("transcriptionType", "{$transcriptionType}", "BM")
-%output:method("html")
-function morpho:morphoDeclension($root as xs:string*, $transcriptionType as xs:string*){
+declare function morpho:morphoDeclension($request as map(*)){
+let $root := $request?parameters?root
+let $transcriptionType := $request?parameters?transcriptionType
 let $root :=  util:unescape-uri($root, 'UTF-8')(:identify the correct pattern for the root:)
 let $chars := functx:chars($root)
 let $parsed := morpho:standardGeneric($chars, $root)
@@ -939,11 +913,7 @@ $formtext
 (:~
  : lists all available patterns
  :)
-declare
-%rest:GET
-%rest:path("/morpho/patterns")
-%output:method("html")
-function morpho:morphoPatterns(){
+declare function morpho:morphoPatterns($request as map(*)){
 <html>
 <head>
 <meta charset="utf-8"/>
@@ -985,11 +955,7 @@ return
 (:~
  : lists all available affixes
  :)
-declare
-%rest:GET
-%rest:path("/morpho/affixes")
-%output:method("html")
-function morpho:morphoAffixes(){
+declare function morpho:morphoAffixes($request as map(*)){
 <html>
 <head>
 <meta charset="utf-8"/>
@@ -1033,11 +999,7 @@ return
 (:~
  : lists all available affixes
  :)
-declare
-%rest:GET
-%rest:path("/morpho/letters")
-%output:method("html")
-function morpho:morphoLetters(){
+declare function morpho:morphoLetters($request as map(*)){
 <html>
 <head>
 <meta charset="utf-8"/>
@@ -1100,15 +1062,11 @@ return <td>{$v/text()}</td>}
  : Given lexical item or a string looks in the traces texts for attestations, forms and morphological annotation.
  : type can be either lemma id or string
  :)
-declare
-%rest:GET
-%rest:path("/morpho/corpus")
-%rest:query-param("query", "{$query}", "")
-%rest:query-param("type", "{$type}", "")
-%output:method("html")
-function morpho:morphoCorpus($query as xs:string*, $type as xs:string*){
+declare function morpho:morphoCorpus($request as map(*)){
+let $query := $request?parameters?query
+let $type := $request?parameters?type
 
-let $query := if($type='string') then util:unescape-uri($query, 'UTF-8') else $query 
+let $query := if($type='string') then util:unescape-uri($query, 'UTF-8') else $query
 let $selector := if($type='lemma') (:lemma ID:)
 then (let $lemmas := $morpho:corpus//t:f[starts-with(.,$query)] return $lemmas[@name='lex']) 
 else (:string:)

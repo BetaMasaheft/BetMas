@@ -11,19 +11,7 @@ declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
 declare namespace jmx="http://exist-db.org/jmx";
 
-declare variable $config:response200XML := <rest:response>
-            <http:response
-                status="200">
-                <http:header
-                    name="Content-Type"
-                    value="application/xml; charset=utf-8"/>
-                <http:header
-                    name="Access-Control-Allow-Origin"
-                    value="*"
-                    />
-            </http:response>
-        </rest:response>;
-(: 
+(:
     Determine the application root collection from the current module load path.
 :)
 declare variable $config:app-root := 
