@@ -1,0 +1,186 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "parser Roaster router",
+    "description": "Internal route table for the Roaster OpenAPI router that replaces the RESTXQ (%rest:*) dispatch previously handled by eXist's built-in RestXqServlet.",
+    "version": "1.0.0"
+  },
+  "security": [],
+  "paths": {
+    "/morpho": {
+      "get": {
+        "operationId": "morpho:morphoparser",
+        "parameters": [
+          { "name": "query", "in": "query", "required": false, "schema": { "type": "string", "default": "" } },
+          { "name": "transcriptionType", "in": "query", "required": false, "schema": { "type": "string", "default": "BM" } },
+          { "name": "fidal", "in": "query", "required": false, "schema": { "type": "string", "default": "true" } },
+          { "name": "fuzzy", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } },
+          { "name": "NoDil", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } },
+          { "name": "mismatch", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/morpho/xml/{query}": {
+      "get": {
+        "operationId": "morpho:XML",
+        "parameters": [
+          { "name": "query", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "transcriptionType", "in": "query", "required": false, "schema": { "type": "string", "default": "BM" } },
+          { "name": "fidal", "in": "query", "required": false, "schema": { "type": "string", "default": "true" } },
+          { "name": "fuzzy", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } },
+          { "name": "NoDil", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } },
+          { "name": "mismatch", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "application/xml": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/morpho/geta/{query}": {
+      "get": {
+        "operationId": "morpho:GETA",
+        "parameters": [
+          { "name": "query", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "transcriptionType", "in": "query", "required": false, "schema": { "type": "string", "default": "BM" } },
+          { "name": "fidal", "in": "query", "required": false, "schema": { "type": "string", "default": "true" } },
+          { "name": "fuzzy", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } },
+          { "name": "NoDil", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } },
+          { "name": "mismatch", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "application/xml": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/morpho/alpheios/{query}": {
+      "get": {
+        "operationId": "morpho:ALPHEIOS",
+        "parameters": [
+          { "name": "query", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "transcriptionType", "in": "query", "required": false, "schema": { "type": "string", "default": "BM" } },
+          { "name": "fidal", "in": "query", "required": false, "schema": { "type": "string", "default": "true" } },
+          { "name": "fuzzy", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } },
+          { "name": "NoDil", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } },
+          { "name": "mismatch", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "application/xml": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/morpho/decl": {
+      "get": {
+        "operationId": "morpho:morphoDeclension",
+        "parameters": [
+          { "name": "root", "in": "query", "required": false, "schema": { "type": "string", "default": "" } },
+          { "name": "transcriptionType", "in": "query", "required": false, "schema": { "type": "string", "default": "BM" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/morpho/corpus": {
+      "get": {
+        "operationId": "morpho:morphoCorpus",
+        "parameters": [
+          { "name": "query", "in": "query", "required": false, "schema": { "type": "string", "default": "" } },
+          { "name": "type", "in": "query", "required": false, "schema": { "type": "string", "default": "" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/morpho/patterns": {
+      "get": {
+        "operationId": "morpho:morphoPatterns",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/morpho/affixes": {
+      "get": {
+        "operationId": "morpho:morphoAffixes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/morpho/letters": {
+      "get": {
+        "operationId": "morpho:morphoLetters",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/morpho/paradigm": {
+      "get": {
+        "operationId": "morpho:morphoParadigm",
+        "parameters": [
+          { "name": "root", "in": "query", "required": false, "schema": { "type": "string", "default": "" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/morpho/conj": {
+      "get": {
+        "operationId": "morpho:morphoConjugation",
+        "parameters": [
+          { "name": "root", "in": "query", "required": false, "schema": { "type": "string", "default": "" } },
+          { "name": "mode", "in": "query", "required": false, "schema": { "type": "string", "default": "Perfect" } },
+          { "name": "group", "in": "query", "required": false, "schema": { "type": "string", "default": "I" } },
+          { "name": "type", "in": "query", "required": false, "schema": { "type": "string", "default": "1a" } },
+          { "name": "pronouns", "in": "query", "required": false, "schema": { "type": "string", "default": "false" } },
+          { "name": "transcriptionType", "in": "query", "required": false, "schema": { "type": "string", "default": "BM" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    }
+  }
+}
