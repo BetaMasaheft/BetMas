@@ -41,7 +41,5 @@ return (
      sm:chmod(xs:anyURI('/db/apps/BetMasWeb/services.xml'), 'rw-r--r--')),
 
     (: Store tuttle configuration :)
-    xmldb:store('/db/apps/tuttle/data', 'tuttle.xml', doc('./tuttle.xml')),
-
-    util:eval(xs:anyURI('/db/apps/BetMasService/modules/registerRESTXQ.xql'))
+    xmldb:store('/db/apps/tuttle/data', 'tuttle.xml', doc('./tuttle.xml'))
 )
