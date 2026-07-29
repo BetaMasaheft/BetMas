@@ -27,7 +27,7 @@ jobs:
       - name: Check XQuery formatting
         run: |
           OUTPUT=$(npx prettier --check --log-level error 'db/**/*.{xq,xql,xqm,xquery}' 2>&1) || true
-          ERRORS=$(echo "$OUTPUT" | grep -c "^\[error\]" || echo "0")
+          ERRORS=$(echo "$OUTPUT" | grep -c "^\[error\]" || true)
           if [ "$ERRORS" -gt 0 ]; then
             echo "$OUTPUT"
             echo "Found $ERRORS parsing error(s)"
