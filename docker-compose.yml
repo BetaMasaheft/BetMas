@@ -18,11 +18,19 @@ services:
       # harmless otherwise. Matches collatex-service's own EXPOSE 17105 and
       # /collate endpoint.
       COLLATEX_URL: http://collatex:17105/collate
-  counter-app:
-    build: ./counter-app
-    image: ghcr.io/drrataplan/betamasaheft-counter-app:latest
+  betmas-id-manager:
+    # Build context is a sibling repo, not a subdirectory of this one - only
+    # resolvable for local dev when both repos are checked out side-by-side
+    # (../betmas-id-manager next to this BetMas checkout). CI/production must
+    # not `docker compose build` this service - rely on `image:` below
+    # (published by betmas-id-manager's own CI), same as collatex/qlever/
+    # iipsrv-fixtures.
+    build: ../betmas-id-manager
+    image: ghcr.io/betamasaheft/betmas-id-manager:latest
+    ports:
+      - "8081:8080"
     volumes:
-      - counter-data:/exist/data
+      - betmas-id-manager-data:/exist/data
 
   nginx:
     image: nginx:1.27-alpine
@@ -53,4 +61,4 @@ services:
     image: ghcr.io/betamasaheft/iipsrv-fixtures:main
 
 volumes:
-  counter-data:
+  betmas-id-manager-data:
