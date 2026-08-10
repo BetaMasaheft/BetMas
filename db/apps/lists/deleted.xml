@@ -845,7 +845,7 @@
                 <item corresp="UppEt11">UppEt30</item>
                 <item corresp="UppEt12">UppEt31</item>
                 <item corresp="UppEt15">UppEt32</item>
-            <item source="/db/apps/expanded/works/4001-5000/LIT4574MagicPr.xml" change="2025-11-06+01:00">LIT4574MagicPr</item>
+                <item source="/db/apps/expanded/works/4001-5000/LIT4574MagicPr.xml" change="2025-11-06+01:00">LIT4574MagicPr</item>
                 <item source="/db/apps/expanded/works/6001-7000/LIT6475PPNadara.xml" change="2025-11-06+01:00">LIT6475PPNadara</item>
                 <item source="/db/apps/expanded/works/4001-5000/LIT4574MagicPr.xml" change="2025-11-06+01:00">LIT4574MagicPr</item>
                 <item source="/db/apps/expanded/works/6001-7000/LIT6475PPNadara.xml" change="2025-11-06+01:00">LIT6475PPNadara</item>
@@ -864,8 +864,7 @@
                 <item source="/db/apps/expanded/works/1001-2000/LIT1176Ayneff.xml" change="2025-11-21+01:00">LIT1176Ayneff</item>
                 <item source="/db/apps/expanded/works/4001-5000/LIT4574MagicPr.xml" change="2025-11-21+01:00">LIT4574MagicPr</item>
                 <item source="/db/apps/expanded/works/6001-7000/LIT6475PPNadara.xml" change="2025-11-21+01:00">LIT6475PPNadara</item>
-                <item source="/db/apps/expanded/persons/new/PRS15124WalattaGiyorgis.xml" change="2025-12-02+01:00">PRS15124WalattaGiyorgis</item>
-                <item source="/db/apps/expanded/persons/new/PRS15124WalattaGiyorgis.xml" change="2025-12-02+01:00">PRS15124WalattaGiyorgis</item>
+                <item source="/db/apps/expanded/persons/new/PRS15124WalattaGiyorgis.xml" change="2025-12-02+01:00">PRS15124WalattaGiyorgis</item>                
                 <item source="/db/apps/expanded/works/5001-6000/LIT5699PrayeroftheblessedMary.xml" change="2025-12-09+01:00">LIT5699PrayeroftheblessedMary</item>
                 <item source="/db/apps/expanded/works/5001-6000/LIT5699PrayeroftheblessedMary.xml" change="2025-12-09+01:00">LIT5699PrayeroftheblessedMary</item>
                 <item source="/db/apps/expanded/works/6001-7000/LIT6614FourCreat.xml" change="2025-12-18+01:00">LIT6614FourCreat</item>
@@ -879,40 +878,30 @@
                 <item source="/db/apps/expanded/manuscripts/RomeALincei/ANLmisc125.xml" change="2026-01-05+01:00">ANLmisc125</item>
                 <item source="/db/apps/expanded/persons/new/PRS15183WaldaAbiyGabaz.xml" change="2026-01-06+01:00">PRS15183WaldaAbiyGabaz</item>
                 <item source="/db/apps/expanded/works/6001-7000/LIT6494SynConstr.xml" change="2026-02-03+01:00">LIT6494SynConstr</item>
-                <item source="/db/apps/expanded/places/.DS_Store" change="2026-02-04+01:00"/>
-                <item source="/db/apps/expanded/places/.DS_Store" change="2026-02-04+01:00"/>
                 <item source="/db/apps/expanded/persons/PRS6001-7000/PRS6011Yared.xml" change="2026-02-10+01:00">PRS6011Yared</item>
-                <item source="/db/apps/expanded/persons/PRS14001-15000/PRS14168Delmangasa.xml" change="2026-02-11+01:00">PRS14168Delmangasa</item>
+                <item source="/db/apps/expanded/persons/PRS14001-15000/PRS14168Delmangasa.xml" change="2026-02-11+01:00">PRS14168Delmangasa</item>                
                 <item source="/db/apps/expanded/persons/PRS3001-4000/PRS3491DelmaNe.xml" change="2026-02-11+01:00">PRS3491DelmaNe</item>
-                <item source="/db/apps/expanded/persons/PRS14001-15000/PRS14168Delmangasa.xml" change="2026-02-11+01:00">PRS14168Delmangasa</item>
-                <item source="/db/apps/expanded/persons/PRS3001-4000/PRS3491DelmaNe.xml" change="2026-02-11+01:00">PRS3491DelmaNe</item>
-                <item source="/db/apps/expanded/persons/new/PRS15213QasalaGiyorgis.xml" change="2026-02-19+01:00">PRS15213QasalaGiyorgis</item>
-                <item source="/db/apps/expanded/persons/new/PRS14518QasalaGiyorgis.xml" change="2026-02-19+01:00">PRS14518QasalaGiyorgis</item>
+                <item source="/db/apps/expanded/persons/new/PRS15213QasalaGiyorgis.xml" change="2026-02-19+01:00">PRS15213QasalaGiyorgis</item>                
                 <item source="/db/apps/expanded/persons/new/PRS15252HaylaMalak.xml" change="2026-02-19+01:00">PRS15252HaylaMalak</item>
-                <item source="/db/apps/expanded/authority-files/Binding/textile.xml" change="2026-02-23+01:00">textile</item>
-                <item source="/db/apps/expanded/authority-files/Binding/textile.xml" change="2026-02-23+01:00">textile</item>
-                <item source="/db/apps/expanded/persons/PRS11001-12000/PRS11150Marqos.xml" change="2026-03-04+01:00">PRS11150Marqos</item>
-                <item source="/db/apps/expanded/persons/PRS11001-12000/PRS11150Marqos.xml" change="2026-03-06+01:00">PRS11150Marqos</item>
+                <item source="/db/apps/expanded/authority-files/Binding/textile.xml" change="2026-02-23+01:00">textile</item>                
+                <item source="/db/apps/expanded/persons/PRS11001-12000/PRS11150Marqos.xml" change="2026-03-04+01:00">PRS11150Marqos</item>                
                 <item source="/db/apps/expanded/places/new/LOC7467Leca.xml" change="2026-03-21+01:00">LOC7467Leca</item>
                 <item source="/db/apps/expanded/works/new/LIT7809MaggMir.xml" change="2026-04-20+02:00">LIT7809MaggMir</item>
                 <item source="/db/apps/expanded/works/new/LIT7809MaggMir.xml" change="2026-04-20+02:00">LIT7809MaggMir</item>
-                <item source="/db/apps/expanded/persons/PRS7001-8000/PRS7621NurAhma.xml" change="2026-04-20+02:00">PRS7621NurAhma</item>
-                <item source="/db/apps/expanded/persons/PRS7001-8000/PRS7621NurAhma.xml" change="2026-04-20+02:00">PRS7621NurAhma</item>
+                <item source="/db/apps/expanded/persons/PRS7001-8000/PRS7621NurAhma.xml" change="2026-04-20+02:00">PRS7621NurAhma</item>                
                 <item source="/db/apps/expanded/works/new/LIT7810MiyazMir.xml" change="2026-05-04+02:00">LIT7810MiyazMir</item>
-                <item source="/db/apps/expanded/works/new/LIT7810MiyazMir.xml" change="2026-05-04+02:00">LIT7810MiyazMir</item>
-                <item source="/db/apps/expanded/works/new/LIT7811GenbMir.xml" change="2026-05-05+02:00">LIT7811GenbMir</item>
-                <item source="/db/apps/expanded/works/new/LIT7811GenbMir.xml" change="2026-05-05+02:00">LIT7811GenbMir</item>
-                <item source="/db/apps/expanded/works/6001-7000/LIT6632SalGabBetka.xml" change="2026-05-05+02:00">LIT6632SalGabBetka</item>
-                <item source="/db/apps/expanded/works/6001-7000/LIT6632SalGabBetka.xml" change="2026-05-05+02:00">LIT6632SalGabBetka</item>
-                <item source="/db/apps/expanded/works/6001-7000/LIT6632SalGabBetka.xml" change="2026-05-11+02:00">LIT6632SalGabBetka</item>
-                <item source="/db/apps/expanded/works/6001-7000/LIT6632SalGabBetka.xml" change="2026-05-12+02:00">LIT6632SalGabBetka</item>
+                 <item source="/db/apps/expanded/works/new/LIT7811GenbMir.xml" change="2026-05-05+02:00">LIT7811GenbMir</item>                
+                <item source="/db/apps/expanded/works/6001-7000/LIT6632SalGabBetka.xml" change="2026-05-05+02:00">LIT6632SalGabBetka</item>                
                 <item source="/db/apps/expanded/persons/new/PRS15362GabraIy.xml" change="2026-05-13+02:00">PRS15362GabraIy</item>
-                <item source="/db/apps/expanded/works/6001-7000/LIT6598CyrilJohn.xml" change="2026-05-27+02:00">LIT6598CyrilJohn</item>
-                <item source="/db/apps/expanded/works/6001-7000/LIT6598CyrilJohn.xml" change="2026-05-27+02:00">LIT6598CyrilJohn</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6598CyrilJohn.xml" change="2026-05-27+02:00">LIT6598CyrilJohn</item>                
                 <item source="/db/apps/expanded/persons/new/PRS15474GabraGi.xml" change="2026-06-26+02:00">PRS15474GabraGi</item>
                 <item source="/db/apps/expanded/persons/new/PRS15468ArayaSellase.xml" change="2026-07-06+02:00">PRS15468ArayaSellase</item>
-                <item source="/db/apps/expanded/persons/PRS5001-6000/PRS5742Johnthe.xml" change="2026-07-07+02:00">PRS5742Johnthe</item>
-                <item source="/db/apps/expanded/persons/PRS5001-6000/PRS5742Johnthe.xml" change="2026-07-07+02:00">PRS5742Johnthe</item>
+                <item source="/db/apps/expanded/persons/PRS5001-6000/PRS5742Johnthe.xml" change="2026-07-07+02:00">PRS5742Johnthe</item>                
+                <item source="/db/apps/expanded/manuscripts/EMIP/1-1000/EMIP00150.xml" change="2026-07-08+02:00">EMIP00150</item>
+                <item source="/db/apps/expanded/manuscripts/EMIP/1-1000/EMIP00683.xml" change="2026-07-08+02:00">EMIP00683</item>
+                <item source="/db/apps/expanded/manuscripts/EMIP/1-1000/EMIP00621.xml" change="2026-07-08+02:00">EMIP00621</item>
+                <item source="/db/apps/expanded/works/new/LIT7876Homily_by_Athanasius_of_Alexandria.xml" change="2026-07-08+02:00">LIT7876Homily_by_Athanasius_of_Alexandria</item>
+                <item source="/db/apps/expanded/works/new/LIT7876GHAthFri.xml" change="2026-07-08+02:00">LIT7876GHAthFri</item>
             </list>
         </body>
     </text>
