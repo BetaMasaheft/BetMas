@@ -111,7 +111,11 @@ RUN jar cfM0 /tmp/dependencies/corpora.xar .
 
 ADD https://github.com/BetaMasaheft/bibliography.git#${BIBLIOGRAPHY_REF} /tmp/bibliography
 WORKDIR /tmp/bibliography
-RUN jar cfM0 /tmp/dependencies/EthioStudies.xar .
+# Whitelist: TEI cache + citeproc HTML caches. Not Pages/CSL/Node.
+RUN jar cfM0 /tmp/dependencies/EthioStudies.xar \
+    EthioStudies.xml citations.xml citations-url-doi.xml \
+    citations-short.xml citations-short-main.xml \
+    expath-pkg.xml repo.xml
 
 # -- expanded corpus (private repo; BuildKit secret, token never in a layer) --
 RUN --mount=type=secret,id=github_token \
