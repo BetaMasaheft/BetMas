@@ -1,0 +1,28 @@
+.github/workflows/build-data.yml
+  s_1544e160683453::t_3b0cb3fd2a8799 119
+  s_1544e160683453::t_a6bf301d345d52 7-9
+  s_1544e160683453::t_45938a1b58900a 16
+  s_1544e160683453::t_5f3ed14a5f345a 69
+docker/data.Dockerfile
+  s_1544e160683453::t_c519beab4656ed 162
+  s_1544e160683453::t_6a89de7ab7daa9 112-115
+  s_1544e160683453::t_814efd4433f187 48
+  s_1544e160683453::t_0989ceae57b208 33
+  s_1544e160683453::t_745bf0c7a95b62 139
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "92fec4b23af0475a794e87faf4e10eb9689a9730",
+  "prompts": {},
+  "sessions": {
+    "s_1544e160683453": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "9068b082-e053-4108-a625-480faaadd278",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
