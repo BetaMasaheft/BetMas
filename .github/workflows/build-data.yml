@@ -4,15 +4,16 @@ name: Build Data Base Image
 # into ghcr.io/betamasaheft/betmas-data. Nothing waits on this interactively —
 # app images layer on top of the most recent published base.
 #
-# Triggers: weekly cron, manual dispatch, and repository_dispatch sent by the
-# expanded repo when its main branch moves.
+# Triggers: weekly cron, manual dispatch, and repository_dispatch sent by
+# expanded (expanded-updated) or bibliography (bibliography-updated) when
+# those snapshots move.
 
 on:
   workflow_dispatch:
   schedule:
     - cron: "30 1 * * 1"
   repository_dispatch:
-    types: [expanded-updated]
+    types: [expanded-updated, bibliography-updated]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
@@ -65,6 +66,7 @@ jobs:
             echo "narrative=$(resolve Narrative master)"
             echo "studies=$(resolve Studies master)"
             echo "corpora=$(resolve corpora main)"
+            echo "bibliography=$(resolve bibliography master)"
             expanded=$(git ls-remote "https://x-access-token:${{ secrets.BOT_CONTAINER_PAT }}@github.com/BetaMasaheft/expanded.git" refs/heads/main | cut -f1)
             echo "expanded=$expanded"
             echo "expanded_short=${expanded:0:9}"
@@ -114,6 +116,7 @@ jobs:
             NARRATIVE_REF=${{ steps.refs.outputs.narrative }}
             STUDIES_REF=${{ steps.refs.outputs.studies }}
             CORPORA_REF=${{ steps.refs.outputs.corpora }}
+            BIBLIOGRAPHY_REF=${{ steps.refs.outputs.bibliography }}
             EXPANDED_REF=${{ steps.refs.outputs.expanded }}
           cache-from: type=gha,scope=data
           # ignore-error: a failed cache export must not fail an otherwise successful build

@@ -30,6 +30,7 @@ ARG INSTITUTIONS_REF=master
 ARG NARRATIVE_REF=master
 ARG STUDIES_REF=master
 ARG CORPORA_REF=main
+ARG BIBLIOGRAPHY_REF=master
 ARG EXPANDED_REF=main
 
 # builder ships JDK (jar doubles as zip), git, curl, ant — no apt needed
@@ -44,6 +45,7 @@ ARG INSTITUTIONS_REF
 ARG NARRATIVE_REF
 ARG STUDIES_REF
 ARG CORPORA_REF
+ARG BIBLIOGRAPHY_REF
 ARG EXPANDED_REF
 
 RUN mkdir /tmp/dependencies
@@ -107,6 +109,10 @@ ADD https://github.com/BetaMasaheft/corpora.git#${CORPORA_REF} /tmp/corpora
 WORKDIR /tmp/corpora
 RUN jar cfM0 /tmp/dependencies/corpora.xar .
 
+ADD https://github.com/BetaMasaheft/bibliography.git#${BIBLIOGRAPHY_REF} /tmp/bibliography
+WORKDIR /tmp/bibliography
+RUN jar cfM0 /tmp/dependencies/EthioStudies.xar .
+
 # -- expanded corpus (private repo; BuildKit secret, token never in a layer) --
 RUN --mount=type=secret,id=github_token \
     TOKEN=$(cat /run/secrets/github_token) && \
@@ -130,6 +136,7 @@ ARG INSTITUTIONS_REF
 ARG NARRATIVE_REF
 ARG STUDIES_REF
 ARG CORPORA_REF
+ARG BIBLIOGRAPHY_REF
 ARG EXPANDED_REF
 
 COPY --from=build /tmp/dependencies/*.xar /exist/autodeploy
@@ -152,6 +159,7 @@ LABEL org.opencontainers.image.title="betmas-data" \
       eu.betamasaheft.ref.narrative=${NARRATIVE_REF} \
       eu.betamasaheft.ref.studies=${STUDIES_REF} \
       eu.betamasaheft.ref.corpora=${CORPORA_REF} \
+      eu.betamasaheft.ref.bibliography=${BIBLIOGRAPHY_REF} \
       eu.betamasaheft.ref.expanded=${EXPANDED_REF}
 
 EXPOSE 8080
