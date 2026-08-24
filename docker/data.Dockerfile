@@ -111,7 +111,9 @@ RUN jar cfM0 /tmp/dependencies/corpora.xar .
 
 ADD https://github.com/BetaMasaheft/bibliography.git#${BIBLIOGRAPHY_REF} /tmp/bibliography
 WORKDIR /tmp/bibliography
-RUN jar cfM0 /tmp/dependencies/EthioStudies.xar .
+# Whitelist: expand.xqm only reads the TEI cache. Do not jar Pages/CSL/bin.
+RUN jar cfM0 /tmp/dependencies/EthioStudies.xar \
+    EthioStudies.xml expath-pkg.xml repo.xml
 
 # -- expanded corpus (private repo; BuildKit secret, token never in a layer) --
 RUN --mount=type=secret,id=github_token \
