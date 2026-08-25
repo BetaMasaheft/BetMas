@@ -10,4 +10,4 @@ README.md
 *.md
 .prettierrc.js
 .prettierignore
-
+docker-compose.yml

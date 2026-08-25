@@ -1,4 +1,4 @@
-let $app_url := fn:environment-variable('APP_URL')
+let $app_url := fn:environment-variable("APP_URL")
 let $loc_module :=
 ``[xquery version "3.1";
 
@@ -22,24 +22,31 @@ declare variable $loc:appUrl := "`{$app_url}`";
    autodeploy, first container start) and not in BetMasWeb's own
    post-install, which runs during the image build where the runtime
    environment is not yet set. :)
-let $services :=
-    <services>{
-        for $env in ('COLLATEX_URL', 'FUSEKI_URL')
-        let $value := fn:environment-variable($env)
-        where normalize-space($value) != ''
-        return <service env="{$env}">{normalize-space($value)}</service>
-    }</services>
+let $services := <services>
+	{
+		for $env in ("COLLATEX_URL", "FUSEKI_URL", "ID_MANAGER_URL")
+		let $value := fn:environment-variable($env)
+		where normalize-space($value) != ""
+		return <service env="{ $env }">{ normalize-space($value) }</service>
+	}
+</services>
 
-let $_ := util:log('info', 'Storing ' || $app_url || ' as the root of the application.	')
+let $_ := util:log("info", "Storing " || $app_url || " as the root of the application.	")
 
 return (
-    xmldb:store('/db/apps/BetMasWeb/modules', 'loc.xqm', $loc_module),
-
-    (: guest must be able to read but never write this document: it holds
+	xmldb:store("/db/apps/BetMasWeb/modules", "loc.xqm", $loc_module),
+	(: guest must be able to read but never write this document: it holds
        URLs the server itself will POST to :)
-    (xmldb:store('/db/apps/BetMasWeb', 'services.xml', $services),
-     sm:chmod(xs:anyURI('/db/apps/BetMasWeb/services.xml'), 'rw-r--r--')),
+	(
+		xmldb:store("/db/apps/BetMasWeb", "services.xml", $services),
+		sm:chmod(xs:anyURI("/db/apps/BetMasWeb/services.xml"), "rw-r--r--")
+	),
+	(: Store tuttle configuration :)
+	xmldb:store("/db/apps/tuttle/data", "tuttle.xml", doc("./tuttle.xml")),
+	(: Add the scratchpad for any new files. They are created here so they can be downloaded right away. :)
 
-    (: Store tuttle configuration :)
-    xmldb:store('/db/apps/tuttle/data', 'tuttle.xml', doc('./tuttle.xml'))
+	for $col in xmldb:get-child-collections("/db/apps/expanded")
+	let $newCollection := xmldb:create-collection("/db/apps/expanded/" || $col, "new")
+	(: And allow editors to write to it :)
+	return (sm:chgrp($newCollection, "Cataloguers"), sm:chmod($newCollection, "rwxrwxr-x"))
 )
