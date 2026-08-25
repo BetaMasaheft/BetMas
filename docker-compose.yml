@@ -20,8 +20,8 @@ services:
       COLLATEX_URL: http://collatex:17105/collate
       # betmas-id-manager isn't profile-gated like the services above - it's
       # a core dependency of edit/save-new-entity.xql now. Internal
-      # container port (8080), not the host-published one (8081) below.
-      ID_MANAGER_URL: http://betmas-id-manager:8080/exist/apps/betmas-id-manager
+      # container port (8080), no public port there, no need.
+      ID_MANAGER_URL: http://betmas-id-manager:8080
 
   betmas-id-manager:
     # Build context is a sibling repo, not a subdirectory of this one - only
@@ -32,10 +32,14 @@ services:
     # iipsrv-fixtures.
     build: ../betmas-id-manager
     image: ghcr.io/betamasaheft/betmas-id-manager:latest
-    ports:
-      - "8081:8080"
     volumes:
-      - betmas-id-manager-data:/exist/data
+      - betmas-id-manager-data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/types"]
+      interval: 5s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
 
   nginx:
     image: nginx:1.27-alpine
