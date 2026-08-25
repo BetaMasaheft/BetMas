@@ -18,6 +18,11 @@ services:
       # harmless otherwise. Matches collatex-service's own EXPOSE 17105 and
       # /collate endpoint.
       COLLATEX_URL: http://collatex:17105/collate
+      # betmas-id-manager isn't profile-gated like the services above - it's
+      # a core dependency of edit/save-new-entity.xql now. Internal
+      # container port (8080), not the host-published one (8081) below.
+      ID_MANAGER_URL: http://betmas-id-manager:8080/exist/apps/betmas-id-manager
+
   betmas-id-manager:
     # Build context is a sibling repo, not a subdirectory of this one - only
     # resolvable for local dev when both repos are checked out side-by-side
