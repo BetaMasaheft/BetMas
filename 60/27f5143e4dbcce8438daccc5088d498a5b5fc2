@@ -1,0 +1,23 @@
+test/app-image-expand.bats
+  s_1544e160683453::t_db54a31802472d 1-32
+.github/workflows/bats-test.yml
+  s_1544e160683453::t_25b3562f0c82f7 3-5,79-82
+package.json
+  s_1544e160683453::t_c8caae1e66924f 14-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "6027f5143e4dbcce8438daccc5088d498a5b5fc2",
+  "prompts": {},
+  "sessions": {
+    "s_1544e160683453": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "9068b082-e053-4108-a625-480faaadd278",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
