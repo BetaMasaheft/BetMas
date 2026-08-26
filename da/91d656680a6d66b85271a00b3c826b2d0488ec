@@ -1,0 +1,25 @@
+test/restore-users-from-volume.bats
+  s_5790d61a112fab::t_2c990cad42b83b 17-24
+  s_5790d61a112fab::t_7ca7cb2c11882f 79-82,99-102
+  s_5790d61a112fab::t_ddb2efdd5c9ce6 83-97
+  s_5790d61a112fab::t_312ae9f6e5a089 140,147,155
+  s_5790d61a112fab::t_c9145c1c5351f6 150-154
+  s_5790d61a112fab::t_dc8f2570c4c17f 98
+  s_5790d61a112fab::t_3cbc6df35659e7 145
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "da91d656680a6d66b85271a00b3c826b2d0488ec",
+  "prompts": {},
+  "sessions": {
+    "s_5790d61a112fab": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "afee661f-7272-43aa-9fa9-756d05500b88",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
