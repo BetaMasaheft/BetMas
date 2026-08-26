@@ -74,7 +74,7 @@ return if (empty($usersVolumeDirectory) or not(file:is-directory($usersVolumeDir
 	let $_ := util:log("info", "Creating user from volume with name " || $username)
 	return (
 		if (sm:user-exists($username)) then (
-			(: User is already there. Do not create, but oerwrite password anyway :)
+			(: User is already there. Do not create, but overwrite password anyway :)
 		) else (
 			sm:create-account($username, "unused-overwritten-below", $primaryGroup, $primaryGroup, "")
 		),
@@ -84,5 +84,47 @@ return if (empty($usersVolumeDirectory) or not(file:is-directory($usersVolumeDir
 		return sm:add-group-member($g, $username),
 		for $m in $account/*:metadata
 		return sm:set-account-metadata($username, xs:anyURI($m/@key/string()), $m/string())
+	)
+),
+(:~
+ : Register the account-persistence trigger (BetMasService/modules/userAccountTrigger.xqm,
+ : which delegates to userAccountSync.xqm) on eXist's own accounts
+ : collection, so every account create/update/delete - from these
+ : endpoints, the self-service scripts, or anywhere else - gets mirrored
+ : into the users volume and survives a container redeploy.
+ : Per https://exist-db.org/exist/apps/doc/triggers , a collection's config
+ : must live at exactly /db/system/config + its own path, so this collection's
+ : config is /db/system/config/db/system/security/exist/accounts/collection.xconf.
+ : xmldb:create-collection needs each parent to exist first, so walk it down
+ : the same way as the /db/apps/expanded/* placeholders above.
+ :)
+let $configAccountsCollection := "/db/system/config/db/system/security/exist/accounts"
+return (
+	if (xmldb:collection-available($configAccountsCollection)) then (
+	) else (
+		if (xmldb:collection-available("/db/system/config/db")) then (
+		) else
+			xmldb:create-collection("/db/system/config", "db"),
+		if (xmldb:collection-available("/db/system/config/db/system")) then (
+		) else
+			xmldb:create-collection("/db/system/config/db", "system"),
+		if (xmldb:collection-available("/db/system/config/db/system/security")) then (
+		) else
+			xmldb:create-collection("/db/system/config/db/system", "security"),
+		if (xmldb:collection-available("/db/system/config/db/system/security/exist")) then (
+		) else
+			xmldb:create-collection("/db/system/config/db/system/security", "exist"),
+		xmldb:create-collection("/db/system/config/db/system/security/exist", "accounts")
+	),
+	xmldb:store(
+		$configAccountsCollection,
+		"collection.xconf",
+		<collection xmlns="http://exist-db.org/collection-config/1.0">
+			<triggers>
+				<trigger class="org.exist.collections.triggers.XQueryTrigger" event="create,update,delete">
+					<parameter name="url" value="xmldb:exist:///db/apps/BetMasService/modules/userAccountTrigger.xqm" />
+				</trigger>
+			</triggers>
+		</collection>
 	)
 )

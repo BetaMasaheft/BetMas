@@ -10,7 +10,8 @@
   "scripts": {
     "format:check": "prettier --check 'db/**/*.{xq,xql,xqm,xquery,js}'",
     "format:check:errors": "prettier --check --log-level error 'db/**/*.{xq,xql,xqm,xquery,js}'",
-    "format:write": "prettier --write 'db/**/*.{xq,xql,xqm,xquery,js}'"
+    "format:write": "prettier --write 'db/**/*.{xq,xql,xqm,xquery,js}'",
+    "test:restore-users": "bats --tap test/restore-users-from-volume.bats"
   }
 }
 
