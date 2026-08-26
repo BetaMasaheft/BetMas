@@ -1,0 +1,88 @@
+name: Bats Tests
+
+# Runs the repo's bats integration suite (test/*.bats) against the real
+# published app image + docker compose, e.g. test/restore-users-from-volume.bats
+# which proves accounts survive a redeploy via the users volume (see that
+# file's header for the full mechanism).
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  bats:
+    name: Run bats tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # The betmas image pulled below is ~11GB+ once layered - the default
+      # runner disk is too tight for it alongside everything else.
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          build-mount-path: /var/lib/docker/
+          remove-dotnet: "true"
+          remove-android: "true"
+          remove-haskell: "true"
+          remove-codeql: "true"
+          remove-docker-images: "true"
+          root-reserve-mb: 4096
+          temp-reserve-mb: 1024
+
+      - name: Restart docker
+        run: sudo service docker restart
+
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "lts/*"
+
+      - name: Install bats, ant, xst
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bats ant zip
+          npm install -g @existdb/xst
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: betmas-bot
+          password: ${{ secrets.BOT_CONTAINER_PAT }}
+
+      - name: Start betmas container
+        run: |
+          docker compose pull betmas
+          docker compose up -d betmas
+
+      - name: Wait for eXist to be healthy
+        run: |
+          timeout 300 bash -c '
+            until [ "$(docker inspect -f "{{.State.Health.Status}}" "$(docker compose ps -q betmas)" 2>/dev/null)" = "healthy" ]; do
+              sleep 2
+            done
+          '
+
+      - name: Run bats tests
+        run: npm run test:restore-users
+
+      - name: Dump betmas logs on failure
+        if: failure()
+        run: docker compose logs betmas
+
+      - name: Tear down
+        if: always()
+        run: docker compose down -v
