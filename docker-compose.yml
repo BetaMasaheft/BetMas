@@ -22,7 +22,11 @@ services:
       # a core dependency of edit/save-new-entity.xql now. Internal
       # container port (8080), no public port there, no need.
       ID_MANAGER_URL: http://betmas-id-manager:8080
-
+      # Users will be reset whenever the container gets recreated (no colume for data). So users are
+      # exported automatically to a volume and loaded whenever we boot the container
+      USERS_VOLUME_DIRECTORY: /betmas-users-data
+    volumes:
+      - betmas-users-data:/betmas-users-data
   betmas-id-manager:
     image: ghcr.io/betamasaheft/betmas-id-manager:latest
     volumes:
@@ -58,3 +62,4 @@ services:
 
 volumes:
   betmas-id-manager-data:
+  betmas-users-data:
