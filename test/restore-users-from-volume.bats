@@ -57,12 +57,13 @@ deploy_all() {
 	local init_dir="db/apps/BetMasInitInstance"
 
 	( cd "$svc_dir" && ant >/dev/null )
-	EXISTDB_SERVER=http://localhost:8082/ EXISTDB_PASS='' \
+	EXISTDB_SERVER=http://localhost:8082/ EXISTDB_USER=admin EXISTDB_PASS='' \
 		xst package install "$svc_dir"/build/*.xar --force
 
+	mkdir -p "$init_dir/build"
 	rm -f "$init_dir/build/betmas-init.xar"
 	( cd "$init_dir" && zip -q -r build/betmas-init.xar finish.xq repo.xml expath-pkg.xml tuttle.xml )
-	EXISTDB_SERVER=http://localhost:8082/ EXISTDB_PASS='' \
+	EXISTDB_SERVER=http://localhost:8082/ EXISTDB_USER=admin EXISTDB_PASS='' \
 		xst package install "$init_dir/build/betmas-init.xar" --force
 }
 
