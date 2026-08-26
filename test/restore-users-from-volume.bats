@@ -14,11 +14,14 @@
 # BetMasService + betmas-init packages, simulates a redeploy by recreating
 # the `betmas` compose service (which discards its ephemeral /db - accounts
 # included, since nothing mounts /exist/data - while the betmas-users-data
-# *volume* survives), then reinstalls both packages again (mirroring how a
-# fresh image boot autodeploys everything) and confirms the account that
-# existed before recreation is back, with the exact same password hash it
-# had before (not a freshly re-hashed one). A final test confirms deleting
-# an account also removes its volume copy.
+# *volume* survives), then confirms the account that existed before
+# recreation is back - restored automatically by BetMasInitInstance.xar's
+# own autodeploy hook (it lives in /exist/autodeploy/, so it reinstalls
+# and re-runs finish.xq on any boot from a fresh /db, this recreate
+# included - not something that needs an explicit reinstall to trigger).
+# A further explicit reinstall is then shown to be a safe no-op that
+# doesn't corrupt the already-restored password hash. A final test
+# confirms deleting an account also removes its volume copy.
 #
 # Run: npm run test:restore-users  (or: bats --tap test/restore-users-from-volume.bats)
 # Requires: the `betmas` compose service already has betmas-users-data
@@ -73,6 +76,30 @@ wait_healthy() {
 	done
 }
 
+# Docker's own healthcheck only proves eXist's query engine is responding -
+# not that BetMasInitInstance.xar's autodeploy-triggered finish.xq (which
+# does the actual account restore) has finished running. Confirmed
+# empirically: right as "healthy" first turns true after a fresh-/db boot,
+# finish.xq can still be mid-execution. Poll for the actual condition we
+# care about directly, rather than an indirect "is finish.xq done" proxy -
+# an earlier version of this polled xmldb:collection-available() on the
+# collection.xconf finish.xq stores as its very last step, reasoning that
+# if the last effect landed the earlier ones (including the restore) must
+# have too, which is true in principle but that specific check inherits
+# the exact stale in-memory-collection-cache quirk restart_and_wait_healthy
+# below already works around for a different reason - unreliable for
+# this too, so it's not a safe thing to poll on. Bounded rather than
+# unbounded: a real regression here should fail loudly, not hang CI.
+wait_for_account() {
+	local user="$1"
+	local tries=0
+	until [ "$(exist_query "sm:user-exists('$user')")" = "true" ]; do
+		tries=$((tries + 1))
+		[ "$tries" -lt 60 ] || return 1
+		sleep 1
+	done
+}
+
 # A collection's trigger config, once loaded into a long-running server's
 # in-memory collection cache, does not reliably pick up a later
 # collection.xconf change without a restart - confirmed empirically. This
@@ -110,16 +137,22 @@ create_test_account() {
 	echo "$hash" >"$BATS_FILE_TMPDIR/hash_before"
 }
 
-@test "account is gone after a full container recreation (simulated redeploy)" {
+@test "account is automatically restored after a full container recreation (simulated redeploy)" {
 	local user
 	user=$(cat "$BATS_FILE_TMPDIR/testuser")
 	docker compose up -d --force-recreate betmas >/dev/null
 	wait_healthy
+	wait_for_account "$user"
 	run exist_query "sm:user-exists('$user')"
-	[ "$output" = "false" ]
+	[ "$output" = "true" ]
 }
 
-@test "reinstalling packages restores the account with its original password hash" {
+# Deliberately not checking the password hash here (only existence, above)
+# - the account restored via this bare-autodeploy path has a real, already
+# reproduced and filed hash mismatch (BetaMasaheft/BetMas#160), separate
+# from what this file is fixing. Hash fidelity is checked below instead,
+# on the explicit-reinstall path, which doesn't have that bug.
+@test "reinstalling packages is a safe no-op that doesn't corrupt the restored account" {
 	local user hash_before hash_after
 	user=$(cat "$BATS_FILE_TMPDIR/testuser")
 	hash_before=$(cat "$BATS_FILE_TMPDIR/hash_before")
