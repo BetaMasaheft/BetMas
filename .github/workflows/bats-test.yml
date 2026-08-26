@@ -1,9 +1,8 @@
 name: Bats Tests
 
-# Runs the repo's bats integration suite (test/*.bats) against the real
-# published app image + docker compose, e.g. test/restore-users-from-volume.bats
-# which proves accounts survive a redeploy via the users volume (see that
-# file's header for the full mechanism).
+# Runs the repo's bats integration suite against the published app image
+# + docker compose: app-image expand contracts (EthioStudies / batchExpand),
+# then restore-users-from-volume (accounts survive redeploy via users volume).
 
 on:
   push:
@@ -77,7 +76,10 @@ jobs:
           '
 
       - name: Run bats tests
-        run: npm run test:restore-users
+        run: |
+          # Read-only image contracts first; restore-users mutates the container.
+          npm run test:app-image
+          npm run test:restore-users
 
       - name: Dump betmas logs on failure
         if: failure()
