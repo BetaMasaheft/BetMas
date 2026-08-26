@@ -24,22 +24,9 @@ services:
       ID_MANAGER_URL: http://betmas-id-manager:8080
 
   betmas-id-manager:
-    # Build context is a sibling repo, not a subdirectory of this one - only
-    # resolvable for local dev when both repos are checked out side-by-side
-    # (../betmas-id-manager next to this BetMas checkout). CI/production must
-    # not `docker compose build` this service - rely on `image:` below
-    # (published by betmas-id-manager's own CI), same as collatex/qlever/
-    # iipsrv-fixtures.
-    build: ../betmas-id-manager
     image: ghcr.io/betamasaheft/betmas-id-manager:latest
     volumes:
       - betmas-id-manager-data:/data
-    healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/types"]
-      interval: 5s
-      timeout: 3s
-      start_period: 5s
-      retries: 3
 
   nginx:
     image: nginx:1.27-alpine
