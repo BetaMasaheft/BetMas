@@ -22,11 +22,11 @@ query() {
 }
 
 @test "BetMasWeb ships batchExpand.xqm" {
-	run query 'doc-available("/db/apps/BetMasWeb/modules/batchExpand.xqm")'
+	run query '"batchExpand.xqm" = xmldb:get-child-resources("/db/apps/BetMasWeb/modules")'
 	[ "$output" = "true" ]
 }
 
 @test "BetMasWeb ships makeExpand.xql" {
-	run query 'doc-available("/db/apps/BetMasWeb/modules/makeExpand.xql")'
+	run query '"makeExpand.xql" = xmldb:get-child-resources("/db/apps/BetMasWeb/modules")'
 	[ "$output" = "true" ]
 }
