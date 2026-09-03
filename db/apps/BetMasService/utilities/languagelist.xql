@@ -1,7 +1,7 @@
  xquery version "3.1";
  declare namespace t="http://www.tei-c.org/ns/1.0";
 (: used to update the list of languages :)
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMasService/modules/config.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 
 declare variable $local:range-lookup := 
     (

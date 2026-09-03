@@ -5,7 +5,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace http = "http://expath.org/ns/http-client";
 
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMasService/modules/titles.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMasService/modules/config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 
 let $cats := $config:collection-rootMS//t:listBibl[@type='catalogue']
    for $catalogue in distinct-values($cats//t:ptr/@target)

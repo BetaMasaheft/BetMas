@@ -6,7 +6,7 @@ xquery version "3.1" encoding "UTF-8";
  : with load of help from Ethan Gruber
  :)
 module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki';
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMasService/modules/config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace sr = "http://www.w3.org/2005/sparql-results#";

@@ -5,7 +5,7 @@ import module namespace http = "http://expath.org/ns/http-client";
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
 import module namespace places = "https://www.betamasaheft.uni-hamburg.de/BetMas/places" at "places.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace all = "https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
 
 

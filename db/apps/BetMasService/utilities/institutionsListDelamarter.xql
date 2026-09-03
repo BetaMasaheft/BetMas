@@ -4,7 +4,7 @@
  declare namespace t="http://www.tei-c.org/ns/1.0";
  
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMasService/modules/titles.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMasService/modules/config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 
 declare variable $local:shortTitles := $config:collection-rootIn//t:titleStmt/t:title[@type='short'] ;
 

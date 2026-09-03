@@ -6,7 +6,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 declare namespace feed = "http://www.w3.org/2005/Atom";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMasService/modules/config.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 import module namespace hc = "http://expath.org/ns/http-client";
 (: these lists are separately indexed here in the app with the collection.xconf for BetMas :)

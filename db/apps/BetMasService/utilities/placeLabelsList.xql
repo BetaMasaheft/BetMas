@@ -4,7 +4,6 @@ xquery version "3.1";
  declare namespace t="http://www.tei-c.org/ns/1.0";
  
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMasService/modules/titles.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMasService/modules/config.xqm";
 
 
 let $pl1 := collection('/db/apps/BetMasData/')//t:relation/@passive[contains(.,'LOC')]

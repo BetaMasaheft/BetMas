@@ -4,7 +4,7 @@ xquery version "3.0";
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
 import module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apprest" at "xmldb:exist:///db/apps/BetMasWeb/modules/apprest.xqm";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMasService/modules/config.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
 for $item in collection($config:data-rootMS)//t:TEI
