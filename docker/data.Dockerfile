@@ -151,6 +151,11 @@ ARG EXPANDED_REF
 
 COPY --from=build /tmp/dependencies/*.xar /exist/autodeploy
 
+# stock duncdrum/existdb conf.xml with the RESTXQ startup trigger dropped
+# (BetMas registers no %rest: endpoints). Re-sync from the base image on any
+# EXISTDB_VERSION bump — see the header of docker/conf.xml.
+COPY docker/conf.xml /exist/etc/conf.xml
+
 # boot once so autodeploy runs and the collection indexes bake into the image
 RUN [ "java", "org.exist.start.Main", "client", "--no-gui", "-l", "-u", "admin", "-P", "", "-x", "'HelloWorld!!'" ]
 
