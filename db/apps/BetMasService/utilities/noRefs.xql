@@ -3,7 +3,7 @@ xquery version "3.0";
  :this is a module requested by the user where a query is run to find out which entries and id are never referred to in a given collection 
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
-import module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMasService/modules/apprest.xqm";
+import module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apprest" at "xmldb:exist:///db/apps/BetMasWeb/modules/apprest.xqm";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMasService/modules/config.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 

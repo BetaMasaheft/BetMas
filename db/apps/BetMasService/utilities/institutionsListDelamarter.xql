@@ -8,7 +8,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 
 declare variable $local:shortTitles := $config:collection-rootIn//t:titleStmt/t:title[@type='short'] ;
 
-    for $repo in doc('/db/apps/BetMasService/lists/institutions.xml')//t:item
+    for $repo in doc('/db/apps/lists/institutions.xml')//t:item
     let $repoID := string($repo/@xml:id)
     let $file := $config:collection-rootIn//id($repoID)
     let $threeletters :=  if($file//t:titleStmt/t:title[@type='short']) then 'EMML, ' || $file//t:titleStmt/t:title[@type='short'] else 
