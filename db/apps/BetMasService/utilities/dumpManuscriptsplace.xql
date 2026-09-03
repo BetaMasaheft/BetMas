@@ -6,7 +6,6 @@ import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app"
 import module namespace places = "https://www.betamasaheft.uni-hamburg.de/BetMas/places" at "places.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
-import module namespace all = "https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
 
 
 let $c := collection($config:data-rootMS)
