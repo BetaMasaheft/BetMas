@@ -59,7 +59,7 @@ RUN mkdir /tmp/dependencies
 ARG CRYPTO_VERSION=6.0.1
 ARG SHARED_VERSION=0.9.1
 ARG MONEX_VERSION=4.2.4
-ARG ROASTER_VERSION=1.13.0
+ARG ROASTER_VERSION=1.13.1
 ARG TUTTLE_VERSION=2.1.0
 ARG PUBLIC_REPO=https://exist-db.org/exist/apps/public-repo/public
 ADD ${PUBLIC_REPO}/expath-crypto-module-${CRYPTO_VERSION}.xar /tmp/dependencies/00-expath-crypto.xar
