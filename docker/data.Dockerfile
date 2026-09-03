@@ -46,6 +46,7 @@ ARG NARRATIVE_REF
 ARG STUDIES_REF
 ARG CORPORA_REF
 ARG BIBLIOGRAPHY_REF
+ARG TRACES_REF
 ARG EXPANDED_REF
 
 RUN mkdir /tmp/dependencies
@@ -117,6 +118,10 @@ RUN jar cfM0 /tmp/dependencies/EthioStudies.xar \
     citations-short.xml citations-short-main.xml \
     expath-pkg.xml repo.xml
 
+ADD https://github.com/BetaMasaheft/traces.git#${TRACES_REF} /tmp/traces
+WORKDIR /tmp/traces
+RUN jar cfM0 /tmp/dependencies/traces.xar
+
 # -- expanded corpus (private repo; BuildKit secret, token never in a layer) --
 RUN --mount=type=secret,id=github_token \
     TOKEN=$(cat /run/secrets/github_token) && \
@@ -141,6 +146,7 @@ ARG NARRATIVE_REF
 ARG STUDIES_REF
 ARG CORPORA_REF
 ARG BIBLIOGRAPHY_REF
+ARG TRACES_REF
 ARG EXPANDED_REF
 
 COPY --from=build /tmp/dependencies/*.xar /exist/autodeploy
@@ -164,6 +170,7 @@ LABEL org.opencontainers.image.title="betmas-data" \
       eu.betamasaheft.ref.studies=${STUDIES_REF} \
       eu.betamasaheft.ref.corpora=${CORPORA_REF} \
       eu.betamasaheft.ref.bibliography=${BIBLIOGRAPHY_REF} \
+      eu.betamasaheft.ref.traces=${TRACES_REF}
       eu.betamasaheft.ref.expanded=${EXPANDED_REF}
 
 EXPOSE 8080
