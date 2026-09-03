@@ -1,7 +1,7 @@
 xquery version "3.1";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
-import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "../modules/coordinates.xqm";
+import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/coord" at "xmldb:exist:///db/apps/BetMasWeb/modules/coordinates.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "../modules/titles.xqm";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "json";
