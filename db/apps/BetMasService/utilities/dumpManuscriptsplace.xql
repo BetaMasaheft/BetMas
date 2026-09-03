@@ -4,7 +4,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 import module namespace http = "http://expath.org/ns/http-client";
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
 import module namespace places = "https://www.betamasaheft.uni-hamburg.de/BetMas/places" at "places.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMasWeb/modules/titlesData.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 
 
