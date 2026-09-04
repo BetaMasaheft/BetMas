@@ -115,7 +115,8 @@ The image is built in two layers, published separately:
   or when `expanded`'s `main` branch moves, and nobody waits on it interactively. Published as
   `ghcr.io/betamasaheft/betmas-data`.
 - **App image** (`docker/app.Dockerfile`, `.github/workflows/docker-build.yml`): the application xars
-  in this repo (`BetMasService`, `BetMasWeb`, `parser`) layered onto the current
+  in this repo (`BetMasService`, `parser`) plus `BetMasWeb`, `BetMasApi`, `DillmannData` and
+  `guidelinesApp`, each fetched from its own repo, layered onto the current
   `betmas-data:latest`. This is the fast build (minutes) and runs on every push to `master`.
   Published as `ghcr.io/betamasaheft/betamasaheft:release-expanded`.
 

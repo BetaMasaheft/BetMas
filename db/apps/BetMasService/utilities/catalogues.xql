@@ -4,9 +4,9 @@ xquery version "3.1";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace http = "http://expath.org/ns/http-client";
 
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apprest" at "xmldb:exist:///db/apps/BetMasWeb/modules/apprest.xqm";
 
-let $cats := $config:collection-rootMS//t:listBibl[@type='catalogue']
+let $cats := $apprest:collection-rootMS//t:listBibl[@type='catalogue']
    for $catalogue in distinct-values($cats//t:ptr/@target)
    let $zoTag := substring-after($catalogue, 'bm:')
    let $count := count($cats//t:ptr[@target=$catalogue])

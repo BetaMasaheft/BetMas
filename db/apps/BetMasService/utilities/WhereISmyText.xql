@@ -1,6 +1,6 @@
 xquery version "3.1";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apprest" at "xmldb:exist:///db/apps/BetMasWeb/modules/apprest.xqm";
 import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/coord" at "xmldb:exist:///db/apps/BetMasWeb/modules/coordinates.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMasWeb/modules/titlesData.xqm";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -10,7 +10,7 @@ declare option output:method "json";
 (: select from manuscript files those which contain a t:title with @ref='LIT1146Argano'
 could have been limited to t:title inside t:msItem with //t:msItem/t:title instead of //t:title 
 :)
-let $mss := $config:collection-rootMS//t:title[contains(@ref , $work)]
+let $mss := $apprest:collection-rootMS//t:title[contains(@ref , $work)]
 for $ms in $mss 
 let $repo := root($ms)//t:repository
 let $id := string(root($ms)/t:TEI/@xml:id)
