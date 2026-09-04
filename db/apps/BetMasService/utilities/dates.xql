@@ -6,8 +6,7 @@ xquery version "3.1" encoding "UTF-8";
  :)
 declare namespace t="http://www.tei-c.org/ns/1.0";
 
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace all = "https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 
 let $c := collection($config:data-root)
 let $dates := $c//t:date[not(parent::t:publicationStmt)][@when or @notBefore or @notAfter]
@@ -27,4 +26,4 @@ let $content :=
 ')
     
 return
-    xmldb:store('/db/apps/BetMas/ttl', 'dates.tsv', $content)
+    xmldb:store('/db/apps/BetMasService/ttl', 'dates.tsv', $content)

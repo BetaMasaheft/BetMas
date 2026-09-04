@@ -6,11 +6,10 @@ declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
 let $data-collection := '/db/apps/parser/morpho'
 
 
-let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
 let $start-time := util:system-time()
 let $reindex := xmldb:reindex($data-collection)
 let $runtime-ms := ((util:system-time() - $start-time)
-                   div xs:dayTimeDuration('PT1S'))  * 1000 
+                   div xs:dayTimeDuration('PT1S'))  * 1000
 
 return
 <html>

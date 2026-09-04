@@ -30,7 +30,6 @@ ARG GUIDELINESAPP_REF
 
 COPY db/apps/BetMasService /tmp/BetMasService
 COPY db/apps/parser /tmp/parser
-COPY db/apps/BetMas /tmp/BetMas
 COPY db/apps/BetMasInitInstance /tmp/BetMasInitInstance
 
 RUN mkdir /tmp/apps /tmp/stage-2
@@ -52,8 +51,6 @@ RUN ant && mv build/BetMasApi-*.xar /tmp/apps/12-BetMasApi.xar
 
 WORKDIR /tmp/parser
 RUN jar cfM0 /tmp/apps/13-parser.xar .
-WORKDIR /tmp/BetMas
-RUN jar cfM0 /tmp/apps/14-BetMas.xar .
 
 # Dillmann shares this instance rather than its own container (#556) -
 # matches prod. Unlike collatex-service/sparql-service/iipsrv-fixtures

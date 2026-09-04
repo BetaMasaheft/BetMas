@@ -4,8 +4,8 @@ declare namespace xi = "http://www.w3.org/2001/XInclude";
 
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 (:imports the transformation to RDF and module to take that and push it to the Fuseki Triplestore:)
-import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/updateFuseki.xqm";
-declare variable $local:data2rdf := 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl';
+import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMasService/fuseki/updateFuseki.xqm";
+declare variable $local:data2rdf := 'xmldb:exist:///db/apps/BetMasService/rdfxslt/data2rdf.xsl';
 
 let $collection-uri := '/db/apps/expanded/manuscripts'
 let $context := collection($collection-uri)//t:TEI
