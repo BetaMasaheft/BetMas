@@ -15,6 +15,10 @@
         RESTXQ (both modules, alongside the startup trigger above),
         cqlparser, image, jndi, sql, xmldiff. Left backups, zip, ngram and
         sort enabled; spatial was already disabled upstream.
+      - parser/xml/features: uncommented the external-entity/secure-processing
+        flags (per eXist's own production-good-practice guidance) - stock
+        shipped them commented out despite the doc note right above them
+        saying they should be set in production
     Trailing whitespace has also been stripped throughout. Re-copy from the
     base image and re-apply those edits whenever EXISTDB_VERSION changes.
 -->
@@ -763,13 +767,9 @@
 
             <features>
 
-                <!-- NOTE: the following feature flags should likely be set in production to ensure a secure environment -->
-
-                <!--
                 <feature name="http://xml.org/sax/features/external-general-entities" value="false"/>
                 <feature name="http://xml.org/sax/features/external-parameter-entities" value="false"/>
                 <feature name="http://javax.xml.XMLConstants/feature/secure-processing" value="true"/>
-                -->
 
             </features>
 
