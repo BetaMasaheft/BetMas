@@ -1,0 +1,25 @@
+docker/conf.xml
+  s_07c0d10f938db1::t_906e5ecc8286e3 196
+  s_07c0d10f938db1::t_bc4e2f6af8abc9 197
+  s_07c0d10f938db1::t_45bb784ca7d697 296
+  s_07c0d10f938db1::t_a87b238f4090ff 4-7,9,11-12
+  s_07c0d10f938db1::t_2f0ee916e10c88 8,10
+  s_07c0d10f938db1::t_14a9f6de6f7099 309
+  s_07c0d10f938db1::t_4c325452a16699 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "8051b3aac49bd4c11663117f3b139c68034c4679",
+  "prompts": {},
+  "sessions": {
+    "s_07c0d10f938db1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7fe49bd5-5d31-4044-b246-3f3921ee0c6c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
