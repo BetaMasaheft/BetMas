@@ -1,0 +1,33 @@
+README.md
+  s_07c0d10f938db1::t_90205c64c25884 118-119
+db/apps/BetMasService/utilities/dumpManuscriptsplace.xql
+  s_07c0d10f938db1::t_c25434eb4d08f3 5
+db/apps/BetMasService/utilities/catalogues.xql
+  s_07c0d10f938db1::t_46d7fb5bb5f01e 7,9
+db/apps/BetMasService/utilities/WhereISmyText.xql
+  s_07c0d10f938db1::t_36a3ca18f53966 13
+  s_07c0d10f938db1::t_b14f055c9fd418 3
+db/apps/BetMasService/utilities/titlesList.xquery
+  s_07c0d10f938db1::t_75d07ef4584026 7,10
+db/apps/BetMasService/utilities/quickUpdateFuseki.xql
+  s_07c0d10f938db1::t_57bf8b74e7187a 12
+  s_07c0d10f938db1::t_1c049e4f316080 6
+db/apps/BetMasService/utilities/institutionsListDelamarter.xql
+  s_07c0d10f938db1::t_0c1f7096c8b803 7,9,13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "00d0fb7f13b1bcbf438c1972c64504f20767e355",
+  "prompts": {},
+  "sessions": {
+    "s_07c0d10f938db1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7fe49bd5-5d31-4044-b246-3f3921ee0c6c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
