@@ -8,6 +8,13 @@
       - db-connection/@cacheSize raised to 1024M
       - db-connection/pool/@max raised to 200
       - db-connection/query-pool/@timeout set to 120000 (120s)
+      - lock-manager/lock-table/@disabled set to true (per eXist's own
+        production-good-practice guidance)
+      - disabled unused builtin-modules (confirmed against BetMasWeb, Dillmann
+        and the rest of the app ecosystem, not just this repo): jsonp.org,
+        RESTXQ (both modules, alongside the startup trigger above),
+        cqlparser, image, jndi, sql, xmldiff. Left backups, zip, ngram and
+        sort enabled; spatial was already disabled upstream.
     Trailing whitespace has also been stripped throughout. Re-copy from the
     base image and re-apply those edits whenever EXISTDB_VERSION changes.
 -->
@@ -454,10 +461,6 @@
                 Disables the database lock table which tracks database locks. The Lock Table is enabled by default
                 and allows reporting on database locking via JMX.
 
-                NOTE: Tracking locks via the Lock Table imposes a small overhead per-Lock. Once users
-                have finished testing their system to ensure correct operation, they may wish to disable
-                this in production to ensure the absolute best performance.
-
                 This can also be set via the Java System Properties `org.exist.lock-manager.lock-table.disabled`,
                     or (legacy) `exist.locktable.disable`.
 
@@ -470,7 +473,7 @@
                 This can also be set via the Java System Properties `org.exist.lock-manager.lock-table.trace-stack-depth`,
                     or (legacy) `exist.locktable.trace.stack.depth`.
         -->
-        <lock-table disabled="false" trace-stack-depth="0"/>
+        <lock-table disabled="true" trace-stack-depth="0"/>
 
 
         <!-- Settings for Document Locking
@@ -959,7 +962,7 @@
             <module uri="http://exist-db.org/xquery/backups" class="org.exist.backup.xquery.BackupModule"/>
             <module uri="http://exist-db.org/xquery/inspection" class="org.exist.xquery.functions.inspect.InspectionModule"/>
             <module uri="http://www.json.org" src="resource:org/exist/xquery/lib/json.xq"/>
-            <module uri="http://www.jsonp.org" src="resource:org/exist/xquery/lib/jsonp.xq"/>
+            <!-- module uri="http://www.jsonp.org" src="resource:org/exist/xquery/lib/jsonp.xq"/ -->
             <module uri="http://exist-db.org/xquery/kwic" src="resource:org/exist/xquery/lib/kwic.xql"/>
             <module uri="http://exist-db.org/xquery/request" class="org.exist.xquery.functions.request.RequestModule"/>
             <module uri="http://exist-db.org/xquery/response" class="org.exist.xquery.functions.response.ResponseModule"/>
@@ -1002,8 +1005,8 @@
             <module uri="http://expath.org/ns/http-client" class="org.expath.exist.HttpClientModule"/>
             <module uri="http://expath.org/ns/zip" class="org.expath.exist.ZipModule"/>
             <module uri="http://exquery.org/ns/request" class="org.exist.extensions.exquery.modules.request.RequestModule"/>
-            <module uri="http://exquery.org/ns/restxq" class="org.exist.extensions.exquery.restxq.impl.xquery.RestXqModule"/>
-            <module uri="http://exquery.org/ns/restxq/exist" class="org.exist.extensions.exquery.restxq.impl.xquery.exist.ExistRestXqModule"/>
+            <!-- module uri="http://exquery.org/ns/restxq" class="org.exist.extensions.exquery.restxq.impl.xquery.RestXqModule"/ -->
+            <!-- module uri="http://exquery.org/ns/restxq/exist" class="org.exist.extensions.exquery.restxq.impl.xquery.exist.ExistRestXqModule"/ -->
             <module uri="http://exist-db.org/xquery/xqdoc" class="org.exist.xqdoc.xquery.XQDocModule"/>
 
 
@@ -1037,51 +1040,20 @@
             </module>
             <module uri="http://exist-db.org/xquery/compression" class="org.exist.xquery.modules.compression.CompressionModule"/>
             <module uri="http://exist-db.org/xquery/counter" class="org.exist.xquery.modules.counter.CounterModule"/>
-            <module uri="http://exist-db.org/xquery/cqlparser" class="org.exist.xquery.modules.cqlparser.CQLParserModule"/>
+            <!-- module uri="http://exist-db.org/xquery/cqlparser" class="org.exist.xquery.modules.cqlparser.CQLParserModule"/ -->
             <!-- module uri="http://exist-db.org/xquery/exi" class="org.exist.xquery.modules.exi.ExiModule"/ -->
             <module uri="http://exist-db.org/xquery/repo" class="org.exist.xquery.modules.expathrepo.ExpathPackageModule"/>
             <module uri="http://exist-db.org/xquery/file" class="org.exist.xquery.modules.file.FileModule"/>
-            <module uri="http://exist-db.org/xquery/image" class="org.exist.xquery.modules.image.ImageModule"/>
-            <module uri="http://exist-db.org/xquery/jndi" class="org.exist.xquery.modules.jndi.JNDIModule"/>
+            <!-- module uri="http://exist-db.org/xquery/image" class="org.exist.xquery.modules.image.ImageModule"/ -->
+            <!-- module uri="http://exist-db.org/xquery/jndi" class="org.exist.xquery.modules.jndi.JNDIModule"/ -->
             <module uri="http://exist-db.org/xquery/mail" class="org.exist.xquery.modules.mail.MailModule"/>
             <!-- module uri="http://exist-db.org/xquery/oracle" class="org.exist.xquery.modules.oracle.OracleModule"/ -->
             <module uri="http://exist-db.org/xquery/persistentlogin" class="org.exist.xquery.modules.persistentlogin.PersistentLoginModule"/>
             <module uri="http://exist-db.org/xquery/process" class="org.exist.xquery.modules.process.ProcessModule"/>
             <module uri="http://exist-db.org/xquery/scheduler" class="org.exist.xquery.modules.scheduler.SchedulerModule"/>
             <module uri="http://exist-db.org/xquery/simple-ql" class="org.exist.xquery.modules.simpleql.SimpleQLModule"/>
-            <module uri="http://exist-db.org/xquery/sql" class="org.exist.xquery.modules.sql.SQLModule">
-
-                <!--
-                Connection Pools can be setup for SQL connections, for use with sql:get-connection-from-pool($pool-name)
-                Each pool has a name and a number of configuration properties.
-                The HikariCP Connection Pool is used, you can find its configuration options
-                here: https://github.com/brettwooldridge/HikariCP#gear-configuration-knobs-baby
-
-                You can specify the username and password for a connection here, or you may specify it
-                when you call sql:get-connection-from-pool($pool-name, $username, $password).
-                -->
-
-                <!--
-                <parameter name="pool.1.name" value="pool-1"/>
-                <parameter name="pool.1.properties.dataSourceClassName" value="org.postgresql.ds.PGSimpleDataSource"/>
-                <parameter name="pool.1.properties.dataSource.user" value="my-username"/>
-                <parameter name="pool.1.properties.dataSource.password" value="my-password"/>
-                <parameter name="pool.1.properties.dataSource.databaseName" value="my-db"/>
-                <parameter name="pool.1.properties.maximumPoolSize" value="10"/>
-                <parameter name="pool.1.properties.registerMbeans" value="false"/>
-                -->
-
-                <!--
-                <parameter name="pool.2.name" value="pool-2"/>
-                <parameter name="pool.2.properties.dataSourceClassName" value="org.mariadb.jdbc.MariaDbDataSource"/>
-                <parameter name="pool.2.properties.dataSource.user" value="my-other-username"/>
-                <parameter name="pool.2.properties.dataSource.password" value="my-other-password"/>
-                <parameter name="pool.2.properties.dataSource.databaseName" value="other-db"/>
-                <parameter name="pool.2.properties.maximumPoolSize" value="10"/>
-                <parameter name="pool.2.properties.registerMbeans" value="false"/>
-                -->
-            </module>
-            <module uri="http://exist-db.org/xquery/xmldiff" class="org.exist.xquery.modules.xmldiff.XmlDiffModule"/>
+            <!-- module uri="http://exist-db.org/xquery/sql" class="org.exist.xquery.modules.sql.SQLModule"/ -->
+            <!-- module uri="http://exist-db.org/xquery/xmldiff" class="org.exist.xquery.modules.xmldiff.XmlDiffModule"/ -->
             <!--
                 XSL:FO Transformation Module
                     Valid processor adapters are:
