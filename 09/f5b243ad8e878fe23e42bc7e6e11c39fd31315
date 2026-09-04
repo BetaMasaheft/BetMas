@@ -1,0 +1,19 @@
+docker/data.Dockerfile
+  s_07c0d10f938db1::t_fcf9f4be0906cf 159-165
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "09f5b243ad8e878fe23e42bc7e6e11c39fd31315",
+  "prompts": {},
+  "sessions": {
+    "s_07c0d10f938db1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7fe49bd5-5d31-4044-b246-3f3921ee0c6c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
