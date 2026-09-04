@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    VENDORED from existdb/existdb:release (/exist/etc/conf.xml), copied in
-    by docker/data.Dockerfile. The only behavioural change is the removed
-    RESTXQ startup trigger (search "Removed for BetMas" below); trailing
-    whitespace has also been stripped throughout. Re-copy from the base image
-    and re-apply those edits whenever EXISTDB_VERSION changes.
+    VENDORED from duncdrum/existdb:6.4.1 (/exist/etc/conf.xml), copied in
+    by docker/data.Dockerfile. Behavioural changes from stock, carried over
+    from the old production conf.xml:
+      - removed RESTXQ startup trigger (search "Removed for BetMas" below)
+      - db-connection/@nodesBuffer set to -1 (unbounded)
+      - db-connection/@cacheSize raised to 1024M
+      - db-connection/pool/@max raised to 200
+      - db-connection/query-pool/@timeout set to 120000 (120s)
+    Trailing whitespace has also been stripped throughout. Re-copy from the
+    base image and re-apply those edits whenever EXISTDB_VERSION changes.
 -->
 <!--
     This is the central configuration file for the database. If the database
@@ -188,8 +193,8 @@
         you have some more memory to waste. If you deal with lots of
         collections, you can also increase the collectionCacheSize value
     -->
-    <db-connection cacheSize="256M" checkMaxCacheSize="true" collectionCache="64M" database="native"
-        files="../data" pageSize="4096" nodesBuffer="1000" cacheShrinkThreshold="10000"
+    <db-connection cacheSize="1024M" checkMaxCacheSize="true" collectionCache="64M" database="native"
+        files="../data" pageSize="4096" nodesBuffer="-1" cacheShrinkThreshold="10000"
         minDiskSpace="1024M" posix-chown-restricted="true" preserve-on-copy="false">
 
         <!--
@@ -288,7 +293,7 @@
                 wait for all threads to return, no matter how long it takes.
                 No thread will be killed.
         -->
-        <pool max="20" min="1" sync-period="120000" wait-before-shutdown="120000"/>
+        <pool max="200" min="1" sync-period="120000" wait-before-shutdown="120000"/>
 
         <!--
                 Configure the query pool.
@@ -301,7 +306,7 @@
                     Value "-1" effectively disables caching. Queries cannot be shared
                     by threads, each thread needs a private copy of a query.
             -->
-        <query-pool max-stack-size="64" size="128"/>
+        <query-pool max-stack-size="64" size="128" timeout="120000"/>
 
         <!--
             Settings for the journaling and recovery of the database. With
