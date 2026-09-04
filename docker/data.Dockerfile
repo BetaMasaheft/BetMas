@@ -151,6 +151,18 @@ ARG EXPANDED_REF
 
 COPY --from=build /tmp/dependencies/*.xar /exist/autodeploy
 
+# stock duncdrum/existdb conf.xml with the RESTXQ startup trigger dropped
+# (BetMas registers no %rest: endpoints). Re-sync from the base image on any
+# EXISTDB_VERSION bump — see the header of docker/conf.xml.
+COPY docker/conf.xml /exist/etc/conf.xml
+
+# The base image bakes JAVA_TOOL_OPTIONS with -D system properties for
+# cacheSize/pool.max that silently win over conf.xml (confirmed via boot log:
+# "Configuration value overridden by system property: ..."). Re-assert the
+# same values conf.xml sets so the two don't drift — later -D wins, so this
+# has to come after the base image's own JAVA_TOOL_OPTIONS in the string.
+ENV JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS} -Dorg.exist.db-connection.cacheSize=1024M -Dorg.exist.db-connection.pool.max=200"
+
 # boot once so autodeploy runs and the collection indexes bake into the image
 RUN [ "java", "org.exist.start.Main", "client", "--no-gui", "-l", "-u", "admin", "-P", "", "-x", "'HelloWorld!!'" ]
 
