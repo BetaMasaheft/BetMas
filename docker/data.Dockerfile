@@ -170,7 +170,7 @@ LABEL org.opencontainers.image.title="betmas-data" \
       eu.betamasaheft.ref.studies=${STUDIES_REF} \
       eu.betamasaheft.ref.corpora=${CORPORA_REF} \
       eu.betamasaheft.ref.bibliography=${BIBLIOGRAPHY_REF} \
-      eu.betamasaheft.ref.traces=${TRACES_REF}
+      eu.betamasaheft.ref.traces=${TRACES_REF} \
       eu.betamasaheft.ref.expanded=${EXPANDED_REF}
 
 EXPOSE 8080
