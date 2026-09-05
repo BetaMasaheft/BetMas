@@ -120,7 +120,7 @@ RUN jar cfM0 /tmp/dependencies/EthioStudies.xar \
 
 ADD https://github.com/BetaMasaheft/traces.git#${TRACES_REF} /tmp/traces
 WORKDIR /tmp/traces
-RUN jar cfM0 /tmp/dependencies/traces.xar
+RUN jar cfM0 /tmp/dependencies/traces.xar .
 
 # -- expanded corpus (private repo; BuildKit secret, token never in a layer) --
 RUN --mount=type=secret,id=github_token \
