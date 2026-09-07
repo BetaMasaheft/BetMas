@@ -1,0 +1,22 @@
+docker/data.Dockerfile
+  s_851ccfcb4dfddb::t_352b339a115d8c 34
+.github/workflows/build-data.yml
+  s_851ccfcb4dfddb::t_d2d9f663912a0a 70
+  s_851ccfcb4dfddb::t_eb13f1078510fc 121
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "8f33f8ef6f2af87885587fea4ba4c1cc6dbd19d4",
+  "prompts": {},
+  "sessions": {
+    "s_851ccfcb4dfddb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f79ea45e-dc57-46d4-a866-3cb563807d5f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
