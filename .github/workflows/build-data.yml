@@ -68,7 +68,7 @@ jobs:
             echo "corpora=$(resolve corpora main)"
             echo "bibliography=$(resolve bibliography master)"
             echo "traces=$(resolve traces master)"
-            expanded=$(git ls-remote "https://x-access-token:${{ secrets.BOT_CONTAINER_PAT }}@github.com/BetaMasaheft/expanded.git" refs/heads/main | cut -f1)
+            expanded=$(resolve expanded main)
             echo "expanded=$expanded"
             echo "expanded_short=${expanded:0:9}"
           } >> "$GITHUB_OUTPUT"
@@ -123,5 +123,3 @@ jobs:
           cache-from: type=gha,scope=data
           # ignore-error: a failed cache export must not fail an otherwise successful build
           cache-to: type=gha,mode=max,scope=data,ignore-error=true
-          secrets: |
-            "github_token=${{ secrets.BOT_CONTAINER_PAT }}"

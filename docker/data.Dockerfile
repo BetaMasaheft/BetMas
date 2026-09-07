@@ -9,13 +9,16 @@
 #
 # Registry dependency versions are pinned HERE and nowhere else.
 #
+# Every data package (including expanded, public since 2026-09) builds via
+# its own repo's ant build.xml — the same curated xar its own CI produces,
+# not a raw zip of the whole checkout.
+#
 # Data repo refs default to branch names for local builds; the build workflow
 # resolves them to commit SHAs for cache correctness and records them as OCI
 # labels (docker inspect answers "which data is in this image?").
 #
-# Local build (needs a token that can read BetaMasaheft/expanded):
-#   printf '%s' "$GITHUB_TOKEN" > /tmp/gh_token
-#   docker build -f docker/data.Dockerfile --secret id=github_token,src=/tmp/gh_token -t betmas-data:local .
+# Local build:
+#   docker build -f docker/data.Dockerfile -t betmas-data:local .
 
 ARG EXISTDB_VERSION=release
 ARG BUILDER_IMAGE=ghcr.io/eeditiones/builder:latest
@@ -75,64 +78,61 @@ WORKDIR /tmp/lists
 RUN jar cfM0 /tmp/dependencies/lists.xar .
 
 # -- data packages --
+# Each ADD-from-git checkout is .git-free (BuildKit strips it), so every
+# build.xml's own git.revision target falls back to "unknown" commit-id/time
+# in its packaged repo.xml — same tradeoff app.Dockerfile already accepts
+# for BetMasWeb/BetMasApi/Dillmann/guidelinesApp. The real provenance is the
+# resolved commit SHA in this image's eu.betamasaheft.ref.* labels below.
 ADD https://github.com/BetaMasaheft/Works.git#${WORKS_REF} /tmp/Works
 WORKDIR /tmp/Works
-RUN jar cfM0 /tmp/dependencies/Works.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/Works.xar
 
 ADD https://github.com/BetaMasaheft/Manuscripts.git#${MANUSCRIPTS_REF} /tmp/Manuscripts
 WORKDIR /tmp/Manuscripts
-RUN jar cfM0 /tmp/dependencies/Manuscripts.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/Manuscripts.xar
 
 ADD https://github.com/BetaMasaheft/Authority-Files.git#${AUTHORITY_FILES_REF} /tmp/Authority-Files
 WORKDIR /tmp/Authority-Files
-RUN jar cfM0 /tmp/dependencies/Authority-Files.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/Authority-Files.xar
 
 ADD https://github.com/BetaMasaheft/Persons.git#${PERSONS_REF} /tmp/Persons
 WORKDIR /tmp/Persons
-RUN jar cfM0 /tmp/dependencies/Persons.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/Persons.xar
 
 ADD https://github.com/BetaMasaheft/Places.git#${PLACES_REF} /tmp/Places
 WORKDIR /tmp/Places
-RUN jar cfM0 /tmp/dependencies/Places.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/Places.xar
 
 ADD https://github.com/BetaMasaheft/Institutions.git#${INSTITUTIONS_REF} /tmp/Institutions
 WORKDIR /tmp/Institutions
-RUN jar cfM0 /tmp/dependencies/Institutions.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/Institutions.xar
 
 ADD https://github.com/BetaMasaheft/Narrative.git#${NARRATIVE_REF} /tmp/Narrative
 WORKDIR /tmp/Narrative
-RUN jar cfM0 /tmp/dependencies/Narrative.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/Narrative.xar
 
 ADD https://github.com/BetaMasaheft/Studies.git#${STUDIES_REF} /tmp/Studies
 WORKDIR /tmp/Studies
-RUN jar cfM0 /tmp/dependencies/Studies.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/Studies.xar
 
 ADD https://github.com/BetaMasaheft/corpora.git#${CORPORA_REF} /tmp/corpora
 WORKDIR /tmp/corpora
-RUN jar cfM0 /tmp/dependencies/corpora.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/corpora.xar
 
 ADD https://github.com/BetaMasaheft/bibliography.git#${BIBLIOGRAPHY_REF} /tmp/bibliography
 WORKDIR /tmp/bibliography
-# Whitelist: TEI cache + citeproc HTML caches. Not Pages/CSL/Node.
-RUN jar cfM0 /tmp/dependencies/EthioStudies.xar \
-    EthioStudies.xml citations.xml citations-url-doi.xml \
-    citations-short.xml citations-short-main.xml \
-    expath-pkg.xml repo.xml
+# bibliography/build.xml's own xar target already whitelists TEI cache +
+# citeproc HTML caches (not Pages/CSL/Node) — no need to duplicate that list here.
+RUN ant && mv build/*.xar /tmp/dependencies/EthioStudies.xar
 
 ADD https://github.com/BetaMasaheft/traces.git#${TRACES_REF} /tmp/traces
 WORKDIR /tmp/traces
-RUN jar cfM0 /tmp/dependencies/traces.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/traces.xar
 
-# -- expanded corpus (private repo; BuildKit secret, token never in a layer) --
-RUN --mount=type=secret,id=github_token \
-    TOKEN=$(cat /run/secrets/github_token) && \
-    git clone https://x-access-token:${TOKEN}@github.com/BetaMasaheft/expanded.git /tmp/expanded-data && \
-    git -C /tmp/expanded-data checkout ${EXPANDED_REF} && \
-    rm -rf /tmp/expanded-data/.git
+# -- expanded corpus (public repo, same ADD-based fetch as everything else) --
+ADD https://github.com/BetaMasaheft/expanded.git#${EXPANDED_REF} /tmp/expanded-data
 WORKDIR /tmp/expanded-data
-# .git removed above: the ADD-based checkouts are .git-free, a manual clone is
-# not — without this the xar ships gigabytes of git objects into eXist
-RUN jar cfM0 /tmp/dependencies/expanded.xar .
+RUN ant && mv build/*.xar /tmp/dependencies/expanded.xar
 
 
 FROM duncdrum/existdb:${EXISTDB_VERSION}
