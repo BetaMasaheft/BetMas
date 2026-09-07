@@ -1,0 +1,23 @@
+db/apps/parser/modules/morphoparser.xqm
+  s_851ccfcb4dfddb::t_8d747ad76a6b59 2221
+  s_851ccfcb4dfddb::t_29767825273437 2199,2202-2204,2207,2209
+  s_851ccfcb4dfddb::t_a6ac55ed69b1b9 2089-2108,2116,2133
+  s_851ccfcb4dfddb::t_19ba3428456c0e 2177-2197,2200
+  s_851ccfcb4dfddb::t_d4ef11adfeddf5 2115,2118-2120,2125
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "253e9615258631dc26c9fb200e5b85eab58f2170",
+  "prompts": {},
+  "sessions": {
+    "s_851ccfcb4dfddb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f79ea45e-dc57-46d4-a866-3cb563807d5f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": null
+    }
+  }
+}
