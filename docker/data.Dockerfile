@@ -31,6 +31,7 @@ ARG NARRATIVE_REF=master
 ARG STUDIES_REF=master
 ARG CORPORA_REF=main
 ARG BIBLIOGRAPHY_REF=master
+ARG TRACES_REF=master
 ARG EXPANDED_REF=main
 
 # builder ships JDK (jar doubles as zip), git, curl, ant — no apt needed
