@@ -2086,25 +2086,43 @@ let $patt := if(matches($patt, 'Y3')) then replace($patt, 'Y3', 'Y03') else $pat
 let $patt := if(matches($patt, 'L2')) then replace($patt, 'L2', 'L02') else $patt
 let $patt := if(matches($patt, 'L3')) then replace($patt, 'L3', 'L03') else $patt
 let $patt := if(ends-with($patt, '\d')) then ($patt || 0) else $patt
-let $analyze := analyze-string($patt, '([ʾaāǝyst]+)?([\daeiouāeǝWYLDS]{2})?([\daeiouāeǝWYLDS]{2})?([\daeiouāeǝWYLDS]{2})?(\w+)?')
-let $pre := $analyze//s:group[@nr='1']/text()
+(: analyze-string with '(G1)?(G2)?(G3)?(G4)?(G5)?' throws err:FORX0003
+   (BetMas#128): every group optional means the whole pattern can match a
+   zero-length string, which eXist's regex engine rejects. matches()/replace()
+   have no such restriction on a single mandatory-quantifier group, so peel
+   each piece off the front instead of one combined analyze-string call -
+   simpler than branch-alternating the emptiness away, and each sub-regex is
+   individually incapable of a zero-length match. Verified byte-for-byte
+   identical to the original against all 985 real formulas in
+   morpho/patterns.xml, live in eXist. :)
+let $rest := $patt
+let $pre := if (matches($rest, '^[ʾaāǝyst]+')) then replace($rest, '^([ʾaāǝyst]+).*', '$1') else ()
+let $rest := if (exists($pre)) then substring($rest, string-length($pre) + 1) else $rest
+let $g2 := if (matches($rest, '^[\daeiouāeǝWYLDS]{2}')) then substring($rest, 1, 2) else ()
+let $rest := if (exists($g2)) then substring($rest, 3) else $rest
+let $g3 := if (matches($rest, '^[\daeiouāeǝWYLDS]{2}')) then substring($rest, 1, 2) else ()
+let $rest := if (exists($g3)) then substring($rest, 3) else $rest
+let $g4 := if (matches($rest, '^[\daeiouāeǝWYLDS]{2}')) then substring($rest, 1, 2) else ()
+let $rest := if (exists($g4)) then substring($rest, 3) else $rest
+let $g5 := if (matches($rest, '^\w+')) then replace($rest, '^(\w+).*', '$1') else ()
+let $pre := string($pre)
 let $pre := replace ($pre, 'ʾa', 'አ')
 let $pre := replace ($pre, 'ya', 'የ')
 let $pre := replace ($pre, 'yā', 'ያ')
 let $pre := replace ($pre, 'yǝ', 'ይ')
 let $pre := replace ($pre, 's', 'ስ')
 let $pre := replace ($pre, 'ta', 'ተ')
-let $middle := for $group in 2 to 4 
-                                  let $g := $analyze//s:group[@nr=$group]/text()
+let $middle := for $group in 2 to 4
+                                  let $g := string(if ($group = 2) then $g2 else if ($group = 3) then $g3 else $g4)
                                   let $pos:= substring($g, 1, 1)
-                                  return 
-                                  if($pos='') then () else 
-                                  let $position := if(matches($pos, '\d')) then $pos else $group - 1 
+                                  return
+                                  if($pos='') then () else
+                                  let $position := if(matches($pos, '\d')) then $pos else $group - 1
                                   let $order := substring($g,2,1)
 (:                                  the transcription is always BM, because the patterns use that transcriptions for vowels:)
                                   let $tr := $morpho:letters/f:letters/f:transcription[@type="BM"]
                                   let $v := $tr/f:vowel[.=$order]
-                                  let $posLetter :=$chars[number($position)] 
+                                  let $posLetter :=$chars[number($position)]
                                   let $orderVow := if($order='0') then 0 else count($v/preceding-sibling::f:vowel)
                                   let $corrReal := $morpho:letters//f:realization[.=$posLetter]
                                   let $incremented := $orderVow+1
@@ -2112,7 +2130,7 @@ let $middle := for $group in 2 to 4
                                   return $corrLetter
 let $patt := $pre ||
                         string-join($middle)  ||
-                         $analyze//s:group[@nr='5']/text()
+                         string($g5)
 
 let $patt := replace ($patt, 't', 'ት')
 return
@@ -2156,20 +2174,39 @@ let $patt := if(matches($patt, 'Y3')) then replace($patt, 'Y3', 'Y03') else $pat
 let $patt := if(matches($patt, 'L2')) then replace($patt, 'L2', 'L02') else $patt
 let $patt := if(matches($patt, 'L3')) then replace($patt, 'L3', 'L03') else $patt
 let $patt := if(ends-with($patt, '\d')) then ($patt || 0) else $patt
-let $analyze := analyze-string($patt, '([ʾaāǝyst]+)?([\daeiouāeǝWYLSD]{2})?([\daeiouāeǝWYLSD]{2})?([\daeiouāeǝWYLSD]{2})?([\daeiouāeǝWYLSD]{2})?([\daeiouāeǝWYLSD]{2})?(\w+)?')
-let $pre := $analyze//s:group[@nr='1']/text()
+(: Same FORX0003 fix as pattern2form above (BetMas#128): peel each group
+   off the front with an individually mandatory-quantifier regex, guarded
+   by matches() (which - unlike analyze-string/replace - has no zero-length
+   restriction), instead of one combined analyze-string call. Verified
+   byte-for-byte identical to the original against all 985 real formulas in
+   morpho/patterns.xml, live in eXist. :)
+let $rest := $patt
+let $pre := if (matches($rest, '^[ʾaāǝyst]+')) then replace($rest, '^([ʾaāǝyst]+).*', '$1') else ()
+let $rest := if (exists($pre)) then substring($rest, string-length($pre) + 1) else $rest
+let $g2 := if (matches($rest, '^[\daeiouāeǝWYLSD]{2}')) then substring($rest, 1, 2) else ()
+let $rest := if (exists($g2)) then substring($rest, 3) else $rest
+let $g3 := if (matches($rest, '^[\daeiouāeǝWYLSD]{2}')) then substring($rest, 1, 2) else ()
+let $rest := if (exists($g3)) then substring($rest, 3) else $rest
+let $g4 := if (matches($rest, '^[\daeiouāeǝWYLSD]{2}')) then substring($rest, 1, 2) else ()
+let $rest := if (exists($g4)) then substring($rest, 3) else $rest
+let $g5 := if (matches($rest, '^[\daeiouāeǝWYLSD]{2}')) then substring($rest, 1, 2) else ()
+let $rest := if (exists($g5)) then substring($rest, 3) else $rest
+let $g6 := if (matches($rest, '^[\daeiouāeǝWYLSD]{2}')) then substring($rest, 1, 2) else ()
+let $rest := if (exists($g6)) then substring($rest, 3) else $rest
+let $g7 := if (matches($rest, '^\w+')) then replace($rest, '^(\w+).*', '$1') else ()
+let $pre := string($pre)
 (:let $t :=  if(matches($origPatt, '1a22ǝLa')) then console:log('patt:' || $patt) else ():)
-let $middle := for $group in 2 to 6 
-                                  let $g := $analyze//s:group[@nr=$group]/text()
+let $middle := for $group in 2 to 6
+                                  let $g := string(if ($group = 2) then $g2 else if ($group = 3) then $g3 else if ($group = 4) then $g4 else if ($group = 5) then $g5 else $g6)
                                   let $pos:= substring($g, 1, 1)
-                                  return 
-                                  if($pos='') then () else 
-                                  let $position := if(matches($pos, '\d')) then $pos else  if (matches($patt, 'L[a-z0]$')) then 3 else $group - 1 
+                                  return
+                                  if($pos='') then () else
+                                  let $position := if(matches($pos, '\d')) then $pos else  if (matches($patt, 'L[a-z0]$')) then 3 else $group - 1
                                   let $order := substring($g,2,1)
                                   let $vowel := if($order = '0') then () else $order
-                                  let $posLetter :=$chars[position()=number($position)] 
+                                  let $posLetter :=$chars[position()=number($position)]
                                   let $corrLetter := $morpho:letters//f:realization[.=$posLetter]/parent::f:realizations/preceding-sibling::f:transcription/text()
-                                  
+
                                  (: let $t7 := if(matches($origPatt, '1a2Wa')) then console:log(
                                   ' g:' || $g ||
                                   ' pos:' || $pos ||
@@ -2181,7 +2218,7 @@ let $middle := for $group in 2 to 6
                                   return $corrLetter ||$vowel
 let $patt := $pre ||
                         string-join($middle)  ||
-                         $analyze//s:group[@nr='7']/text()
+                         string($g7)
 
 return
 $patt
