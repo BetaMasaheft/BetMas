@@ -19,9 +19,20 @@
 # own autodeploy hook (it lives in /exist/autodeploy/, so it reinstalls
 # and re-runs finish.xq on any boot from a fresh /db, this recreate
 # included - not something that needs an explicit reinstall to trigger).
-# A further explicit reinstall is then shown to be a safe no-op that
-# doesn't corrupt the already-restored password hash. A final test
-# confirms deleting an account also removes its volume copy.
+# The same recreate also restores a second account whose volume file was
+# planted directly in the volume rather than written by a live account's
+# trigger - the shape a migrated-in or externally-seeded users-data
+# directory takes, and the scenario that first exposed the account-restore
+# bugs this file guards against (see below). A further explicit reinstall
+# is then shown to be a safe no-op that doesn't corrupt the already-restored
+# password hash. A final test confirms deleting an account also removes its
+# volume copy.
+#
+# betmas-users-data is a named Docker volume, not a bind mount, so nothing
+# here reads or writes it as a host directory - every touch goes through
+# the running container instead, via `docker compose cp` (see
+# read_volume_file/write_volume_file/volume_file_exists below), the same
+# way exist_query already talks to the container instead of the host disk.
 #
 # Run: npm run test:restore-users  (or: bats --tap test/restore-users-from-volume.bats)
 # Requires: the `betmas` compose service already has betmas-users-data
@@ -32,10 +43,21 @@ setup_file() {
 	cd "$BATS_TEST_DIRNAME/.."
 	echo "volumetest_$(date +%s)" >"$BATS_FILE_TMPDIR/testuser"
 	echo "TestPw123!" >"$BATS_FILE_TMPDIR/testpw"
+	# Deliberately NOT the username: a personal group happening to match the
+	# username (as create_test_account used to do, and as eXist's own
+	# 3/5-arg sm:create-account convenience overloads always do) masks the
+	# real-world shape of this bug - restoring "editor" (primary group
+	# "Cataloguers") once mis-created a personal "editor" group instead,
+	# because the account-restore call matched the wrong sm:create-account
+	# overload. A distinct group name is what actually exercises that path.
+	echo "volumetestgroup_$(date +%s)" >"$BATS_FILE_TMPDIR/testgroup"
+	echo "volumepreseed_$(date +%s)" >"$BATS_FILE_TMPDIR/preseeduser"
+	echo "volumepreseedgroup_$(date +%s)" >"$BATS_FILE_TMPDIR/preseedgroup"
 
 	deploy_all
 	restart_and_wait_healthy
 	create_test_account
+	create_preseeded_volume_file
 }
 
 # --- helpers (available to setup_file and every @test) ---
@@ -53,6 +75,43 @@ exist_query() {
 	docker compose cp "betmas:$out_in_container" "$out_local" >/dev/null 2>&1 || true
 	cat "$out_local" 2>/dev/null || true
 	rm -f "$out_local"
+}
+
+# betmas-users-data is a named volume (not a bind mount), so it has no host
+# path - these three go through the running container instead, the same way
+# exist_query does. All take/produce the in-container path
+# (/betmas-users-data/...), never a host one. `docker compose cp` (not
+# `exec`) is what makes this possible: the container's eXist base image has
+# no shell and no coreutils (no test/cat/sh - confirmed empirically), but
+# `cp` talks to the Docker API's own tar-copy endpoint, not a binary running
+# inside the container, so it works regardless.
+volume_file_exists() {
+	# BATS_FILE_TMPDIR, not BATS_TEST_TMPDIR: this (and the other two
+	# helpers below) can run from setup_file, where BATS_TEST_TMPDIR is
+	# unset - confirmed empirically after it silently collapsed the tmp
+	# path to a root-owned one and made every cp fail closed.
+	local remote="$1"
+	local local_tmp="$BATS_FILE_TMPDIR/volume_exists.$$"
+	docker compose cp "betmas:$remote" "$local_tmp" >/dev/null 2>&1
+	local status=$?
+	rm -f "$local_tmp"
+	return $status
+}
+
+read_volume_file() {
+	local remote="$1"
+	local local_tmp="$BATS_FILE_TMPDIR/volume_file.$$"
+	docker compose cp "betmas:$remote" "$local_tmp" >/dev/null 2>&1 || return 1
+	cat "$local_tmp"
+	rm -f "$local_tmp"
+}
+
+write_volume_file() {
+	local remote="$1" content="$2"
+	local local_tmp="$BATS_FILE_TMPDIR/volume_file.$$"
+	printf '%s' "$content" >"$local_tmp"
+	docker compose cp "$local_tmp" "betmas:$remote"
+	rm -f "$local_tmp"
 }
 
 deploy_all() {
@@ -114,10 +173,49 @@ restart_and_wait_healthy() {
 }
 
 create_test_account() {
-	local user pw
+	local user pw group
 	user=$(cat "$BATS_FILE_TMPDIR/testuser")
 	pw=$(cat "$BATS_FILE_TMPDIR/testpw")
-	exist_query "sm:create-account('$user', '$pw', '$user', '$user', 'restore test')" >/dev/null
+	group=$(cat "$BATS_FILE_TMPDIR/testgroup")
+	# 4-arg sm:create-account($name, $password, $primary-group, $groups) -
+	# the group must pre-exist for this overload (unlike the 3/5-arg
+	# convenience overloads, which auto-vivify a personal group), matching
+	# what finish.xq's restore path (and its own group pre-creation) does.
+	exist_query "sm:create-group('$group'), sm:create-account('$user', '$pw', '$group', ())" >/dev/null
+}
+
+# Every other test in this file restores an account whose volume copy was
+# written by userAccountSync's own trigger, during the very same test run.
+# That never proves finish.xq's restore loop works against a file it did
+# not just watch get written - e.g. one migrated in from an older
+# deployment, or (the motivating case) a users-data volume populated
+# outside the container and handed to one that has never booted against it
+# before. So this creates a real account (for a real, eXist-produced
+# password hash - never fabricate one), captures its trigger-mirrored file,
+# then deletes the live account (which makes the trigger delete that same
+# file) and writes the captured content straight back into the volume via
+# the container - bypassing the trigger entirely for this file, the same
+# way an externally-migrated file would arrive.
+create_preseeded_volume_file() {
+	local user pw group volume_file captured
+	user=$(cat "$BATS_FILE_TMPDIR/preseeduser")
+	pw=$(cat "$BATS_FILE_TMPDIR/testpw")
+	group=$(cat "$BATS_FILE_TMPDIR/preseedgroup")
+	volume_file="/betmas-users-data/$user.xml"
+
+	exist_query "sm:create-group('$group'), sm:create-account('$user', '$pw', '$group', ())" >/dev/null
+	volume_file_exists "$volume_file"
+	captured=$(read_volume_file "$volume_file")
+
+	exist_query "sm:remove-account('$user'), sm:remove-group('$group')" >/dev/null
+	local tries=0
+	until ! volume_file_exists "$volume_file"; do
+		tries=$((tries + 1))
+		[ "$tries" -lt 30 ] || break
+		sleep 1
+	done
+
+	write_volume_file "$volume_file" "$captured"
 }
 
 # --- tests (bats runs @test blocks in file order) ---
@@ -147,6 +245,40 @@ create_test_account() {
 	[ "$output" = "true" ]
 }
 
+# The same recreate above also has to pick up preseeduser's file, which
+# create_preseeded_volume_file planted directly in the volume rather
+# than through a live account/trigger - proving finish.xq's restore loop
+# works from cold, against files it has never seen created, not just ones
+# it watched a trigger just write. Its group ("preseedgroup_...") was also
+# deleted along with the account, so this exercises local:ensure-group
+# recreating a genuinely-missing group from scratch too, not one the image
+# already bakes in (unlike "Cataloguers" for the main $testgroup).
+@test "a pre-existing volume file with no live account behind it is restored on first boot too" {
+	local user group
+	user=$(cat "$BATS_FILE_TMPDIR/preseeduser")
+	group=$(cat "$BATS_FILE_TMPDIR/preseedgroup")
+	wait_for_account "$user"
+	run exist_query "sm:user-exists('$user')"
+	[ "$output" = "true" ]
+	run exist_query "sm:get-user-primary-group('$user')"
+	[ "$output" = "$group" ]
+}
+
+# Guards specifically against the wrong-sm:create-account-overload bug: a
+# malformed restore call can silently create the account under a personal
+# group named after the account instead of its real primary group - the
+# account would still exist (previous test still passes) while this one
+# catches the mismatch.
+@test "restored account keeps its real primary group, not a personal group named after itself" {
+	local user group
+	user=$(cat "$BATS_FILE_TMPDIR/testuser")
+	group=$(cat "$BATS_FILE_TMPDIR/testgroup")
+	run exist_query "sm:get-user-primary-group('$user')"
+	[ "$output" = "$group" ]
+	run exist_query "sm:group-exists('$user')"
+	[ "$output" = "false" ]
+}
+
 # Deliberately not checking the password hash here (only existence, above)
 # - the account restored via this bare-autodeploy path has a real, already
 # reproduced and filed hash mismatch (BetaMasaheft/BetMas#160), separate
@@ -167,9 +299,17 @@ create_test_account() {
 }
 
 @test "deleting the account removes its copy from the volume" {
-	local user
+	local user group
 	user=$(cat "$BATS_FILE_TMPDIR/testuser")
-	exist_query "sm:remove-account('$user'), if (sm:group-exists('$user')) then sm:remove-group('$user') else ()" >/dev/null
+	group=$(cat "$BATS_FILE_TMPDIR/testgroup")
+	exist_query "sm:remove-account('$user'), if (sm:group-exists('$group')) then sm:remove-group('$group') else ()" >/dev/null
 	run exist_query "file:exists('/betmas-users-data/$user.xml')"
 	[ "$output" = "false" ]
+
+	# Same cleanup for the preseeded account from setup_file - not itself
+	# under test here, just keeping the volume tidy for a local re-run.
+	local preseed_user preseed_group
+	preseed_user=$(cat "$BATS_FILE_TMPDIR/preseeduser")
+	preseed_group=$(cat "$BATS_FILE_TMPDIR/preseedgroup")
+	exist_query "sm:remove-account('$preseed_user'), if (sm:group-exists('$preseed_group')) then sm:remove-group('$preseed_group') else ()" >/dev/null
 }
