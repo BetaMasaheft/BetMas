@@ -1,8 +1,17 @@
 name: Bats Tests
 
-# Runs the repo's bats integration suite against the published app image
-# + docker compose: app-image expand contracts (EthioStudies / batchExpand),
-# then restore-users-from-volume (accounts survive redeploy via users volume).
+# Runs the repo's bats integration suite against an app image built from
+# this checkout (docker compose --build), not the published release-expanded
+# tag: that tag only rebuilds on master pushes, so it lags behind whatever a
+# PR is actually changing - restore-users-from-volume in particular boots the
+# betmas service from scratch (--force-recreate) to exercise
+# BetMasInitInstance's autodeploy-triggered finish.xq, which only picks up
+# a branch's changes if the image's own baked-in /exist/autodeploy was built
+# from that branch. Building locally costs a few extra minutes per run but
+# is the only way this suite tests the code under review instead of
+# whatever last landed on master. app-image-expand.bats contracts
+# (EthioStudies / batchExpand) are checked first, then restore-users-from-volume
+# (accounts survive redeploy via users volume).
 
 on:
   push:
@@ -21,11 +30,14 @@ jobs:
   bats:
     name: Run bats tests
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Building the app image locally (rather than pulling the published one)
+    # adds real time on top of the ~11GB base layer pull - was fine at 30
+    # under pull-only, wider margin now that a build is on the critical path.
+    timeout-minutes: 45
 
     steps:
-      # The betmas image pulled below is ~11GB+ once layered - the default
-      # runner disk is too tight for it alongside everything else.
+      # The betmas image built/pulled below is ~11GB+ once layered - the
+      # default runner disk is too tight for it alongside everything else.
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
@@ -62,10 +74,15 @@ jobs:
           username: betmas-bot
           password: ${{ secrets.BOT_CONTAINER_PAT }}
 
-      - name: Start betmas container
+      - name: Build and start betmas container
         run: |
-          docker compose pull betmas
-          docker compose up -d betmas
+          # --build: use the app image built from this checkout (see the
+          # workflow-level comment above), not whatever release-expanded
+          # last published. The betmas-data base (eXist + indexed corpus)
+          # still comes from ghcr - only the app layers (BetMasService,
+          # BetMasInitInstance, parser, plus BetMasWeb/BetMasApi/Dillmann/
+          # guidelinesApp fetched at their pinned refs) rebuild here.
+          docker compose up -d --build betmas
 
       - name: Wait for eXist to be healthy
         run: |
