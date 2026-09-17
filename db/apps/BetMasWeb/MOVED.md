@@ -1,3 +1,3 @@
 # MOVED
 
-The BetMasWeb repository now lives in `BetaMasaHeft/BetMasWeb`: https://github.com/betaMasaheft/BetMasWeb
+The BetMasWeb repository now lives in `BetaMasaheft/BetMasWeb`: https://github.com/BetaMasaheft/BetMasWeb
