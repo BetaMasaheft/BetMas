@@ -1,3 +1,3 @@
 # MOVED
 
-The BetMasApi repository now lives in `BetaMasaHeft/BetMasApi`: https://github.com/betaMasaheft/BetMasApi
+The BetMasApi repository now lives in `BetaMasaheft/BetMasApi`: https://github.com/BetaMasaheft/BetMasApi
