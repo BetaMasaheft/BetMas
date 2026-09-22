@@ -89,6 +89,6 @@ return
     </body>
   </text>
 </TEI>;
-let $filename := "textparttitles.xml"
+let $filename := "textpartstitles.xml"
 let $doc-db-uri := xmldb:store("/db/apps/lists", $filename, $ThisFileContent, "xml")
 return $doc-db-uri
