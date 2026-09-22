@@ -14,6 +14,22 @@ let $col8 := '/db/apps/BetMasData/works/new'
 
 
 return
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>List of Textual and Narrative Units Titles</title>
+      </titleStmt>
+      <publicationStmt>
+        <p/>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Generated from data</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
     <list>
         {
             for $book in  (collection($col)//t:TEI, collection($col1)//t:TEI, collection($col2)//t:TEI, collection($col3)//t:TEI, collection($col4)//t:TEI, collection($col5)//t:TEI, collection($col6)//t:TEI, collection($col7)//t:TEI, collection($col8)//t:TEI)
@@ -69,7 +85,10 @@ return
                 )
                 )
         }
-    </list>;
-let $filename := "textlist.xml"
+    </list>
+    </body>
+  </text>
+</TEI>;
+let $filename := "textparttitles.xml"
 let $doc-db-uri := xmldb:store("/db/apps/lists", $filename, $ThisFileContent, "xml")
 return $doc-db-uri
