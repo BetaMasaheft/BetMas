@@ -12,17 +12,18 @@ let $col6 := '/db/apps/BetMasData/works/6001-7000'
 let $col7 := '/db/apps/BetMasData/works/7001-8000'
 let $colnew := '/db/apps/BetMasData/works/new'
 return
-<div xmlns="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions" data-template="templates:surround" data-template-with="templates/newpage.html" data-template-at="content">
+<div xmlns="http://www.w3.org/1999/xhtml" data-template-with="templates/newpage.html">
     <div class="w3-container w3-margin w3-padding-64">
         <h1> Clavis Aethiopica listing </h1>
-        <h2>Visit the <a href="https://betamasaheft.eu/works/list">dynamic filtrable listing</a> for
-            fuller results</h2>
-        <h3>The list below was generated on {format-date(current-date(), "[Y0001]-[M01]-[D01]")}
-</h3>
+        <p>We identify each unit of content in every manuscript. We consider any text with an independent circulation a work, with its own identification number within the Clavis Aethiopica (CAe). Parts of texts (e.g. chapters) without independent circulation (univocally identifiable by IDs assigned within the records) or recurrent motifs as well as documentary additional texts (identified as Narrative Units) are not part of the CAe. You can also check the list of different types of text titles or various Indexes available from the top menu.</p>
+        <p>You can scroll the list below (generated on {format-date(current-date(), "[Y0001]-[M01]-[D01]")}) or visit the <a href="/works/list">dynamic filtrable listing</a> for
+            fuller results.</p>
+        <p>If you know the precise Clavis Aethiopica ID of a work you can get to it by typing <span class="w3-red">betamasaheft.eu/CAe1111</span> in the address line, where <span class="w3-red">1111</span> is the numeric part of the work ID.
+</p>
         <table class="w3-table w3-hoverable">
 <tr><th width="100">CAe</th><th>Main title</th></tr>
 {
-for $book in (collection($col)//t:TEI, collection($col1)//t:TEI, collection($col2)//t:TEI, collection($col3)//t:TEI, collection($col4)//t:TEI, collection($col5)//t:TEI, collection($col6)//t:TEI, collection($colnew)//t:TEI)
+for $book in (collection($col)//t:TEI, collection($col1)//t:TEI, collection($col2)//t:TEI, collection($col3)//t:TEI, collection($col4)//t:TEI, collection($col5)//t:TEI, collection($col6)//t:TEI, collection($col7)//t:TEI, collection($colnew)//t:TEI)
 let $id := concat('LIT', substring-before(substring-after(base-uri($book), 'LIT'), '.xml'))
 let $cae := substring($id, 4, 4)
 order by $cae
@@ -34,7 +35,7 @@ return
 {$cae}
 </td>
 
-<td><a href="https://www.betamasaheft.eu/{$id}">
+<td><a href="/{$id}">
 {
 let $W := $book//t:titleStmt
 let $Maintitle := $W/t:title[@type eq  'main'][@corresp eq  '#t1'][text()]
