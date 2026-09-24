@@ -12,7 +12,7 @@ let $col6 := '/db/apps/BetMasData/works/6001-7000'
 let $col7 := '/db/apps/BetMasData/works/7001-8000'
 let $colnew := '/db/apps/BetMasData/works/new'
 return
-<div xmlns="http://www.w3.org/1999/xhtml" data-template-with="templates/newpage.html">
+<div xmlns="http://www.w3.org/1999/xhtml" data-wrapper="templates/newpage.html">
     <div class="w3-container w3-margin w3-padding-64">
         <h1> Clavis Aethiopica listing </h1>
         <p>We identify each unit of content in every manuscript. We consider any text with an independent circulation a work, with its own identification number within the Clavis Aethiopica (CAe). Parts of texts (e.g. chapters) without independent circulation (univocally identifiable by IDs assigned within the records) or recurrent motifs as well as documentary additional texts (identified as Narrative Units) are not part of the CAe. You can also check the list of different types of text titles or various Indexes available from the top menu.</p>
