@@ -1,0 +1,22 @@
+db/apps/lists/repo.xml
+  s_2e771ee34719d0::t_f72bc1b7a39a56 13
+db/apps/lists/post-install.xql
+  s_2e771ee34719d0::t_1200d2e8672c8a 1-2,5-20
+  s_2e771ee34719d0::t_6ba13ee330a0ac 3-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "462b4bfb5ce0a47b79b1e882c29af0debd0e010c",
+  "prompts": {},
+  "sessions": {
+    "s_2e771ee34719d0": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4631dfec-eef3-41b4-8118-e45f10dfd049",
+        "model": "gpt-5.6-sol-medium"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
