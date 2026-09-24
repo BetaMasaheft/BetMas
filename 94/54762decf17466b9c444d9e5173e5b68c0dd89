@@ -1,0 +1,20 @@
+db/apps/BetMasInitInstance/finish.xq
+  s_14589ac82c1122::t_e12d53d7d19b10 49-60,63-65
+  s_14589ac82c1122::t_f14417974a2075 61-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9454762decf17466b9c444d9e5173e5b68c0dd89",
+  "prompts": {},
+  "sessions": {
+    "s_14589ac82c1122": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "9a15a842-3e45-447d-9253-ea0040f9af8e",
+        "model": "gpt-5.6-sol-medium"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
