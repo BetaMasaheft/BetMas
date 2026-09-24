@@ -46,7 +46,23 @@ declare variable $loc:appUrl := "`{$app_url}`";
    environment is not yet set. :)
 let $services := <services>
 	{
-		for $env in ("COLLATEX_URL", "FUSEKI_URL", "ID_MANAGER_URL", "USERS_VOLUME_DIRECTORY")
+		for $env in (
+			"COLLATEX_URL",
+			"FUSEKI_URL",
+			"ID_MANAGER_URL",
+			"USERS_VOLUME_DIRECTORY",
+			"CATALOG_BACKEND_EXPTIT",
+			"CATALOG_BACKEND_LABEL",
+			"CATALOG_BACKEND_LABELS",
+			"CATALOG_BACKEND_INSTITUTIONS",
+			"CATALOG_BACKEND_TEXTPARTS",
+			"CATALOG_BACKEND_BIBL",
+			"CATALOG_BACKEND_RETIRED",
+			"CATALOG_BACKEND_WEB_LIST",
+			"CATALOG_BACKEND_VIEW_ITEM",
+			"CATALOG_BACKEND_API_TITLES",
+			"CATALOG_BACKEND_API_REST"
+		)
 		let $value := fn:environment-variable($env)
 		where normalize-space($value) != ""
 		return <service env="{ $env }">{ normalize-space($value) }</service>
