@@ -55,3 +55,6 @@ node_modules/
 
 .moderne/
 .claude/
+
+# Git worktrees (local isolation)
+.worktrees/

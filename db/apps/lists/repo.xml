@@ -10,4 +10,5 @@
 	<!-- This needs to be world-writable. Some page loads change the contents of lists. Todo: obviously fix this!-->
     <permissions user="admin" group="dba" mode="rwxrwxrwx"/>
     <prepare>pre-install.xql</prepare>
+    <finish>post-install.xql</finish>
 </meta>
