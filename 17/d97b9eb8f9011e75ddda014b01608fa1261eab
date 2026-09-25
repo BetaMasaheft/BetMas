@@ -1,0 +1,28 @@
+scripts/place-labels/.gitignore
+  s_a648dd277e16bd::t_37850a02217895 2
+scripts/place-labels/test_place_labels.py
+  s_a648dd277e16bd::t_a1df1793b74383 47-51,53-55,58-82,84-87
+  s_a648dd277e16bd::t_5b2dbcad7f0d59 52,56-57
+  s_a648dd277e16bd::t_11d1d03952d119 7,11,14-15
+  s_a648dd277e16bd::t_53deba86533789 83
+scripts/place-labels/README.md
+  s_a648dd277e16bd::t_7787969fb26a39 21-24
+scripts/place-labels/resolve_and_update.py
+  s_a648dd277e16bd::t_02240fe71a6ed6 114-115,127,132-138,141,144-154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "17d97b9eb8f9011e75ddda014b01608fa1261eab",
+  "prompts": {},
+  "sessions": {
+    "s_a648dd277e16bd": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "11d07719-8b5f-4b20-b0ff-1f04ea5114b6",
+        "model": "composer-2.5-fast"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
