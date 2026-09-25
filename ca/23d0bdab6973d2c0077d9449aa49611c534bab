@@ -1,0 +1,53 @@
+scripts/place-labels/test_place_labels.py
+  s_a273ccf66a00ac::t_28426dc1112252 1-45
+scripts/place-labels/fixtures/mini-lists.xml
+  s_a273ccf66a00ac::t_db7c0158db6f99 1-8
+scripts/place-labels/fixtures/mini-expanded/a.xml
+  s_a273ccf66a00ac::t_00cb43ba69d5b5 1-6
+db/apps/catalogs/place-labels.xml
+  s_a273ccf66a00ac::t_91025fb5068702 6-7,10-348
+scripts/place-labels/exceptions.txt
+  s_a273ccf66a00ac::t_3540e0fd718a38 1-2
+scripts/place-labels/_common.py
+  s_a273ccf66a00ac::t_3e25f9b500af38 1-72,74-102
+  s_a273ccf66a00ac::t_7e1c0495c97f45 73
+scripts/place-labels/fixtures/.gitignore
+  s_a273ccf66a00ac::t_93d46ef490692c 1
+scripts/place-labels/resolve_and_update.py
+  s_a273ccf66a00ac::t_b2f49196c6d7f4 1-14,16-144
+  s_a273ccf66a00ac::t_b16557a71f423c 15
+scripts/place-labels/fixtures/mini-artifact.xml
+  s_a273ccf66a00ac::t_2e783bb879553b 1-6
+.github/workflows/place-labels.yml
+  s_a273ccf66a00ac::t_3814295c6fe2e4 1-43
+scripts/place-labels/check_coverage.sh
+  s_a273ccf66a00ac::t_93c25e958ac1bd 29-33
+  s_a273ccf66a00ac::t_4a7714dea6922d 1-28,34,36-40,47-59
+  s_a273ccf66a00ac::t_01edd2820201c0 35,41-46
+scripts/place-labels/scan_missing.py
+  s_a273ccf66a00ac::t_9e591b4ea29990 1-8,10-32
+  s_a273ccf66a00ac::t_283218a0df028c 9
+scripts/place-labels/seed_from_lists.py
+  s_a273ccf66a00ac::t_de9ba9898f473c 1-9,11-49
+  s_a273ccf66a00ac::t_44f7167cd7887f 10
+scripts/place-labels/README.md
+  s_a273ccf66a00ac::t_83d6c214d9c882 1-20
+scripts/place-labels/.gitignore
+  s_a273ccf66a00ac::t_ce4746ff4ca3ad 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "ca23d0bdab6973d2c0077d9449aa49611c534bab",
+  "prompts": {},
+  "sessions": {
+    "s_a273ccf66a00ac": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "5ee20935-4e8a-4d39-8a17-d67b59fd50e2",
+        "model": "composer-2.5-fast"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
