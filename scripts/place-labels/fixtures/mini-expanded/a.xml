@@ -1,0 +1,6 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <text><body>
+    <place sameAs="wd:Q1"/>
+    <placeName ref="wd:Q9"/>
+  </body></text>
+</TEI>
