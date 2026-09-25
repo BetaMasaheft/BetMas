@@ -1,0 +1,31 @@
+db/apps/catalogs/manifest.xml
+  s_13f4d22eca0de2::t_045949637b46a6 1-9
+docker/data.Dockerfile
+  s_13f4d22eca0de2::t_32d8ea71d5dcec 80-84
+db/apps/catalogs/expath-pkg.xml
+  s_13f4d22eca0de2::t_a24680113bb0ab 1-7
+db/apps/catalogs/place-labels.xml
+  s_13f4d22eca0de2::t_68aec78f30843a 1-11
+db/apps/catalogs/repo.xml
+  s_13f4d22eca0de2::t_7a6a18d3732f76 1-6
+db/apps/catalogs/README.md
+  s_13f4d22eca0de2::t_61bc2f5d936dfd 1
+db/apps/catalogs/retired-ids.xml
+  s_13f4d22eca0de2::t_ae9a416f0fe17b 1-135
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "19c21f70c57411c3eeebdf2b3c5ec8758eb79f76",
+  "prompts": {},
+  "sessions": {
+    "s_13f4d22eca0de2": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "347773f8-5cc4-474a-bb09-5b9f2cc3c77a",
+        "model": "composer-2.5-fast"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
