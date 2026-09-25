@@ -18,3 +18,7 @@ PLACE_LABELS_STRICT=1 EXPANDED_ROOT=/path/to/expanded bash scripts/place-labels/
 ```
 
 `check_coverage.sh` warns while the artifact is empty, warns while a backlog remains after seed, and fails only when `PLACE_LABELS_STRICT=1` and refs are missing outside `exceptions.txt`.
+
+## CI resolve (`resolve_and_update.py`)
+
+The scheduled workflow resolves missing external refs over the network. **Per-ref resolve failures are non-fatal:** successful lookups are written to the artifact and the step exits `0` so `create-pull-request` can land partial updates. Failed refs are logged to stderr and appended to `scripts/place-labels/failures.txt` (gitignored) for Actions log review. The step exits `1` only for fatal errors (missing input files, bad arguments, uncaught exceptions).

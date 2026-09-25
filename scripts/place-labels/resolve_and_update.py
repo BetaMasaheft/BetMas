@@ -111,6 +111,8 @@ def main() -> int:
     items = read_artifact_items(args.artifact)
     have = {corresp for corresp, _ in items}
     failures: list[str] = []
+    successes = 0
+    failures_path = Path(__file__).resolve().parent / 'failures.txt'
 
     for ref in missing:
         if ref in have:
@@ -122,21 +124,34 @@ def main() -> int:
             continue
         items.append((ref, label))
         have.add(ref)
+        successes += 1
         print(f'resolved {ref} -> {label}')
         if args.delay > 0:
             time.sleep(args.delay)
 
-    write_artifact(
-        args.artifact,
-        items,
-        source_note='Updated by resolve_and_update.py (CI network resolve).',
-    )
+    if successes > 0:
+        write_artifact(
+            args.artifact,
+            items,
+            source_note='Updated by resolve_and_update.py (CI network resolve).',
+        )
+        print(f'artifact updated ({successes} new label(s))')
 
     if failures:
-        print('resolve failures:', file=sys.stderr)
+        print('resolve failures (non-fatal for CI PR):', file=sys.stderr)
         for line in failures:
             print(f'  {line}', file=sys.stderr)
-        return 1
+        failures_path.write_text('\n'.join(failures) + '\n', encoding='utf-8')
+        print(f'wrote {len(failures)} failure(s) to {failures_path}', file=sys.stderr)
+        if successes == 0:
+            print(
+                'WARN: no refs resolved; artifact unchanged (create-pull-request may skip).',
+                file=sys.stderr,
+            )
+        return 0
+
+    if successes == 0:
+        print('no new refs to resolve (already in artifact or empty after filter)')
     return 0
 
 
