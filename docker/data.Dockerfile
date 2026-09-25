@@ -77,6 +77,11 @@ COPY db/apps/lists /tmp/lists
 WORKDIR /tmp/lists
 RUN jar cfM0 /tmp/dependencies/lists.xar .
 
+# -- catalogs: replace-only artifacts read by catalog.xqm --
+COPY db/apps/catalogs /tmp/catalogs
+WORKDIR /tmp/catalogs
+RUN jar cfM0 /tmp/dependencies/catalogs.xar .
+
 # -- data packages --
 # Each ADD-from-git checkout is .git-free (BuildKit strips it), so every
 # build.xml's own git.revision target falls back to "unknown" commit-id/time
