@@ -1,0 +1,6 @@
+<meta xmlns="http://exist-db.org/xquery/repo">
+  <description>Replace-only catalog artifacts (retired-ids, place-labels, …)</description>
+  <vendor>Beta Masaheft</vendor>
+  <target>catalogs</target>
+  <permissions user="admin" group="dba" mode="rwxr-xr-x"/>
+</meta>

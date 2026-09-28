@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Place labels (catalog artifact)</title></titleStmt>
+      <publicationStmt><p>Filled by place-labels workflow</p></publicationStmt>
+      <sourceDesc><p>Seed empty; see Phase 3 HP6</p></sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text><body><list xml:id="placeLabels"/></body></text>
+</TEI>

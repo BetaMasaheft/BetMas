@@ -1,0 +1,1 @@
+Replace-only catalog artifacts baked into `catalogs.xar` for `/db/apps/catalogs`. When the expanded SHA in the data image provenance / OCI labels advances, refresh `retired-ids.xml` from `expanded/config/retired-ids.xml` at that commit and bump `expanded-sha` in `manifest.xml`.
