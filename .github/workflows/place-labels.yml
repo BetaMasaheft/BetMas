@@ -1,0 +1,48 @@
+name: Place labels catalog
+
+on:
+  schedule:
+    - cron: '0 4 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          repository: BetaMasaheft/expanded
+          path: expanded
+          ref: main
+      - name: Install xmllint
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+      - name: Scan, resolve, bump manifest pin, coverage warn
+        env:
+          GEONAMES_USERNAME: ${{ secrets.GEONAMES_USERNAME }}
+        run: |
+          bash scripts/place-labels/scan_missing.sh \
+            --expanded expanded \
+            --artifact db/apps/catalogs/place-labels.xml > /tmp/missing.txt
+          if [ -s /tmp/missing.txt ]; then
+            bash scripts/place-labels/resolve_and_update.sh \
+              --missing /tmp/missing.txt \
+              --artifact db/apps/catalogs/place-labels.xml
+          else
+            echo "nothing missing"
+          fi
+          SHA="$(git -C expanded rev-parse HEAD)"
+          bash scripts/place-labels/bump_manifest_pin.sh \
+            --manifest db/apps/catalogs/manifest.xml \
+            --sha "${SHA}"
+          EXPANDED_ROOT=expanded ARTIFACT=db/apps/catalogs/place-labels.xml \
+            bash scripts/place-labels/check_coverage.sh
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/place-labels-bot
+          title: "chore(catalogs): update place-labels artifact"
+          body: "HP6 automated resolve (CI network only)."
+          commit-message: "chore(catalogs): update place-labels"

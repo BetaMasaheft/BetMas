@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog-manifest version="1">
+  <artifact name="retired-ids.xml"
+    required="true"
+    expanded-sha="aaa1111111111111111111111111111111111111111"/>
+  <artifact name="place-labels.xml"
+    required="true"
+    expanded-sha="bbb2222222222222222222222222222222222222222"/>
+</catalog-manifest>

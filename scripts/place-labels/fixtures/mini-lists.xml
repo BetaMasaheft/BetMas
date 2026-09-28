@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <text><body><list>
+    <item corresp="LOC0001">Internal</item>
+    <item corresp="wd:Q1">One</item>
+    <item corresp="pleiades:99">Nine</item>
+  </list></body></text>
+</TEI>

@@ -80,6 +80,7 @@ RUN jar cfM0 /tmp/dependencies/lists.xar .
 # -- catalogs: replace-only artifacts read by catalog.xqm --
 COPY db/apps/catalogs /tmp/catalogs
 WORKDIR /tmp/catalogs
+RUN printf '%s\n' "${EXPANDED_REF}" > expanded-sha.txt
 RUN jar cfM0 /tmp/dependencies/catalogs.xar .
 
 # -- data packages --

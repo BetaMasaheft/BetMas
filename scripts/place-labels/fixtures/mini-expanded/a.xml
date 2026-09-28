@@ -1,0 +1,9 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <text><body>
+    <place sameAs="wd:Q1"/>
+    <placeName ref="https://www.wikidata.org/entity/Q9"/>
+    <settlement ref="https://pleiades.stoa.org/places/99"/>
+    <!-- ontology predicate must NOT become gn: -->
+    <relation ref="http://www.geonames.org/ontology#locatedIn"/>
+  </body></text>
+</TEI>

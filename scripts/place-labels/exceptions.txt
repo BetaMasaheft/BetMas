@@ -1,0 +1,2 @@
+# External place refs allowed to be absent from place-labels.xml (one ref per line).
+# Example: wd:Q9999999
