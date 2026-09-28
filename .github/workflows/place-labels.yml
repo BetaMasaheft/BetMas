@@ -18,25 +18,24 @@ jobs:
           repository: BetaMasaheft/expanded
           path: expanded
           ref: main
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.12'
+      - name: Install xmllint
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
       - name: Scan, resolve, bump manifest pin, coverage warn
         env:
           GEONAMES_USERNAME: ${{ secrets.GEONAMES_USERNAME }}
         run: |
-          python3 scripts/place-labels/scan_missing.py \
+          bash scripts/place-labels/scan_missing.sh \
             --expanded expanded \
             --artifact db/apps/catalogs/place-labels.xml > /tmp/missing.txt
           if [ -s /tmp/missing.txt ]; then
-            python3 scripts/place-labels/resolve_and_update.py \
+            bash scripts/place-labels/resolve_and_update.sh \
               --missing /tmp/missing.txt \
               --artifact db/apps/catalogs/place-labels.xml
           else
             echo "nothing missing"
           fi
           SHA="$(git -C expanded rev-parse HEAD)"
-          python3 scripts/place-labels/bump_manifest_pin.py \
+          bash scripts/place-labels/bump_manifest_pin.sh \
             --manifest db/apps/catalogs/manifest.xml \
             --sha "${SHA}"
           EXPANDED_ROOT=expanded ARTIFACT=db/apps/catalogs/place-labels.xml \

@@ -21,7 +21,7 @@ fi
 missing_file="$(mktemp)"
 trap 'rm -f "${missing_file}"' EXIT
 
-python3 "${root}/scripts/place-labels/scan_missing.py" \
+bash "${root}/scripts/place-labels/scan_missing.sh" \
   --expanded "${expanded}" \
   --artifact "${artifact}" > "${missing_file}"
 
