@@ -1,0 +1,41 @@
+.github/workflows/place-labels.yml
+  s_e98fb2299e704f::t_64043fb9785c95 21-22,27,31,38
+scripts/place-labels/_common.sh
+  s_e98fb2299e704f::t_dfbd4a5b424ad1 80,82,85,107-109
+  s_e98fb2299e704f::t_4e7ea0044f70b1 160,183,186,188,193
+  s_e98fb2299e704f::t_d09cc6bbbc49cd 1-79,81,83-84,86-106,110-159,161-182,184-185,187,189-192,194
+scripts/place-labels/README.md
+  s_e98fb2299e704f::t_737d2104af7caa 5-6,10,14,20-21,24-25,28,30,32
+scripts/place-labels/scan_missing.sh
+  s_e98fb2299e704f::t_92dcf3b7a23544 1-42
+scripts/place-labels/check_coverage.sh
+  s_e98fb2299e704f::t_0bd76856095612 24
+scripts/place-labels/bump_manifest_pin.sh
+  s_e98fb2299e704f::t_49f3ce8daa2b0e 1-43,45-68,70-81
+  s_e98fb2299e704f::t_2709d1eb3bb7c8 44,69
+scripts/place-labels/resolve_and_update.sh
+  s_e98fb2299e704f::t_8ce138c5a01e56 1-200
+scripts/place-labels/fixtures/mini-expanded/a.xml
+  s_e98fb2299e704f::t_a014e054f76c50 4-7
+scripts/place-labels/seed_from_lists.sh
+  s_e98fb2299e704f::t_10c3677056faac 1-54
+scripts/place-labels/test_place_labels.bats
+  s_e98fb2299e704f::t_2778ff0bc5ff32 60,78
+  s_e98fb2299e704f::t_b60eb912cafb57 1-59,61-77,79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "e49fbfb2936971e0ab23200a55159b973fc492ba",
+  "prompts": {},
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
