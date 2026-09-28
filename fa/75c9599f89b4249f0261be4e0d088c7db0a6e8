@@ -1,0 +1,21 @@
+db/apps/catalogs/README.md
+  s_61f11e28c8cf2a::t_7c40dc02c302e1 2-3
+docker/data.Dockerfile
+  s_61f11e28c8cf2a::t_3603c8f5b4c095 83
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "fa75c9599f89b4249f0261be4e0d088c7db0a6e8",
+  "prompts": {},
+  "sessions": {
+    "s_61f11e28c8cf2a": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "66794965-c0cb-4e9c-94f4-485895224637",
+        "model": "composer-2.5-fast"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
