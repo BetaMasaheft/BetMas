@@ -12,12 +12,33 @@ from unittest.mock import patch
 
 DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(DIR))
+import bump_manifest_pin  # noqa: E402
 import resolve_and_update  # noqa: E402
 ROOT = DIR.parent.parent
 FIXTURES = DIR / 'fixtures'
 
 
 class PlaceLabelsTests(unittest.TestCase):
+    def test_bump_manifest_pin_place_labels_only(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            manifest = Path(tmp) / 'manifest.xml'
+            manifest.write_text(
+                FIXTURES.joinpath('mini-manifest.xml').read_text(encoding='utf-8'),
+                encoding='utf-8',
+            )
+            new_sha = 'ccc3333333333333333333333333333333333333333'
+            changed = bump_manifest_pin.bump_place_labels_manifest_pin(manifest, new_sha)
+            self.assertTrue(changed)
+            text = manifest.read_text(encoding='utf-8')
+            self.assertIn(f'expanded-sha="{new_sha}"', text)
+            self.assertIn('expanded-sha="aaa1111111111111111111111111111111111111111"', text)
+            self.assertNotIn('expanded-sha="bbb2222222222222222222222222222222222222222"', text)
+            changed_again = bump_manifest_pin.bump_place_labels_manifest_pin(
+                manifest,
+                f'  {new_sha}  ',
+            )
+            self.assertFalse(changed_again)
+
     def test_seed_from_lists(self) -> None:
         out = FIXTURES / 'out-place-labels.xml'
         if out.exists():

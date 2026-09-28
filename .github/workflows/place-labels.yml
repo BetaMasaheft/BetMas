@@ -21,20 +21,26 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Scan and resolve missing place labels
+      - name: Scan, resolve, bump manifest pin, coverage warn
         env:
           GEONAMES_USERNAME: ${{ secrets.GEONAMES_USERNAME }}
         run: |
           python3 scripts/place-labels/scan_missing.py \
             --expanded expanded \
             --artifact db/apps/catalogs/place-labels.xml > /tmp/missing.txt
-          if [ ! -s /tmp/missing.txt ]; then
+          if [ -s /tmp/missing.txt ]; then
+            python3 scripts/place-labels/resolve_and_update.py \
+              --missing /tmp/missing.txt \
+              --artifact db/apps/catalogs/place-labels.xml
+          else
             echo "nothing missing"
-            exit 0
           fi
-          python3 scripts/place-labels/resolve_and_update.py \
-            --missing /tmp/missing.txt \
-            --artifact db/apps/catalogs/place-labels.xml
+          SHA="$(git -C expanded rev-parse HEAD)"
+          python3 scripts/place-labels/bump_manifest_pin.py \
+            --manifest db/apps/catalogs/manifest.xml \
+            --sha "${SHA}"
+          EXPANDED_ROOT=expanded ARTIFACT=db/apps/catalogs/place-labels.xml \
+            bash scripts/place-labels/check_coverage.sh
       - uses: peter-evans/create-pull-request@v7
         with:
           branch: chore/place-labels-bot
