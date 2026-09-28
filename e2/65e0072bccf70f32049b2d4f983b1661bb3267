@@ -1,0 +1,28 @@
+scripts/place-labels/test_place_labels.py
+  s_1ecef36908cc83::t_24a6caf1f84980 15
+  s_1ecef36908cc83::t_eceb60d2d713aa 22-41
+scripts/place-labels/bump_manifest_pin.py
+  s_1ecef36908cc83::t_944aa2cccfcd41 1-66
+scripts/place-labels/fixtures/mini-manifest.xml
+  s_1ecef36908cc83::t_49e317fe5fe44e 1-9
+scripts/place-labels/README.md
+  s_1ecef36908cc83::t_c39e4b59b91e9c 22-23
+.github/workflows/place-labels.yml
+  s_1ecef36908cc83::t_b257e0712192a0 24,31-35,38-43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "e265e0072bccf70f32049b2d4f983b1661bb3267",
+  "prompts": {},
+  "sessions": {
+    "s_1ecef36908cc83": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4d92c58f-869d-4592-b733-6119fa8afbc4",
+        "model": "composer-2.5-fast"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
