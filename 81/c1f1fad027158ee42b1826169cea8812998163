@@ -1,0 +1,20 @@
+docker/nginx.conf
+  s_e98fb2299e704f::t_d3233f74f042f3 98-103
+  s_e98fb2299e704f::t_d742ef05d4d35c 150
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "81c1f1fad027158ee42b1826169cea8812998163",
+  "prompts": {},
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
