@@ -1,0 +1,27 @@
+docs/superpowers/specs/2026-09-29-catalog-phase4-bibl-design.md
+  s_e98fb2299e704f::t_b4de58313907a2 1-131
+db/apps/catalogs/README.md
+  s_e98fb2299e704f::t_05eebe5bdc39bf 3-4
+db/apps/catalogs/manifest.xml
+  s_e98fb2299e704f::t_e327fb2fe1f850 9-11
+db/apps/catalogs/repo.xml
+  s_e98fb2299e704f::t_8a52dc1991453b 2
+db/apps/catalogs/bibl-exceptions.xml
+  s_e98fb2299e704f::t_1981ceb5df23c2 1-111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "49dc262f254e8e119b0d4d49812a11799c8e7b7e",
+  "prompts": {},
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
