@@ -10,7 +10,7 @@ Approved in session: prepare **B** (spec + bibliography hygiene in parallel); co
 
 Serving-path bibliography resolution reads **EthioStudies first**. `lists/bibliography.xml` is used only for ids listed in a baked exception artifact. Live Zotero is not part of the serving path. `expand:syncBibliography` / page-load writers that mutate `bibliography.xml` leave the serving path.
 
-**Phase 4 gate**
+### Phase 4 gate
 
 | Check | Rule |
 |-------|------|
