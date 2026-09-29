@@ -1,0 +1,19 @@
+docs/superpowers/specs/2026-09-29-catalog-phase4-bibl-design.md
+  s_e98fb2299e704f::t_877450b7a83030 13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "7600ec45a2e8ecb846f4376adfa1d35deeae8393",
+  "prompts": {},
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
