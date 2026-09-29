@@ -1,0 +1,19 @@
+docs/superpowers/plans/2026-09-29-catalog-phase4-bibl.md
+  s_e98fb2299e704f::t_c960073031b215 1-538
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "7d242481aa7f4e46fa6aa3c469025dbfb1dc6ec7",
+  "prompts": {},
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
