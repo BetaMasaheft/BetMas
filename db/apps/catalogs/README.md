@@ -1,3 +1,5 @@
 Replace-only catalog artifacts baked into `catalogs.xar` for `/db/apps/catalogs`. When the expanded SHA in the data image provenance / OCI labels advances, refresh `retired-ids.xml` from `expanded/config/retired-ids.xml` at that commit and bump `expanded-sha` in `manifest.xml`.
 
+`bibl-exceptions.xml` is the Phase 4 allowlist: serving-path bibl may fall back to `lists/bibliography.xml` only for entries with `lists-fallback="true"`. Shrink it as EthioStudies re-exports close [bibliography#27](https://github.com/BetaMasaheft/bibliography/issues/27) / [#28](https://github.com/BetaMasaheft/bibliography/issues/28).
+
 The committed `expanded-sha.txt` is a dev/default seed. The data image build overwrites it from the `EXPANDED_REF` build arg immediately before packaging `catalogs.xar`. **CI must pass a resolved expanded commit SHA** as `EXPANDED_REF` (see `build-data.yml`); the stale gate compares manifest `@expanded-sha` to this file. Local ad-hoc builds may pass `EXPANDED_REF=main`, which pins the literal string `main` and is not meaningful for freshness checks.
