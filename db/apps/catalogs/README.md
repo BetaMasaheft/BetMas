@@ -1,4 +1,4 @@
-Replace-only catalog artifacts baked into `catalogs.xar` for `/db/apps/catalogs`. When the expanded SHA in the data image provenance / OCI labels advances, refresh `retired-ids.xml` from `expanded/config/retired-ids.xml` at that commit and bump `expanded-sha` in `manifest.xml`.
+Replace-only catalog artifacts baked into `catalogs.xar` for `/db/apps/catalogs`. The data image build copies `retired-ids.xml` from `expanded/config/retired-ids.xml` at `EXPANDED_REF` and sets that artifact's manifest `@expanded-sha`, plus the `bibl-exceptions.xml` pin, to the same value written into `expanded-sha.txt`. `place-labels.xml` keeps the pin from the last scan.
 
 `bibl-exceptions.xml` is the Phase 4 allowlist: serving-path bibl may fall back to `lists/bibliography.xml` only for entries with `lists-fallback="true"`. Shrink it as EthioStudies re-exports close [bibliography#27](https://github.com/BetaMasaheft/bibliography/issues/27) / [#28](https://github.com/BetaMasaheft/bibliography/issues/28).
 
