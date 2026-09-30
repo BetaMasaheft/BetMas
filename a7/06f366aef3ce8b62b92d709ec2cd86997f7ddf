@@ -1,0 +1,26 @@
+db/apps/catalogs/README.md
+  s_1253ffb84560e1::t_30e27c13d2c851 1
+scripts/catalogs/pin_baked_artifacts.sh
+  s_1253ffb84560e1::t_f78abfdd829b56 1-38
+docker/data.Dockerfile
+  s_1253ffb84560e1::t_74f844c59994bf 80,82
+  s_1253ffb84560e1::t_9b09c6b484e0a9 141-148
+scripts/catalogs/pin_baked_artifacts_test.sh
+  s_1253ffb84560e1::t_839750eb07b6ec 1-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a706f366aef3ce8b62b92d709ec2cd86997f7ddf",
+  "prompts": {},
+  "sessions": {
+    "s_1253ffb84560e1": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ad97d5ac-6d02-4345-8d1e-03195239e289",
+        "model": "grok-4.7"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
