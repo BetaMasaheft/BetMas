@@ -77,11 +77,9 @@ COPY db/apps/lists /tmp/lists
 WORKDIR /tmp/lists
 RUN jar cfM0 /tmp/dependencies/lists.xar .
 
-# -- catalogs: replace-only artifacts read by catalog.xqm --
+# -- catalogs tree; packaged after expanded is fetched (below) --
 COPY db/apps/catalogs /tmp/catalogs
-WORKDIR /tmp/catalogs
-RUN printf '%s\n' "${EXPANDED_REF}" > expanded-sha.txt
-RUN jar cfM0 /tmp/dependencies/catalogs.xar .
+COPY scripts/catalogs/pin_baked_artifacts.sh /tmp/pin_baked_artifacts.sh
 
 # -- data packages --
 # Each ADD-from-git checkout is .git-free (BuildKit strips it), so every
@@ -139,6 +137,14 @@ RUN ant && mv build/*.xar /tmp/dependencies/traces.xar
 ADD https://github.com/BetaMasaheft/expanded.git#${EXPANDED_REF} /tmp/expanded-data
 WORKDIR /tmp/expanded-data
 RUN ant && mv build/*.xar /tmp/dependencies/expanded.xar
+
+# retired-ids comes from this expanded checkout. bibl-exceptions is a hand
+# list, so its pin follows EXPANDED_REF too. place-labels keeps its scan pin.
+WORKDIR /tmp/catalogs
+RUN chmod +x /tmp/pin_baked_artifacts.sh \
+	&& /tmp/pin_baked_artifacts.sh "${EXPANDED_REF}" /tmp/expanded-data /tmp/catalogs \
+	&& printf '%s\n' "${EXPANDED_REF}" > expanded-sha.txt \
+	&& jar cfM0 /tmp/dependencies/catalogs.xar .
 
 
 FROM duncdrum/existdb:${EXISTDB_VERSION}
