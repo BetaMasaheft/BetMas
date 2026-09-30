@@ -1,0 +1,19 @@
+docker-compose.yml
+  s_ab2df52972f765::t_25ed7339290678 32-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "ddf55ee8623aba3f546ec7220fb07c570a9f32f1",
+  "prompts": {},
+  "sessions": {
+    "s_ab2df52972f765": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "71072831-69f5-4c65-a2eb-165e1c597ccf",
+        "model": "claude-sonnet-5-5-high"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
