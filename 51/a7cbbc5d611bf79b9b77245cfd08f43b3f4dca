@@ -1,0 +1,19 @@
+db/apps/catalogs/bibl-exceptions.xml
+  s_1253ffb84560e1::t_9386bb37537692 93-96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "51a7cbbc5d611bf79b9b77245cfd08f43b3f4dca",
+  "prompts": {},
+  "sessions": {
+    "s_1253ffb84560e1": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ad97d5ac-6d02-4345-8d1e-03195239e289",
+        "model": "grok-4.7"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
