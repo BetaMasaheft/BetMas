@@ -4,7 +4,7 @@
     <fileDesc>
       <titleStmt><title>Place labels (catalog artifact)</title></titleStmt>
       <publicationStmt><p>HP6 place-labels workflow; resolve in CI only.</p></publicationStmt>
-      <sourceDesc><p>Seeded from db/apps/lists/placeNamesLabels.xml (337 external refs).</p></sourceDesc>
+      <sourceDesc><p>Updated by resolve_and_update.sh (CI network resolve).</p></sourceDesc>
     </fileDesc>
   </teiHeader>
   <text><body><list xml:id="placeLabels">
@@ -15,6 +15,7 @@
       <item corresp="pleiades:1306">Syria</item>
       <item corresp="pleiades:148107">Lattara</item>
       <item corresp="pleiades:29475">Arabia (region)</item>
+      <item corresp="pleiades:336410435">Semien Mountains</item>
       <item corresp="pleiades:39274">Aethiopia</item>
       <item corresp="pleiades:39281">Alalaiou (islands)</item>
       <item corresp="pleiades:39290">Arabicus Sinus/Erythr(ae)um/Rubrum Mare</item>
@@ -86,7 +87,17 @@
       <item corresp="pleiades:991380">Asia</item>
       <item corresp="pleiades:991410">Phoenice</item>
       <item corresp="wd:Q100">Boston</item>
+      <item corresp="wd:Q1001470">Montenegro</item>
+      <item corresp="wd:Q100213">Otto Friedrich August Meinardus</item>
+      <item corresp="wd:Q1005">The Gambia</item>
+      <item corresp="wd:Q1007083">Dartmouth</item>
+      <item corresp="wd:Q1009">Cameroon</item>
+      <item corresp="wd:Q1009179">Moyale</item>
+      <item corresp="wd:Q101081">Provence</item>
+      <item corresp="wd:Q1013335">Harlem</item>
+      <item corresp="wd:Q1014">Liberia</item>
       <item corresp="wd:Q1016">Libya</item>
+      <item corresp="wd:Q101625">Marrakech</item>
       <item corresp="wd:Q1022">Stuttgart</item>
       <item corresp="wd:Q1022764">Fairmount</item>
       <item corresp="wd:Q1036">Uganda</item>
@@ -168,9 +179,19 @@
       <item corresp="wd:Q189383">Damietta</item>
       <item corresp="wd:Q1898198">Collegeville Township</item>
       <item corresp="wd:Q19014">Garden of Eden</item>
+      <item corresp="wd:Q1960">Dar es Salaam</item>
+      <item corresp="wd:Q1963">Khartoum</item>
+      <item corresp="wd:Q19661476">John Albert Douglas</item>
+      <item corresp="wd:Q1968666">National Museum of Eritrea</item>
+      <item corresp="wd:Q1969147">Nefasit</item>
       <item corresp="wd:Q1974">wd:Q1974</item>
+      <item corresp="wd:Q1986888">Nikolaus Serarius</item>
+      <item corresp="wd:Q1988593">Pope John V of Alexandria</item>
+      <item corresp="wd:Q1989504">Anna Maria Rubatto</item>
       <item corresp="wd:Q20">Norway</item>
       <item corresp="wd:Q200127">Tigray Region</item>
+      <item corresp="wd:Q2003169">Pope Mark VI of Alexandria</item>
+      <item corresp="wd:Q200441">Antioch</item>
       <item corresp="wd:Q201575">John I of Portugal</item>
       <item corresp="wd:Q203751">Upper Egypt</item>
       <item corresp="wd:Q2044">Florence</item>
@@ -264,8 +285,18 @@
       <item corresp="wd:Q4122">Wolfenbüttel</item>
       <item corresp="wd:Q4174">Emden</item>
       <item corresp="wd:Q42466">Veroli</item>
+      <item corresp="wd:Q426142">Francisco Manuel de Melo</item>
+      <item corresp="wd:Q426590">David Samuel Margoliouth</item>
       <item corresp="wd:Q43">Turkey</item>
+      <item corresp="wd:Q43048">Rhodes</item>
+      <item corresp="wd:Q43185924">Pitts Theology Library</item>
+      <item corresp="wd:Q43196">Cincinnati</item>
+      <item corresp="wd:Q43280403">Asaph</item>
+      <item corresp="wd:Q43399">Andrew the Apostle</item>
       <item corresp="wd:Q43421">Richmond</item>
+      <item corresp="wd:Q434222">Aphrahat</item>
+      <item corresp="wd:Q4344608">Athanasios Papadopoulos-Kerameus</item>
+      <item corresp="wd:Q43543428">University of Toronto Scarborough Library</item>
       <item corresp="wd:Q43631">Leiden</item>
       <item corresp="wd:Q45">Portugal</item>
       <item corresp="wd:Q46">Europe</item>
