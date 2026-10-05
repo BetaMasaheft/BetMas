@@ -40,7 +40,7 @@ jobs:
             --sha "${SHA}"
           EXPANDED_ROOT=expanded ARTIFACT=db/apps/catalogs/place-labels.xml \
             bash scripts/place-labels/check_coverage.sh
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         with:
           branch: chore/place-labels-bot
           title: "chore(catalogs): update place-labels artifact"
