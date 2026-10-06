@@ -71,7 +71,9 @@ function rewriteFontUrls(cssSubdir, cssFilename, oldPrefix) {
 	const original = fs.readFileSync(cssPath, "utf8");
 	const rewritten = original.split(oldPrefix).join(`${fontsRel}/`);
 	if (rewritten === original) {
-		throw new Error(`${cssPath}: expected to rewrite ${oldPrefix} references, but found none - did the package's CSS change?`);
+		throw new Error(
+			`${cssPath}: expected to rewrite ${oldPrefix} references, but found none - did the package's CSS change?`,
+		);
 	}
 	fs.writeFileSync(cssPath, rewritten);
 }
