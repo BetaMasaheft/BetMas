@@ -40,7 +40,7 @@ RUN mkdir /tmp/apps /tmp/stage-2
 WORKDIR /tmp/BetMasService
 RUN jar cfM0 /tmp/apps/10-BetMasService.xar .
 
-# Both ship their own ant build (same xar their own CI produces).
+# BetMasWeb/BetMasApi ship their own ant build (same xar their own CI produces).
 ADD https://github.com/BetaMasaheft/BetMasWeb.git#${BETMASWEB_REF} /tmp/BetMasWeb
 WORKDIR /tmp/BetMasWeb
 RUN ant && mv build/BetMasWeb-*.xar /tmp/apps/11-BetMasWeb.xar
@@ -49,8 +49,10 @@ ADD https://github.com/BetaMasaheft/BetMasApi.git#${BETMASAPI_REF} /tmp/BetMasAp
 WORKDIR /tmp/BetMasApi
 RUN ant && mv build/BetMasApi-*.xar /tmp/apps/12-BetMasApi.xar
 
+# parser vendors its frontend libraries from npm (ant vendor target), so it
+# needs the same ant build as BetMasWeb rather than a plain jar.
 WORKDIR /tmp/parser
-RUN jar cfM0 /tmp/apps/13-parser.xar .
+RUN ant && mv build/parser-*.xar /tmp/apps/13-parser.xar
 
 # Dillmann shares this instance rather than its own container (#556) -
 # matches prod. Unlike collatex-service/sparql-service/iipsrv-fixtures

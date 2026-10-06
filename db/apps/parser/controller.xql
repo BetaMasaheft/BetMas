@@ -6,6 +6,14 @@ declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
 
+(: vendored frontend libraries (npm, see scripts/copy-vendor-libs.js). Under /morpho/ because
+   the public site forwards every /morpho path to this app. :)
+if (starts-with($exist:path, "/morpho/resources/")) then
+	<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+		<forward url="{ $exist:controller }{ substring-after($exist:path, '/morpho') }"/>
+		<cache-control cache="yes"/>
+	</dispatch>
+else
 (: everything under /morpho is served by this app's own Roaster router
    (modules/api.xql + modules/routes.json) - replaces the classic RESTXQ
    (%rest:*) dispatch previously handled by eXist's built-in RestXqServlet. :)

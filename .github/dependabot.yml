@@ -7,6 +7,22 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
 
+  # parser frontend vendor libraries (db/apps/parser/package.json). All three are
+  # pinned on purpose, so everything is ignored; keep this list in sync with
+  # that package.json, a stale list silently hides real updates.
+  - package-ecosystem: "npm"
+    directory: "/db/apps/parser"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    ignore:
+      # bootstrap 3 markup/JS is used throughout; 5.x is a rewrite
+      - dependency-name: "bootstrap"
+      # bootstrap 3.4.1's JS refuses jQuery >= 4, so stays on 3.x
+      - dependency-name: "jquery"
+      # 2.9.3 -> 8.x changes the API (introJs() usage in morphoparser.xqm)
+      - dependency-name: "intro.js"
+
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
