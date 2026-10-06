@@ -3,6 +3,7 @@ xquery version "3.1"  encoding "UTF-8";
 module namespace morpho="http://betamasaheft.eu/parser/morpho";
 import module namespace all = "https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "substitutions.xql";
 import module namespace console = "http://exist-db.org/xquery/console";
+import module namespace config="http://betamasaheft.eu/parser/config" at "config.xqm";
 (:~ 
  : XQuery endpoint to parse requests for Geez parsing, paradigms and conjugations. 
  : includes html view with form and 
@@ -91,6 +92,24 @@ declare variable $morpho:waw := $morpho:letters//f:letter[@type='waw']//f:realiz
 declare variable $morpho:neg := $morpho:letters//f:realization[@type='neg']/text();
 declare variable $morpho:quot := $morpho:letters//f:realization[@type='quot']/text();
 declare variable $morpho:int := $morpho:letters//f:realization[@type='int']/text();
+
+(:~
+ : Stylesheets and scripts shared by every HTML page of the parser, served from
+ : this app's own resources/**/external (npm, see scripts/copy-vendor-libs.js).
+ : Served under /morpho/resources because the public site forwards every
+ : /morpho path to this app, and controller.xql maps that back to /resources.
+ : jQuery must come first: bootstrap.js and the inline page scripts need it.
+ :)
+declare function morpho:vendorLinks() as element()+ {
+    let $r := config:appBase() || "/morpho/resources"
+    return (
+        <link rel="stylesheet" href="{$r}/css/external/bootstrap/bootstrap.min.css"/>,
+        <link rel="stylesheet" type="text/css" href="{$r}/css/external/intro.js/introjs.min.css"/>,
+        <script src="{$r}/js/external/jquery/jquery.min.js"></script>,
+        <script src="{$r}/js/external/bootstrap/bootstrap.min.js"></script>,
+        <script src="{$r}/js/external/intro.js/intro.min.js"></script>
+    )
+};
 
 (:~
  : Takes a query and a few parameters used to filter the results. Sends the main request to the formulas alterantives building function (morpho:formulas())
@@ -416,13 +435,7 @@ return
   
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"></link>
-<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  { morpho:vendorLinks() }
 <script type="application/javascript">$('.alert').alert()
 
   $('[data-toggle="tooltip"]').tooltip()
@@ -621,7 +634,6 @@ else (<div class="alert alert-dismissible alert-info">No occurrences of this wor
   <div id="attestations" style="max-height: 400px; overflow: auto;"/>
   <script type="text/javascript" src="https://betamasaheft.eu/Dillmann/resources/js/attestations.js"></script>
   </div>  
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"></script>
     </body>
 </html>
 };
@@ -655,10 +667,7 @@ return
   gtag('config', 'UA-128203411-1');"}
 </script>
 
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</link>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"></link>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  { morpho:vendorLinks() }
   </head>
 <body>
 <div class="col-md-12"><h1>Morphological Parser (alpha)</h1></div>
@@ -794,9 +803,7 @@ return
   gtag('config', 'UA-128203411-1');"}
 </script>
 
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</link>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  { morpho:vendorLinks() }
   
 </head>
 <body>
@@ -873,9 +880,7 @@ return
   gtag('config', 'UA-128203411-1');"}
 </script>
 
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</link>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  { morpho:vendorLinks() }
   
 </head>
 <body>
@@ -931,9 +936,7 @@ declare function morpho:morphoPatterns($request as map(*)){
   gtag('config', 'UA-128203411-1');"}
 </script>
 
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</link>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  { morpho:vendorLinks() }
   </head>
 <body>
 <div class="col-md-12"><h1>Morphological Parser (alpha)</h1></div>
@@ -973,9 +976,7 @@ declare function morpho:morphoAffixes($request as map(*)){
   gtag('config', 'UA-128203411-1');"}
 </script>
 
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</link>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  { morpho:vendorLinks() }
   </head>
 <body>
 <div class="col-md-12"><h1>Morphological Parser (alpha)</h1></div>
@@ -1017,9 +1018,7 @@ declare function morpho:morphoLetters($request as map(*)){
   gtag('config', 'UA-128203411-1');"}
 </script>
 
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</link>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  { morpho:vendorLinks() }
   </head>
 <body>
 <div class="col-md-12"><h1>Morphological Parser (alpha)</h1></div>
@@ -1092,9 +1091,7 @@ return
   gtag('config', 'UA-128203411-1');"}
 </script>
 
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</link>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  { morpho:vendorLinks() }
   </head>
 <body>
 <div class="col-md-12"><h1>Morphological Parser (alpha)</h1>
