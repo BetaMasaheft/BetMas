@@ -29,6 +29,21 @@ declare variable $config:app-root :=
         substring-before($modulePath, "/modules")
 ;
 
+(:~
+ : Mount path of the app as the browser sees it: "" behind nginx, which strips
+ : the mount path (detected via the nginx-request-uri header), otherwise the
+ : eXist context path plus the app. "" when there is no request object
+ : (XQSuite, post-install).
+ :)
+declare function config:appBase() as xs:string {
+    if (not(request:exists())) then
+        ""
+    else if (request:get-header("nginx-request-uri")) then
+        ""
+    else
+        request:get-context-path() || "/apps/parser"
+};
+
 declare variable $config:data-root := $config:app-root || "/data";
 
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;

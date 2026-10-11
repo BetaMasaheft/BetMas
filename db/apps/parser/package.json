@@ -1,0 +1,20 @@
+{
+	"name": "betmas-parser",
+	"version": "0.5.0",
+	"description": "Gǝʿǝz Morphological Parser - Exist-db application",
+	"private": true,
+	"comments": {
+		"dependencies": "Frontend vendor libraries served to the browser. The build.xml vendor target copies these from node_modules into resources/{js,css,fonts}/external (scripts/copy-vendor-libs.js).",
+		"jquery": "3.7.1, the version BetMasWeb runs. Not 4.x: bootstrap 3.4.1's JS refuses to load on jQuery >= 4 ('lower than version 4'), and the pages need bootstrap's tooltips and dismissible alerts. jQuery itself is needed by bootstrap.js and by Dillmann's attestations.js, which this app still loads from the Dillmann site and which expects a global $.",
+		"bootstrap": "3.4.1 (was 3.3.7 from maxcdn): same API, XSS fixes, and the version BetMasWeb already ships."
+	},
+	"dependencies": {
+		"bootstrap": "3.4.1",
+		"intro.js": "2.9.3",
+		"jquery": "3.7.1"
+	},
+	"scripts": {
+		"vendor:copy": "node scripts/copy-vendor-libs.js",
+		"vendor": "npm install && npm run vendor:copy"
+	}
+}

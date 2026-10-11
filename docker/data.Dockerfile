@@ -61,13 +61,11 @@ RUN mkdir /tmp/dependencies
 # anything that declares them. Data packages follow by name; app xars come in
 # the app image on top of an already-installed base.
 ARG CRYPTO_VERSION=6.0.1
-ARG SHARED_VERSION=0.9.1
 ARG MONEX_VERSION=4.2.4
 ARG ROASTER_VERSION=1.13.1
 ARG TUTTLE_VERSION=2.1.0
 ARG PUBLIC_REPO=https://exist-db.org/exist/apps/public-repo/public
 ADD ${PUBLIC_REPO}/expath-crypto-module-${CRYPTO_VERSION}.xar /tmp/dependencies/00-expath-crypto.xar
-ADD ${PUBLIC_REPO}/shared-resources-${SHARED_VERSION}.xar /tmp/dependencies/01-shared-resources.xar
 ADD ${PUBLIC_REPO}/monex-${MONEX_VERSION}.xar /tmp/dependencies/02-monex.xar
 ADD ${PUBLIC_REPO}/roaster-${ROASTER_VERSION}.xar /tmp/dependencies/03-roaster.xar
 ADD ${PUBLIC_REPO}/tuttle-${TUTTLE_VERSION}.xar /tmp/dependencies/04-tuttle.xar
