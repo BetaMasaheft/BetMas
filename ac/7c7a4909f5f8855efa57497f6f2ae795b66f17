@@ -1,0 +1,21 @@
+.github/workflows/place-labels.yml
+  s_e98fb2299e704f::t_4ae83b3f391360 16-17,21,28,31,40,44,52-54
+.gitignore
+  s_e98fb2299e704f::t_cd8e0895717ee6 28-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ac7c7a4909f5f8855efa57497f6f2ae795b66f17",
+  "prompts": {},
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
