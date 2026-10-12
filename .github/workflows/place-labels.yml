@@ -13,6 +13,8 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v7
+      # Workspace-relative path (checkout requires that). Ignored + add-paths
+      # so create-pull-request cannot stage it as a 160000 gitlink (#222 / #218).
       - uses: actions/checkout@v7
         with:
           repository: BetaMasaheft/expanded
@@ -23,9 +25,10 @@ jobs:
       - name: Scan, resolve, bump manifest pin, coverage warn
         env:
           GEONAMES_USERNAME: ${{ secrets.GEONAMES_USERNAME }}
+          EXPANDED_ROOT: expanded
         run: |
           bash scripts/place-labels/scan_missing.sh \
-            --expanded expanded \
+            --expanded "${EXPANDED_ROOT}" \
             --artifact db/apps/catalogs/place-labels.xml > /tmp/missing.txt
           if [ -s /tmp/missing.txt ]; then
             bash scripts/place-labels/resolve_and_update.sh \
@@ -34,11 +37,11 @@ jobs:
           else
             echo "nothing missing"
           fi
-          SHA="$(git -C expanded rev-parse HEAD)"
+          SHA="$(git -C "${EXPANDED_ROOT}" rev-parse HEAD)"
           bash scripts/place-labels/bump_manifest_pin.sh \
             --manifest db/apps/catalogs/manifest.xml \
             --sha "${SHA}"
-          EXPANDED_ROOT=expanded ARTIFACT=db/apps/catalogs/place-labels.xml \
+          EXPANDED_ROOT="${EXPANDED_ROOT}" ARTIFACT=db/apps/catalogs/place-labels.xml \
             bash scripts/place-labels/check_coverage.sh
       - uses: peter-evans/create-pull-request@v8
         with:
@@ -46,3 +49,6 @@ jobs:
           title: "chore(catalogs): update place-labels artifact"
           body: "HP6 automated resolve (CI network only)."
           commit-message: "chore(catalogs): update place-labels"
+          # Only catalogs — never the expanded checkout or other noise.
+          add-paths: |
+            db/apps/catalogs/
