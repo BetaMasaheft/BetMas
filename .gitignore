@@ -25,6 +25,9 @@
 # This is in the expanded data repo
 /db/apps/expanded
 
+# Nested checkout used by place-labels CI (never a BetMas submodule)
+/expanded
+
 # These are in the data repos
 /db/apps/BetMasData
 
