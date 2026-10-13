@@ -95,8 +95,7 @@
                 <item>PRS12461Tasama</item>
                 <item>LIT5768test</item>
                 <item>LIT4147GadlaAntonii</item>
-                <item>LIT1018DossierAntony</item>
-                <item>EMML1692</item>
+                <item>LIT1018DossierAntony</item>                
                 <item>PRS9271TasfaGa</item>
                 <item>PRS6295LibanZe</item>
                 <item>PRS6622MammaMe</item>
@@ -237,7 +236,7 @@
                 <item corresp="BNFet381">BNFgriaule381</item>
                 <item corresp="BNFet205">BNFmon19</item>
                 <item corresp="BNFet223">BNFmon37</item>
-                <item corresp="EMDA81">EMDA81</item>
+                
                 <item corresp="EMML6280">EMIP01043</item>
                 <item corresp="EMML6807">EMIP01044</item>
                 <item corresp="EMML6260">EMIP01045</item>
@@ -786,8 +785,6 @@
                 <item corresp="LIT6687EphrThurs">LIT6744EphrMaun</item>
                 <item corresp="LIT1281Dersan">LIT6820HomAbrSarah</item>
                 <item corresp="LIT4117Interpretation">LIT6824CommentariesOldTest</item>
-                <item corresp="LOC1464Ankoba">LOC1464Ankoba</item>
-                <item corresp="LOC1886BetaLe">LOC1886BetaLe</item>
                 <item corresp="LOC4444Makal">LOC4396Maekal</item>
                 <item corresp="LOC6654CentralTegray">LOC6555CentralTegray</item>
                 <item corresp="LOC7355Hamburg">LOC7458Hamburg</item>
@@ -812,7 +809,7 @@
                 <item corresp="LIT0183EtanaMogar">NAR0183EtanaMogar</item>
                 <item corresp="PRS11879Zamalakot">PRS10568Zamalak</item>
                 <item corresp="PRS4359Gabrase">PRS12393GabraS</item>
-                <item corresp="PRS12461Tasamma">PRS12461Tasamma</item>
+                
                 <item corresp="PRS4933HabtaGi">PRS12464HabtaG</item>
                 <item corresp="PRS11365Sirak">PRS12669Sirak</item>
                 <item corresp="PRS7077Mikael">PRS12752Mikael</item>
@@ -840,8 +837,7 @@
                 <item corresp="PRS7955Proclus">PRS7954Proclus</item>
                 <item corresp="PRS8261Saaldob">PRS8383Saladob</item>
                 <item corresp="PRS8422Salomon">PRS8423Salomon</item>
-                <item corresp="EMDA167">QM022</item>
-                <item corresp="UppEt4">UppEt18</item>
+                <item corresp="EMDA167">QM022</item>                
                 <item corresp="UppEt11">UppEt30</item>
                 <item corresp="UppEt12">UppEt31</item>
                 <item corresp="UppEt15">UppEt32</item>
@@ -902,7 +898,7 @@
                 <item source="/db/apps/expanded/manuscripts/EMIP/1-1000/EMIP00621.xml" change="2026-07-08+02:00">EMIP00621</item>
                 <item source="/db/apps/expanded/works/new/LIT7876Homily_by_Athanasius_of_Alexandria.xml" change="2026-07-08+02:00">LIT7876Homily_by_Athanasius_of_Alexandria</item>
                 <item source="/db/apps/expanded/works/new/LIT7876GHAthFri.xml" change="2026-07-08+02:00">LIT7876GHAthFri</item>
-            </list>
+            <item source="/db/apps/expanded/works/4001-5000/LIT4644MagicPr.xml" change="2026-08-24+02:00">LIT4644MagicPr</item><item source="/db/apps/expanded/works/4001-5000/LIT4644MagicPr.xml" change="2026-08-24+02:00">LIT4644MagicPr</item><item source="/db/apps/expanded/works/7001-8000/LIT7009Amlakena.xml" change="2026-08-24+02:00">LIT7009Amlakena</item><item source="/db/apps/expanded/works/7001-8000/LIT7009Amlakena.xml" change="2026-08-24+02:00">LIT7009Amlakena</item><item source="/db/apps/expanded/works/4001-5000/LIT4644MagicPr.xml" change="2026-08-24+02:00">LIT4644MagicPr</item><item source="/db/apps/expanded/works/7001-8000/LIT7009Amlakena.xml" change="2026-08-24+02:00">LIT7009Amlakena</item><item source="/db/apps/expanded/works/new/LIT7894TaosAzyos.xml" change="2026-09-04+02:00">LIT7894TaosAzyos</item><item source="/db/apps/expanded/institutions/INS0901-INS1000/INS0964Chechera.xml" change="2026-09-30+02:00">INS0964Chechera</item><item source="/db/apps/expanded/persons/new/PRS15565Zamalakot.xml" change="2026-10-04+02:00">PRS15565Zamalakot</item></list>
         </body>
     </text>
 </TEI>
