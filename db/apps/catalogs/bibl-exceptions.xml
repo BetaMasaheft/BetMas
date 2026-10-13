@@ -2,114 +2,40 @@
 <!--
   Phase 4 bibl allowlist. Serving path may read lists/bibliography.xml only when
   lists-fallback="true". Remove entries as EthioStudies re-export closes gaps.
-  Source snapshot: betmas-e2e catalog-phase1-bibliography-coverage.json (2026-09-24).
+  Re-triaged 2026-10-13 against bibliography master 83f1118 (Zotero re-export).
 -->
 <bibl-exceptions version="1" xmlns="https://betamasaheft.eu/catalogs">
-  <!-- missing ∩ lists-only -->
-  <entry bm="bm:2003ChernetsovBafana" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
-  </entry>
-  <entry bm="bm:Bollini2023Fondi" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
-  </entry>
+  <!-- still absent from EthioStudies; present in lists → keep lists fallback -->
   <entry bm="bm:Erho2025Homiliary" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
-  </entry>
-  <entry bm="bm:Habtamu2021Fragility" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
+    issue="https://github.com/BetaMasaheft/bibliography/issues/27">
+    <reason>In lists/bibliography.xml; still absent from EthioStudies @ 83f1118.</reason>
   </entry>
   <entry bm="bm:Kamil1957Sinai" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
-  </entry>
-  <entry bm="bm:Ludolf1661lexicon" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
+    issue="https://github.com/BetaMasaheft/bibliography/issues/27">
+    <reason>In lists/bibliography.xml; still absent from EthioStudies @ 83f1118.</reason>
   </entry>
   <entry bm="bm:MercierArt2001" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
-  </entry>
-  <entry bm="bm:Pedersen2007Masasa" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
-  </entry>
-  <entry bm="bm:Perruchon1894EskEnder" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
-  </entry>
-  <entry bm="bm:Spencer1974Luke" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
+    issue="https://github.com/BetaMasaheft/bibliography/issues/27">
+    <reason>In lists/bibliography.xml; still absent from EthioStudies @ 83f1118.</reason>
   </entry>
   <entry bm="bm:Tasfa1954DersanaM" disposition="pending-export" lists-fallback="true"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>In lists/bibliography.xml; absent from EthioStudies citations export.</reason>
-  </entry>
-
-  <!-- lists-only, not an expanded ptr gap (#27) -->
-  <entry bm="bm:Mazzei2017RM" disposition="pending-export" lists-fallback="true"
     issue="https://github.com/BetaMasaheft/bibliography/issues/27">
-    <reason>Legacy lists-only entry; not in Phase 1 missing-from-EthioStudies expanded set.</reason>
+    <reason>In lists/bibliography.xml; still absent from EthioStudies @ 83f1118.</reason>
   </entry>
 
-  <!-- missing, not in lists -->
-  <entry bm="bm:ComboniHanriot" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
+  <!-- TEI tag typo: canonical EthioStudies tag exists; retag expanded ptr -->
+  <entry bm="bm:Ludolf1661lexicon" disposition="pending-tei-retag" lists-fallback="true"
+    issue="https://github.com/BetaMasaheft/bibliography/issues/27">
+    <reason>TEI uses bm:Ludolf1661lexicon; EthioStudies has bm:Ludolf1661Lexicon. Retag TEI; lists fallback meantime.</reason>
   </entry>
-  <entry bm="bm:ConTuristica1935Guida" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
+  <entry bm="bm:Perruchon1894EskEnder" disposition="pending-tei-retag" lists-fallback="true"
+    issue="https://github.com/BetaMasaheft/bibliography/issues/27">
+    <reason>TEI uses bm:Perruchon1894EskEnder; EthioStudies has bm:Perruchon1894Eskender. Retag TEI; lists fallback meantime.</reason>
   </entry>
-  <entry bm="bm:Conti1919Harari" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
-  </entry>
-  <entry bm="bm:Derat2006Royal" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
-  </entry>
-  <entry bm="bm:ElleroBlogUfficiale" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
-  </entry>
-  <entry bm="bm:EzraGebrem2014Roden" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
-  </entry>
-  <entry bm="bm:Guidi1935Vocabolario2nd" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
-  </entry>
-  <entry bm="bm:Martinez2005EAeEllero" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
-  </entry>
-  <entry bm="bm:Niccum2024Galatians" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
-  </entry>
-  <entry bm="bm:Rubenson2003AliAlula" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
-  </entry>
-  <entry bm="bm:Tedros2005EAEFeqraMG" disposition="pending-export" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
-  </entry>
+
+  <!-- still absent from EthioStudies; no lists row → bare id until export -->
   <entry bm="bm:Turaev1909ZaraBuruk" disposition="pending-export" lists-fallback="false"
     issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Expanded bm: pointer absent from EthioStudies; no lists entry for fallback.</reason>
-  </entry>
-
-  <!-- malformed TEI pointer -->
-  <entry bm="bm:bm:bausi2016colof" disposition="malformed-source" lists-fallback="false"
-    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
-    <reason>Double bm: prefix in expanded TEI; fix source pointer, not bibliography export.</reason>
+    <reason>Expanded bm: pointer (2 ptrs); still absent from EthioStudies @ 83f1118; no lists entry.</reason>
   </entry>
 </bibl-exceptions>
