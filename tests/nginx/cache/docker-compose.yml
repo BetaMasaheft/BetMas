@@ -1,0 +1,17 @@
+services:
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "8888:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./cache:/var/cache/nginx/
+
+  bm-data:
+    image: registry.gitlab.com/claudius-teodorescu/bm-data-service:latest
+    restart: unless-stopped
+    ports:
+      - "8889:80"
+
+# curl -v http://localhost:8888/authority-files/acacia.xml
+# curl -v http://localhost:8888/authority-files/acacia.rdf
