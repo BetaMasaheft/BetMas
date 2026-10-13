@@ -103,18 +103,21 @@ No-writes gate: serving modules must not `xmldb:store` / update `bibliography.xm
 
 Host: prefer `betmas-e2e` coverage job and/or BetMasWeb bats against compose; exact wiring is an implementation-plan detail.
 
-## 7. Track H — initial triage (2026-09-24 coverage)
+## 7. Track H — triage
 
-Source: `betmas-e2e` `benchmarks/catalog-phase1-bibliography-coverage.json` (3742 ptrs; 23 missing; 12 lists-only). Issues: [bibliography#27](https://github.com/BetaMasaheft/bibliography/issues/27), [#28](https://github.com/BetaMasaheft/bibliography/issues/28).
+**Initial (2026-09-24):** `betmas-e2e` `benchmarks/catalog-phase1-bibliography-coverage.json` (3742 ptrs; 23 missing; 12 lists-only). Issues: [bibliography#27](https://github.com/BetaMasaheft/bibliography/issues/27), [#28](https://github.com/BetaMasaheft/bibliography/issues/28).
 
-| Bucket | Ids | Disposition seed |
-|--------|-----|------------------|
-| Missing ∩ lists-only (11) | ChernetsovBafana, Bollini2023Fondi, Erho2025Homiliary, Habtamu2021Fragility, Kamil1957Sinai, Ludolf1661lexicon, MercierArt2001, Pedersen2007Masasa, Perruchon1894EskEnder, Spencer1974Luke, Tasfa1954DersanaM | `pending-export`, `lists-fallback=true` |
-| Lists-only not in missing (1) | Mazzei2017RM | `pending-export`, `lists-fallback=true` (lists hygiene; not an expanded ptr gap) |
-| Missing, not in lists (11) | ComboniHanriot, ConTuristica1935Guida, Conti1919Harari, Derat2006Royal, ElleroBlogUfficiale, EzraGebrem2014Roden, Guidi1935Vocabolario2nd, Martinez2005EAeEllero, Rubenson2003AliAlula, Tedros2005EAEFeqraMG, Turaev1909ZaraBuruk | `pending-export`, `lists-fallback=false` until export or TEI fix |
-| Malformed (1) | `bm:bm:bausi2016colof` | `malformed-source`, `lists-fallback=false` |
+**Re-triage (2026-10-13)** against bibliography `83f1118` (Zotero re-export). EthioStudies-first means landed tags no longer need exception rows.
 
-Hygiene work: add/fix Zotero records + re-export EthioStudies; fix malformed TEI pointer in expanded; remove exception rows as exports land.
+| Bucket | Ids | Disposition |
+|--------|-----|-------------|
+| Closed by re-export (drop exceptions) | ChernetsovBafana, Bollini2023Fondi, Habtamu2021Fragility, Mazzei2017RM, Pedersen2007Masasa, Spencer1974Luke, ComboniHanriot, Conti1919Harari, Derat2006Royal, ElleroBlogUfficiale, EzraGebrem2014Roden, Guidi1935Vocabolario2nd, Martinez2005EAeEllero, Niccum2024Galatians, Rubenson2003AliAlula, Tedros2005EAEFeqraMG | in EthioStudies @ `83f1118` |
+| Obsolete (0 expanded ptrs; drop) | ConTuristica1935Guida, `bm:bm:bausi2016colof` | prefer `1935Guida` / `bausi2016colof` |
+| Still lists-only / pending export | Erho2025Homiliary, Kamil1957Sinai, MercierArt2001, Tasfa1954DersanaM | `pending-export`, `lists-fallback=true` |
+| TEI typo (canonical tag exists) | Ludolf1661lexicon → Ludolf1661Lexicon; Perruchon1894EskEnder → Perruchon1894Eskender | `pending-tei-retag`, `lists-fallback=true` |
+| Still missing everywhere | Turaev1909ZaraBuruk | `pending-export`, `lists-fallback=false` |
+
+Hygiene left: export the four lists gaps + Turaev; retag the two TEI typos in source repos.
 
 ## 8. Out of scope
 
