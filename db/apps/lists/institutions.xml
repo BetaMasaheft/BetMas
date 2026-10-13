@@ -17,7 +17,7 @@
             <list>
                 <item xml:id="INS00001BL">British Library</item>
                 <item xml:id="INS0001IHA">Test</item>
-                <item xml:id="INS0002IHA">Institute of Ethiopian Studies</item>
+                <item xml:id="INS0002IHA">IES - Institute of Ethiopian Studies</item>
                 <item xml:id="INS0002AAI">Asien-Afrika-Institut</item>
                 <item xml:id="INS0003IHA">Suuse</item>
                 <item xml:id="INS0003BAV">Biblioteca Apostolica Vaticana</item>
@@ -323,7 +323,8 @@
                 <item xml:id="INS0401Muensterschwarzach">Muensterschwarzach Abbey</item>
                 <item xml:id="INS0402Reinbek">Museum Rade am Schloss Reinbek</item>
                 <item xml:id="INS0403Rostock">University Library Rostock</item>
-                <item xml:id="INS0404Augustin">Museum Haus Voelker und Kulturen in Sankt Augustin</item>
+                <item xml:id="INS0404Augustin">Museum Haus Voelker und Kulturen in Sankt
+                    Augustin</item>
                 <item xml:id="INS0405Gottorf">Archaeological Museum Schloss Gottorf</item>
                 <item xml:id="INS0406Weinheim">Museum der Stadt Weinheim</item>
                 <item xml:id="INS0407Witzenhausen">Museum of Ethnology Witzenhausen</item>
@@ -348,7 +349,7 @@
                 <item xml:id="INS0425NLI">National Library of Israel</item>
                 <item xml:id="INS0426JerDarSultan">Dayr as-Sulṭān</item>
                 <item xml:id="INS0427Bergamo">Bergamo Museum</item>
-                <item xml:id="INS0428HamaraN">Gondar Ḥamara Noḫ</item>
+                <item xml:id="INS0428HamaraN">Ḥamara Noḫ</item>
                 <item xml:id="INS0429MANF">Museo archeologico nazionale di Firenze</item>
                 <item xml:id="INS0430GMassaia">Museo Etiope 'Guglielmo Massaia'</item>
                 <item xml:id="INS0431StAndrew">St. Andrew Abbey</item>
@@ -371,7 +372,8 @@
                 <item xml:id="INS0452Mon_Naz_Casamari">Monumento Nazionale Abbazia di
                     Casamari</item>
                 <item xml:id="INS0453Bibl_Giov_Veroli">Biblioteca Giovardiana di Veroli</item>
-                <item xml:id="INS0454Zuerich_Central_Library">Kantons-, Stadt- und Universitätsbibliothek Zuerich</item>
+                <item xml:id="INS0454Zuerich_Central_Library">Kantons-, Stadt- und
+                    Universitätsbibliothek Zuerich</item>
                 <item xml:id="INS0455Stockholm">Kongliga svenska museum Stockholm</item>
                 <item xml:id="INS0456Newberry">Newberry Library Chicago</item>
                 <item xml:id="INS0457UML">University of Michigan Library</item>
@@ -407,10 +409,12 @@
                 <item xml:id="INS0484Penn">Pennsylvania University Center for Advanced Judaic
                     Studies Library</item>
                 <item xml:id="INS0485Princeton">Princeton Theological Seminary Library</item>
-                <item xml:id="INS0486Princeton_University_Library">Princeton University Library</item>
+                <item xml:id="INS0486Princeton_University_Library">Princeton University
+                    Library</item>
                 <item xml:id="INS0487Virginia">Virginia Museum of fine arts</item>
                 <item xml:id="INS0488Rogers">Rogers Public Library</item>
-                <item xml:id="INS0489StLouis">Saint Louis University Pius XII Memorial Library</item>
+                <item xml:id="INS0489StLouis">Saint Louis University Pius XII Memorial
+                    Library</item>
                 <item xml:id="INS0490Atiya">Aziz S. Atiya Middle East Library</item>
                 <item xml:id="INS0491SanDiego">San Diego  State University Library</item>
                 <item xml:id="INS0492Urbana">University of Illinois at Urbana-Champaign University
@@ -420,7 +424,8 @@
                 <item xml:id="INS0495LOC">Library of Congress</item>
                 <item xml:id="INS0496Smiths">Smithsonian Institution Libraries</item>
                 <item xml:id="INS0497Fairmount">Ruth Ann Musick Library</item>
-                <item xml:id="INS0498Randall">University of North Carolina Wilmington Randall Library</item>
+                <item xml:id="INS0498Randall">University of North Carolina Wilmington Randall
+                    Library</item>
                 <item xml:id="INS0499Remnant">Remnant Trust</item>
                 <item xml:id="INS0500NALA">Ethiopian National Archives and Library Agency</item>
                 <item xml:id="INS0501IES">Institute of Ethiopian Studies</item>
@@ -437,7 +442,7 @@
                 <item xml:id="INS0512NatMusSudan">Sudan National Museum</item>
                 <item xml:id="INS0513MuseumAsmara">National Museum of Eritrea</item>
                 <item xml:id="INS0514PalatinaParma">Biblioteca Palatina</item>
-                <item xml:id="INS0515DabraSeyon">Dabra Sǝyon</item>
+                <item xml:id="INS0515DabraSeyon">Dabra Ṣǝyon ʾAbuna ʾAbrǝhām</item>
                 <item xml:id="INS0516NazretMaryam">Nāzret Māryām</item>
                 <item xml:id="INS0518MotaGiorgis">Moṭā Giyorgis</item>
                 <item xml:id="INS0519BetaLibanos">Beta ʾAbbā Libānos</item>
@@ -885,7 +890,7 @@
                 <item xml:id="INS0961CPH">Private house</item>
                 <item xml:id="INS0962AbbaPantaleon">Church of Abba Pantaleon</item>
                 <item xml:id="INS0963MM">MMU private collection</item>
-                <item xml:id="INS0964Chechera">Č̣āč̣ara Giyorgis</item>
+
                 <item xml:id="INS0965Casenatense">Biblioteca Casenatense</item>
                 <item xml:id="INS0965DGDG">Dǝbbǝq Gāššā Dabra Golgotā Māryām</item>
                 <item xml:id="INS0966Queriniana">Biblioteca civica Queriniana</item>
@@ -953,8 +958,10 @@
                 <item xml:id="INS1016CelaMaryam">Č̣ǝlā Māryām</item>
                 <item xml:id="INS1017EndaMaryamDengelat">ʾƎndā Māryām Dangalāt</item>
                 <item xml:id="INS1018DabraE">Dabra ʾElgǝne</item>
-                <item xml:id="INS1019DabraHalleloEndaSamuel">Dabra Hāllelo ʾƎndā ʾAbuna Sāmuʾel</item>
-                <item xml:id="INS1020EFSmissionsmuseum">Ethnographic Mission Museum of the Swedish Evangelical Mission</item>
+                <item xml:id="INS1019DabraHalleloEndaSamuel">Dabra Hāllelo ʾƎndā ʾAbuna
+                    Sāmuʾel</item>
+                <item xml:id="INS1020EFSmissionsmuseum">Ethnographic Mission Museum of the Swedish
+                    Evangelical Mission</item>
                 <item xml:id="INS1021Matenadaran">Mesrop Mashtots Research Institute of Ancient
                     Manuscripts</item>
                 <item xml:id="INS1022ESZA">Private collection of qasis ʾƎšat Zammana ʾAndābet</item>
@@ -964,13 +971,29 @@
                     Bǝzuʿālam ʾAndābet</item>
                 <item xml:id="INS1026Strasbourg">Bibliothèque Nationale et Universitaire de
                     Strasbourg (BNU)</item>
-                <item xml:id="INS1027Garratts" change="entryAddedAt2025-09-29T14:17:47.896+02:00">Garratts Hall Library</item>
-                <item xml:id="INS0060GebbiGabriel" change="entryAddedAt2025-10-09T13:16:31.177+02:00">Gǝbbi Gabrǝʾel</item>
-                <item xml:id="INS1028MearigoSellase" change="entryAddedAt2025-10-14T11:11:09.881+02:00">Maʿārigo Śǝllāse</item>
-                <item xml:id="INS1029EndaGabraMasqal" change="entryAddedAt2026-01-05T12:35:19.826+01:00">ʾƎndā Gabra Masqal</item>
-                <item xml:id="INS1030EndaEntones" change="entryAddedAt2026-01-05T12:35:19.826+01:00">ʾƎndā ʾƎnṭonǝs</item>
-                <item xml:id="INS0067AG" change="entryAddedAt2026-02-02T12:53:40.417+01:00">ʾAmbā Gǝšan Māryām</item>
-                <item xml:id="INS1031AzwaManBer" change="entryAddedAt2026-03-06T12:03:54.791+01:00">ʾAzwā Māryām Manbara Bərhān</item>
+                <item xml:id="INS1027Garratts" change="entryAddedAt2025-09-29T14:17:47.896+02:00"
+                    >Garratts Hall Library</item>
+                <item xml:id="INS0060GebbiGabriel"
+                    change="entryAddedAt2025-10-09T13:16:31.177+02:00">Gǝbbi Gabrǝʾel</item>
+                <item xml:id="INS1028MearigoSellase"
+                    change="entryAddedAt2025-10-14T11:11:09.881+02:00">Maʿārigo Śǝllāse</item>
+                <item xml:id="INS1029EndaGabraMasqal"
+                    change="entryAddedAt2026-01-05T12:35:19.826+01:00">ʾƎndā Gabra Masqal</item>
+                <item xml:id="INS1030EndaEntones" change="entryAddedAt2026-01-05T12:35:19.826+01:00"
+                    >ʾƎndā ʾƎnṭonǝs</item>
+                <item xml:id="INS0067AG" change="entryAddedAt2026-02-02T12:53:40.417+01:00">ʾAmbā
+                    Gǝšan Māryām</item>
+                <item xml:id="INS1031AzwaManBer" change="entryAddedAt2026-03-06T12:03:54.791+01:00"
+                    >ʾAzwā Māryām Manbara Bərhān</item>
+                <item xml:id="INS0061Weiner" change="entryAddedAt2026-07-08T09:27:45.652+02:00"
+                    >Private Collection of Gerald Weiner</item>
+                <item xml:id="INS1032MamaMikael" change="entryAddedAt2026-08-13T11:30:42.378+02:00"
+                    >Māmā Mikāʾel</item>
+                <item xml:id="INS0070GM" change="entryAddedAt2026-08-26T12:32:51.483+02:00">Gubisā
+                    Mikāʼēl</item>
+                <item xml:id="INS0068SARAS" change="entryAddedAt2026-09-18T09:42:30.286+02:00"
+                    >Sapienza University of Rome, Department SARAS (Storia Antropologia Religioni
+                    Arte Spettacolo)</item>
             </list>
         </body>
     </text>
