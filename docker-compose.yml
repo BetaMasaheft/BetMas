@@ -29,6 +29,8 @@ services:
       # Users will be reset whenever the container gets recreated (no colume for data). So users are
       # exported automatically to a volume and loaded whenever we boot the container
       USERS_VOLUME_DIRECTORY: /betmas-users-data
+      # Phase 4: EthioStudies-first bibliography via catalog:bibl (legacy remains for oracle A/B).
+      CATALOG_BACKEND_BIBL: catalog
     volumes:
       - betmas-users-data:/betmas-users-data
   betmas-id-manager:
