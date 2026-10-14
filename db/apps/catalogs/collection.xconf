@@ -1,0 +1,13 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:t="http://www.tei-c.org/ns/1.0">
+        <fulltext default="none" attributes="false"/>
+        <range>
+            <!-- Belt-and-suspenders with catalog.xqm map-once: attribute + field
+                 indexes on @corresp for any direct XPath over catalog artifacts. -->
+            <create qname="@corresp" type="xs:string"/>
+            <create qname="t:item">
+                <field name="itemcorresp" match="@corresp" type="xs:string"/>
+            </create>
+        </range>
+    </index>
+</collection>
