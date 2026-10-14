@@ -35,6 +35,12 @@ services:
       CATALOG_BACKEND_INSTITUTIONS: catalog
       CATALOG_BACKEND_WEB_LIST: catalog
       CATALOG_BACKEND_API_REST: catalog
+      # Phase 5 flip 2: titles / labels via catalog artifacts.
+      CATALOG_BACKEND_LABEL: catalog
+      CATALOG_BACKEND_LABELS: catalog
+      CATALOG_BACKEND_EXPTIT: catalog
+      CATALOG_BACKEND_API_TITLES: catalog
+      CATALOG_BACKEND_VIEW_ITEM: catalog
     volumes:
       - betmas-users-data:/betmas-users-data
   betmas-id-manager:
