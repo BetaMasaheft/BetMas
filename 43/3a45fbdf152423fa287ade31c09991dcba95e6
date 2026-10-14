@@ -1,0 +1,20 @@
+docs/superpowers/plans/2026-10-14-catalog-phase5-flip.md
+  s_e98fb2299e704f::t_a2d3b8f10f8387 56,211,273,459,521
+  s_e98fb2299e704f::t_b449ea90808c00 49,206,267,516,575,594,637
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "433a45fbdf152423fa287ade31c09991dcba95e6",
+  "prompts": {},
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
