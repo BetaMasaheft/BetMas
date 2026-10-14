@@ -98,10 +98,18 @@ LABEL org.opencontainers.image.source="https://github.com/BetaMasaheft/BetMas" \
       eu.betamasaheft.ref.guidelinesapp=${GUIDELINESAPP_REF}
 
 COPY --from=build /tmp/apps/*.xar /exist/autodeploy/
+COPY scripts/catalogs/generate_artifacts.xq /tmp/generate_artifacts.xq
 
 # boot once: installs only the new app xars — the base's packages are already
 # registered, so this is minutes, not the data build
 RUN [ "java", "org.exist.start.Main", "client", "--no-gui", "-l", "-u", "admin", "-P", "", "-x", "'HelloWorld!!'" ]
+
+# Phase 5 perf artifacts (institutions.xml, labels.xml) generated from the
+# live expanded data through BetMasWeb's catalog.xqm, stamped with this
+# image's expanded-sha.txt. Must run after the app boot (catalog.xqm exists)
+# and before stage-2 is copied (BetMasInitInstance needs runtime env).
+# Base image has no /bin/sh — exec form only; gen:EMPTY / client non-zero exit fails the build.
+RUN [ "java", "org.exist.start.Main", "client", "--no-gui", "-l", "-u", "admin", "-P", "", "-F", "/tmp/generate_artifacts.xq" ]
 
 # stage-2: copied AFTER the boot so it autodeploys at FIRST CONTAINER START,
 # where docker-run env exists — BetMasInitInstance reads APP_URL there.
