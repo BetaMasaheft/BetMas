@@ -1,0 +1,27 @@
+db/apps/catalogs/collection.xconf
+  s_e98fb2299e704f::t_6e7bd96be9ce87 1-4,8-13
+  s_e98fb2299e704f::t_9b8a18284bc2c2 5-7
+db/apps/catalogs/README.md
+  s_e98fb2299e704f::t_06e912e4afbf5f 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a01e13d08c20b27a9ae2e02f826fbaf1fa046fc5",
+  "prompts": {},
+  "humans": {
+    "h_ff0005bef58c9d": {
+      "author": "duncdrum <d.paterson@me.com>"
+    }
+  },
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
