@@ -1,0 +1,19 @@
+docs/superpowers/specs/2026-10-14-catalog-phase5-flip-design.md
+  s_e98fb2299e704f::t_ea35976c1fb467 1-102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8f6ea5009b10bc0bdc149fd1e469268aa5c46b29",
+  "prompts": {},
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "unknown"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
