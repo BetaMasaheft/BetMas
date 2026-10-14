@@ -1,0 +1,25 @@
+docker/app.Dockerfile
+  s_69adfc9b2be6c3::t_dca8a87b0ec9d6 111-112
+  s_69adfc9b2be6c3::t_092fe05129b986 101,107-110
+  s_69adfc9b2be6c3::t_322f61930a7706 113
+scripts/catalogs/generate_artifacts.xq
+  s_69adfc9b2be6c3::t_a4e15fb0e2b709 1-74
+db/apps/catalogs/README.md
+  s_69adfc9b2be6c3::t_0e9ad1509e5e4b 6-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "67677c377172ec26d7b897aaa7f24a1c2a4bd39d",
+  "prompts": {},
+  "sessions": {
+    "s_69adfc9b2be6c3": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "358c4335-6f71-4954-914a-c8c900d31d9e",
+        "model": "composer-2.5-fast"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
