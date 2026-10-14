@@ -31,6 +31,10 @@ services:
       USERS_VOLUME_DIRECTORY: /betmas-users-data
       # Phase 4: EthioStudies-first bibliography via catalog:bibl (legacy remains for oracle A/B).
       CATALOG_BACKEND_BIBL: catalog
+      # Phase 5 flip 1: institutions via catalog artifact (titles remain legacy).
+      CATALOG_BACKEND_INSTITUTIONS: catalog
+      CATALOG_BACKEND_WEB_LIST: catalog
+      CATALOG_BACKEND_API_REST: catalog
     volumes:
       - betmas-users-data:/betmas-users-data
   betmas-id-manager:
