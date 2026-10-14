@@ -1,0 +1,23 @@
+docs/superpowers/specs/2026-10-14-catalog-phase5-flip-design.md
+  s_e98fb2299e704f::t_e0b3ee95635f42 70-72,78-79,81,83,85,89-91,93
+  s_e98fb2299e704f::t_8d81368d1a51e1 60
+  s_e98fb2299e704f::t_076caa77be8309 7
+  s_e98fb2299e704f::t_5c5da6d3c6fad4 120
+  s_e98fb2299e704f::t_4526c78604d790 113
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fe6faddc9fb083d67a1f8767e3d04c44a2664579",
+  "prompts": {},
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
