@@ -2,8 +2,9 @@
     <index xmlns:t="http://www.tei-c.org/ns/1.0">
         <fulltext default="none" attributes="false"/>
         <range>
-            <!-- Belt-and-suspenders with catalog.xqm map-once: attribute + field
-                 indexes on @corresp for any direct XPath over catalog artifacts. -->
+            <!-- Labels.xml items use @corresp. Institutions.xml uses @xml:id
+                 (lists shape) — not covered here. Belt-and-suspenders with
+                 catalog.xqm map-once for label lookups. -->
             <create qname="@corresp" type="xs:string"/>
             <create qname="t:item">
                 <field name="itemcorresp" match="@corresp" type="xs:string"/>

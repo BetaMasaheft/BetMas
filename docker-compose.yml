@@ -31,11 +31,12 @@ services:
       USERS_VOLUME_DIRECTORY: /betmas-users-data
       # Phase 4: EthioStudies-first bibliography via catalog:bibl (legacy remains for oracle A/B).
       CATALOG_BACKEND_BIBL: catalog
-      # Phase 5 flip 1: institutions via catalog artifact (titles remain legacy).
+      # Phase 5: institutions + titles/labels via catalog artifacts.
+      # Requires an app image whose bake wrote /db/apps/catalogs/{institutions,labels}.xml
+      # (generate_artifacts.xq). Do not pair these knobs with a pre-bake release-expanded.
       CATALOG_BACKEND_INSTITUTIONS: catalog
       CATALOG_BACKEND_WEB_LIST: catalog
       CATALOG_BACKEND_API_REST: catalog
-      # Phase 5 flip 2: titles / labels via catalog artifacts.
       CATALOG_BACKEND_LABEL: catalog
       CATALOG_BACKEND_LABELS: catalog
       CATALOG_BACKEND_EXPTIT: catalog

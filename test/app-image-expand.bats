@@ -30,3 +30,18 @@ query() {
 	run query '"makeExpand.xql" = xmldb:get-child-resources("/db/apps/BetMasWeb/modules")'
 	[ "$output" = "true" ]
 }
+
+@test "catalogs institutions.xml is non-empty (Phase 5 app-image bake)" {
+	count=$(query 'count(doc("/db/apps/catalogs/institutions.xml")//*[local-name()="item"])')
+	[[ "$count" =~ ^[1-9][0-9]*$ ]]
+}
+
+@test "catalogs labels.xml is non-empty (Phase 5 app-image bake)" {
+	count=$(query 'count(doc("/db/apps/catalogs/labels.xml")//*[local-name()="item"])')
+	[[ "$count" =~ ^[1-9][0-9]*$ ]]
+}
+
+@test "catalogs collection.xconf is installed under system config" {
+	run query 'doc-available("/db/system/config/db/apps/catalogs/collection.xconf")'
+	[ "$output" = "true" ]
+}

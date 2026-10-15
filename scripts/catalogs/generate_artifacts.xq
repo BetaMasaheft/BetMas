@@ -5,6 +5,11 @@ xquery version "3.1";
  : expanded data through the same catalog.xqm functions the serving path
  : falls back to, so artifact == fallback output. Runs once, as admin, in the
  : embedded eXist started by docker/app.Dockerfile — never on the serving path.
+ :
+ : Also installs db/apps/catalogs/collection.xconf into
+ : /db/system/config/db/apps/catalogs/ (copied to /tmp by app.Dockerfile) and
+ : reindexes /db/apps/catalogs so @corresp range indexes apply without waiting
+ : for a data-image catalogs.xar rebuild.
  :)
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -12,6 +17,8 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace catalog = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/catalog" at "xmldb:exist:///db/apps/BetMasWeb/modules/catalog.xqm";
 
 declare variable $local:catalogs := "/db/apps/catalogs";
+declare variable $local:xconf-src := "/tmp/catalogs-collection.xconf";
+declare variable $local:config-coll := "/db/system/config/db/apps/catalogs";
 
 declare function local:expanded-sha() as xs:string {
 	let $path := $local:catalogs || "/expanded-sha.txt"
@@ -40,9 +47,52 @@ declare function local:manifest-with($sha as xs:string, $names as xs:string*) as
 		}</catalog-manifest>
 };
 
+(:~ Ensure /db/system/config/db/apps/catalogs exists (same parent-walk style as InitInstance). :)
+declare function local:ensure-config-coll() {
+	if (xmldb:collection-available($local:config-coll)) then (
+	) else (
+		if (xmldb:collection-available("/db/system/config/db")) then (
+		) else
+			xmldb:create-collection("/db/system/config", "db"),
+		if (xmldb:collection-available("/db/system/config/db/apps")) then (
+		) else
+			xmldb:create-collection("/db/system/config/db", "apps"),
+		xmldb:create-collection("/db/system/config/db/apps", "catalogs")
+	)
+};
+
+(:~
+ : Install range-index collection.xconf for labels.xml @corresp lookups.
+ : Source file is copied by app.Dockerfile; keep in sync with
+ : db/apps/catalogs/collection.xconf (also packaged into catalogs.xar on data builds).
+ :)
+declare function local:collection-xconf-doc() as element() {
+	if (file:exists($local:xconf-src)) then
+		parse-xml(file:read($local:xconf-src))/*
+	else if (doc-available($local:catalogs || "/collection.xconf")) then
+		doc($local:catalogs || "/collection.xconf")/*
+	else
+		error(
+			xs:QName("gen:NO_XCONF"),
+			"missing " || $local:xconf-src || " and " || $local:catalogs || "/collection.xconf"
+		)
+};
+
+declare function local:install-collection-xconf() as xs:string {
+	let $_ := local:ensure-config-coll()
+	let $xconf := local:collection-xconf-doc()
+	let $stored := xmldb:store($local:config-coll, "collection.xconf", $xconf)
+	let $_ := sm:chmod(xs:anyURI($stored), "rw-r--r--")
+	let $_ := xmldb:reindex($local:catalogs)
+	return $stored
+};
+
 if (not(xmldb:collection-available($local:catalogs))) then
 	error(xs:QName("gen:NO_CATALOGS"), $local:catalogs || " missing")
 else
+
+(: Admin bake / local regenerate: package mode is often rwxr-xr-x. :)
+let $_ := sm:chmod(xs:anyURI($local:catalogs), "rwxrwxr-x")
 
 let $sha := local:expanded-sha()
 
@@ -52,7 +102,11 @@ let $_ := for $name in ("institutions.xml", "labels.xml")
 	return xmldb:remove($local:catalogs, $name)
 
 let $institutions :=
-	<list xmlns="http://www.tei-c.org/ns/1.0">{ catalog:institutions("catalog") }</list>
+	<list xmlns="http://www.tei-c.org/ns/1.0">{
+		for $item in catalog:institutions("catalog")
+		where normalize-space($item) ne ""
+		return $item
+	}</list>
 
 let $labels :=
 	<list xmlns="http://www.tei-c.org/ns/1.0">{
@@ -70,5 +124,6 @@ else (
 	local:store("institutions.xml", $institutions),
 	local:store("labels.xml", $labels),
 	local:store("manifest.xml", local:manifest-with($sha, ("institutions.xml", "labels.xml"))),
+	local:install-collection-xconf(),
 	"OK institutions=" || $n-ins || " labels=" || $n-lab
 )[last()]
