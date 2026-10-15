@@ -1,0 +1,38 @@
+docker-compose.yml
+  s_e98fb2299e704f::t_37b5a14c49b9a0 34-36
+docker/app.Dockerfile
+  s_e98fb2299e704f::t_16fe9be4aa569d 102-103,111-113
+test/app-image-expand.bats
+  s_e98fb2299e704f::t_91430f7f5b598e 33-47
+db/apps/catalogs/collection.xconf
+  s_e98fb2299e704f::t_9a88c1e7c129ed 5-7
+db/apps/catalogs/README.md
+  s_e98fb2299e704f::t_cb92d20d578b26 1-8,21-46
+  s_e98fb2299e704f::t_4ad16ef05501a9 47-49
+scripts/catalogs/generate_artifacts.xq
+  s_e98fb2299e704f::t_b81bf78f93c0ff 69-73,75-87
+  s_e98fb2299e704f::t_a32c30d9000988 8-12,20-21,62-68,74,88-89,94-96,105-109,127
+  s_e98fb2299e704f::t_e53ee7f148b0d2 50,52-61
+  s_e98fb2299e704f::t_0db2c6b83ee1fc 51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "67d45b2444bf7737e8b1b8255b19a191184add5a",
+  "prompts": {},
+  "humans": {
+    "h_ff0005bef58c9d": {
+      "author": "duncdrum <d.paterson@me.com>"
+    }
+  },
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
