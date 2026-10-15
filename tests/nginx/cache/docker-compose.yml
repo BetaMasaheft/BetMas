@@ -1,3 +1,5 @@
+# See the documentation for the workflow at https://betamasaheft.github.io/betmas-docs/developer-workflows/index.html#on-demand-clearing-of-nginx-cache
+
 services:
   nginx:
     image: nginx:1.27-alpine
