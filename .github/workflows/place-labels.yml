@@ -41,8 +41,21 @@ jobs:
           bash scripts/place-labels/bump_manifest_pin.sh \
             --manifest db/apps/catalogs/manifest.xml \
             --sha "${SHA}"
-          EXPANDED_ROOT="${EXPANDED_ROOT}" ARTIFACT=db/apps/catalogs/place-labels.xml \
-            bash scripts/place-labels/check_coverage.sh
+          missing_count=$(
+            bash scripts/place-labels/scan_missing.sh \
+              --expanded "${EXPANDED_ROOT}" \
+              --artifact db/apps/catalogs/place-labels.xml \
+              | wc -l | tr -d ' '
+          )
+          if [ "${missing_count}" -eq 0 ]; then
+            echo "place-labels backlog empty — enforcing PLACE_LABELS_STRICT=1"
+            EXPANDED_ROOT="${EXPANDED_ROOT}" ARTIFACT=db/apps/catalogs/place-labels.xml \
+              PLACE_LABELS_STRICT=1 bash scripts/place-labels/check_coverage.sh
+          else
+            echo "place-labels backlog: ${missing_count} refs (STRICT deferred; see scripts/place-labels/README.md)"
+            EXPANDED_ROOT="${EXPANDED_ROOT}" ARTIFACT=db/apps/catalogs/place-labels.xml \
+              bash scripts/place-labels/check_coverage.sh
+          fi
       - uses: peter-evans/create-pull-request@v8
         with:
           branch: chore/place-labels-bot

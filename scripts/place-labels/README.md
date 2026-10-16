@@ -25,6 +25,8 @@ bats scripts/place-labels/test_place_labels.bats
 
 `check_coverage.sh` warns while the artifact is empty, warns while a backlog remains after seed, and fails only when `PLACE_LABELS_STRICT=1` and refs are missing outside `exceptions.txt`.
 
+**Phase 4+ gate:** expanded `bm:` / place-label CI treats missing external place refs as **fail** (`PLACE_LABELS_STRICT=1`). The scheduled `place-labels.yml` workflow auto-enables strict once `scan_missing.sh` reports an empty backlog against the checked-out expanded `main`; until then it stays warn-only and logs the backlog count. Document any interim allowlist rows in `exceptions.txt` with rationale.
+
 After scan/resolve, CI runs `bump_manifest_pin.sh` to set `manifest.xml` artifact `place-labels.xml` `@expanded-sha` to the expanded checkout HEAD (does not change `retired-ids.xml` or committed `expanded-sha.txt`).
 
 ## CI resolve (`resolve_and_update.sh`)
