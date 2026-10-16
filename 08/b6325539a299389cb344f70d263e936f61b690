@@ -1,0 +1,26 @@
+.github/workflows/place-labels.yml
+  s_0e38a282aba4fa::t_f880b4aee75978 44-58
+scripts/place-labels/README.md
+  s_0e38a282aba4fa::t_58e9470076954f 28-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "08b6325539a299389cb344f70d263e936f61b690",
+  "prompts": {},
+  "humans": {
+    "h_ff0005bef58c9d": {
+      "author": "duncdrum <d.paterson@me.com>"
+    }
+  },
+  "sessions": {
+    "s_0e38a282aba4fa": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "def0786b-808a-478e-be29-822a8f88d13a",
+        "model": "composer-2.5-fast"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
