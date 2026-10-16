@@ -19,7 +19,9 @@ ARG BUILDER_IMAGE=ghcr.io/eeditiones/builder:latest
 ARG BETMASAPI_REF=main
 ARG BETMASWEB_REF=main
 ARG DILLMANN_REF=master
-ARG GUIDELINESAPP_REF=master
+# feat-expath: flat expath app (build.xml at repo root), no shared-resources
+# dep — aligns with tuttle.xml and with betmas-data after 3b2ec76.
+ARG GUIDELINESAPP_REF=feat-expath
 
 FROM ${BUILDER_IMAGE} AS build
 
@@ -66,16 +68,14 @@ RUN ant && mv build/*.xar /tmp/apps/16-Dillmann.xar
 
 # Guidelines shares this instance too (betmas-e2e#67 - never wired into any
 # container before this). Same shape as Dillmann: release-asset data +
-# schema deps, then the app built from source. html-templating (its other
-# declared dependency) needs no separate install - it's an eXist core
-# module, already proven working in this image via BetMasWeb's own
-# %templates:wrap usage.
+# schema deps, then the app built from source. feat-expath declares
+# html-templating (eXist core), schemas (17-), and guidelines-data (18-) —
+# no shared-resources. Build.xml is at the repo root on this ref (master
+# still nests under guidelines/).
 ADD https://github.com/BetaMasaheft/Schema/releases/latest/download/betamas-schemas.xar /tmp/apps/17-Schema.xar
 ADD https://github.com/BetaMasaheft/guidelines/releases/latest/download/guidelines-data.xar /tmp/apps/18-GuidelinesData.xar
 ADD https://github.com/BetaMasaheft/guidelinesApp.git#${GUIDELINESAPP_REF} /tmp/guidelinesApp
-# unlike BetMasWeb/BetMasApi/Dillmann, this repo's build.xml lives in a
-# nested guidelines/ subdirectory, not the repo root
-WORKDIR /tmp/guidelinesApp/guidelines
+WORKDIR /tmp/guidelinesApp
 RUN ant && mv build/*.xar /tmp/apps/19-guidelinesApp.xar
 
 WORKDIR /tmp/BetMasInitInstance
