@@ -1,0 +1,25 @@
+docker/app.Dockerfile
+  s_e98fb2299e704f::t_c8bab6db85c449 22-24
+  s_e98fb2299e704f::t_fadbe517f91b57 71-74,78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7e5c81283d66f5712340ee6fcb8c48b84d676eb1",
+  "prompts": {},
+  "humans": {
+    "h_ff0005bef58c9d": {
+      "author": "duncdrum <d.paterson@me.com>"
+    }
+  },
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
