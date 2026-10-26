@@ -5,7 +5,7 @@
     expanded-sha="d07abaf370c9b1b133197a106b51b529d70bf3c6"/>
   <artifact name="place-labels.xml"
     required="true"
-    expanded-sha="1f1d197b7b7e2124adf7434964e7b18d28b823f8"/>
+    expanded-sha="1f8da854ea4d7caded5b67ef67eb35f6b5ec612b"/>
   <artifact name="bibl-exceptions.xml"
     required="true"
     expanded-sha="d07abaf370c9b1b133197a106b51b529d70bf3c6"/>
