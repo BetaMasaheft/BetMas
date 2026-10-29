@@ -949,7 +949,8 @@
     <xquery enable-java-binding="no" disable-deprecated-functions="no"
             enable-query-rewriting="yes" backwardCompatible="no"
             enforce-index-use="always"
-            raise-error-on-failed-retrieval="no">
+            raise-error-on-failed-retrieval="no"
+			max-limit="1000" min-limit="100">	
 
         <builtin-modules>
 
