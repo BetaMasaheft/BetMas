@@ -164,8 +164,9 @@ COPY --from=build /tmp/dependencies/*.xar /exist/autodeploy
 
 # stock duncdrum/existdb conf.xml with the RESTXQ startup trigger dropped
 # (BetMas registers no %rest: endpoints). Re-sync from the base image on any
-# EXISTDB_VERSION bump — see the header of docker/conf.xml.
+# EXISTDB_VERSION bump — see the header of docker/conf.xml. The same for startup.sh.
 COPY docker/conf.xml /exist/etc/conf.xml
+COPY docker/startup.sh /exist/bin/startup.sh
 
 # The base image bakes JAVA_TOOL_OPTIONS with -D system properties for
 # cacheSize/pool.max that silently win over conf.xml (confirmed via boot log:
