@@ -54,6 +54,8 @@ ARG TRACES_REF
 ARG EXPANDED_REF
 
 RUN mkdir /tmp/dependencies
+# see #3422
+RUN mkdir /exist/tmp
 
 # -- registry dependencies (versions pinned here and nowhere else) --
 # autodeploy installs in lexicographic filename order (digits < uppercase <
