@@ -169,6 +169,7 @@ COPY --from=build /tmp/dependencies/*.xar /exist/autodeploy
 # EXISTDB_VERSION bump — see the header of docker/conf.xml. The same for startup.sh.
 COPY docker/conf.xml /exist/etc/conf.xml
 COPY docker/startup.sh /exist/bin/startup.sh
+COPY docker/launcher.sh /exist/bin/launcher.sh
 
 # The base image bakes JAVA_TOOL_OPTIONS with -D system properties for
 # cacheSize/pool.max that silently win over conf.xml (confirmed via boot log:
