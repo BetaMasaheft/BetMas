@@ -54,8 +54,6 @@ ARG TRACES_REF
 ARG EXPANDED_REF
 
 RUN mkdir /tmp/dependencies
-# see #3422
-RUN mkdir /exist/tmp
 
 # -- registry dependencies (versions pinned here and nowhere else) --
 # autodeploy installs in lexicographic filename order (digits < uppercase <
@@ -166,7 +164,7 @@ COPY --from=build /tmp/dependencies/*.xar /exist/autodeploy
 
 # stock duncdrum/existdb conf.xml with the RESTXQ startup trigger dropped
 # (BetMas registers no %rest: endpoints). Re-sync from the base image on any
-# EXISTDB_VERSION bump — see the header of docker/conf.xml. The same for startup.sh.
+# EXISTDB_VERSION bump — see the header of docker/conf.xml.
 COPY docker/conf.xml /exist/etc/conf.xml
 
 # The base image bakes JAVA_TOOL_OPTIONS with -D system properties for
