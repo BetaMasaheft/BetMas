@@ -411,7 +411,7 @@
                 milliseconds) that the query can take before it is killed..
 
         -->
-        <watchdog output-size-limit="1000000" query-timeout="-1"/>
+        <watchdog output-size-limit="5000000" query-timeout="-1"/>
 
     </db-connection>
 
@@ -949,7 +949,8 @@
     <xquery enable-java-binding="no" disable-deprecated-functions="no"
             enable-query-rewriting="yes" backwardCompatible="no"
             enforce-index-use="always"
-            raise-error-on-failed-retrieval="no">
+            raise-error-on-failed-retrieval="no"
+			max-limit="1000" min-limit="100">	
 
         <builtin-modules>
 
