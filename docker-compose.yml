@@ -1,14 +1,17 @@
 services:
   # No host port: nginx is the sole public entry point, matching prod.
-  # TEMP (local debug only, revert before committing): expose eXist
-  # directly on 8082 for xst/ant deploy access.
+  # For local xst/ant against Jetty directly, add the dev overlay:
+  #   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+  # (publishes eXist on host :8082). Do not publish :8082 on Komodo.
   betmas:
     build:
       context: .
       dockerfile: docker/app.Dockerfile
     image: ghcr.io/betamasaheft/betamasaheft:release-expanded
-    ports:
-      - "8082:8080"
+    # Cap RSS so an abort-storm / heavy render fails the container instead of
+    # wedging the host (local repro climbed past 18GiB with no OOM). Override
+    # with BETMAS_MEM_LIMIT if the expanded image needs more headroom.
+    mem_limit: ${BETMAS_MEM_LIMIT:-12g}
     environment:
       # nginx is the sole public entry point (proxies "/" to this app), so
       # the app's externally-visible base is root now, not its own eXist

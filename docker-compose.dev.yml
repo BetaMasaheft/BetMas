@@ -1,0 +1,9 @@
+# Local / CI debug overlay: publish eXist on the host.
+# Core compose keeps nginx as the only public entry (prod-shaped).
+#
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+#
+services:
+  betmas:
+    ports:
+      - "8082:8080"
