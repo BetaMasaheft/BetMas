@@ -1,0 +1,32 @@
+test/nginx-config.bats
+  s_e98fb2299e704f::t_d085ea91914d70 28-49
+docker/nginx.conf
+  s_e98fb2299e704f::t_395780ba6b46e5 538-539
+  s_e98fb2299e704f::t_ccb1dfe95a996d 153,156-164
+  s_e98fb2299e704f::t_dee18fc5b76ba5 223-358,383-386,388,402-403
+docker-compose.dev.yml
+  s_e98fb2299e704f::t_69b7c99155167e 1-9
+docker-compose.yml
+  s_e98fb2299e704f::t_50a7b9f62f3a9f 3-5,11-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "76c13c70939260222fc8fe4c4c17cf060942decc",
+  "prompts": {},
+  "humans": {
+    "h_ff0005bef58c9d": {
+      "author": "duncdrum <d.paterson@me.com>"
+    }
+  },
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
