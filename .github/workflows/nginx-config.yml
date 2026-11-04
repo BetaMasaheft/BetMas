@@ -1,0 +1,45 @@
+name: Nginx Config
+
+# Cheap gate for the compose ↔ docker/nginx.conf contract. Does not start
+# the stack; only runs nginx -t against the two mount paths.
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - docker/nginx.conf
+      - docker-compose.yml
+      - test/nginx-config.bats
+      - .github/workflows/nginx-config.yml
+  pull_request:
+    branches: [master, main]
+    paths:
+      - docker/nginx.conf
+      - docker-compose.yml
+      - test/nginx-config.bats
+      - .github/workflows/nginx-config.yml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  nginx-config:
+    name: Validate nginx.conf mount
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install bats
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bats
+
+      - name: Pull nginx image
+        run: docker pull nginx:1.27-alpine
+
+      - name: Run nginx-config bats
+        run: bats --tap test/nginx-config.bats
