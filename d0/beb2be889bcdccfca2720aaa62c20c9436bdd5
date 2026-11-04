@@ -1,0 +1,38 @@
+docker-compose.dev.yml
+  s_e98fb2299e704f::t_69b7c99155167e 1-9
+docker/nginx.conf
+  s_e98fb2299e704f::t_ccb1dfe95a996d 153,156-164
+  s_e98fb2299e704f::t_dee18fc5b76ba5 223-358,383-386,388,402-403
+  s_e98fb2299e704f::t_395780ba6b46e5 538-539
+docker-compose.yml
+  s_e98fb2299e704f::t_50a7b9f62f3a9f 3-5,11-14
+.github/workflows/bats-test.yml
+  s_e98fb2299e704f::t_06b371391a0140 37-40
+test/app-image-expand.bats
+  s_e98fb2299e704f::t_dc67f74f14466a 8-9
+test/nginx-config.bats
+  s_e98fb2299e704f::t_d085ea91914d70 28-49
+test/restore-users-from-volume.bats
+  s_e98fb2299e704f::t_6f2d2fb57384e0 40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d0beb2be889bcdccfca2720aaa62c20c9436bdd5",
+  "prompts": {},
+  "humans": {
+    "h_ff0005bef58c9d": {
+      "author": "duncdrum <d.paterson@me.com>"
+    }
+  },
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
