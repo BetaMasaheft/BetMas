@@ -1,0 +1,30 @@
+.github/workflows/nginx-config.yml
+  s_e98fb2299e704f::t_60313f9e75deaa 1-45
+docker-compose.yml
+  s_e98fb2299e704f::t_1f51f2ac74e1b4 60
+  s_e98fb2299e704f::t_d5898e9507e18c 57-59
+test/nginx-config.bats
+  s_e98fb2299e704f::t_fe19a6215f63a6 1-11,18-27
+  s_e98fb2299e704f::t_ce6d3027f80547 12-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1d4047cdd98676028cf6e8237672d30d1b1f90b5",
+  "prompts": {},
+  "humans": {
+    "h_ff0005bef58c9d": {
+      "author": "duncdrum <d.paterson@me.com>"
+    }
+  },
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
