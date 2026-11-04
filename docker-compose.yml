@@ -54,7 +54,10 @@ services:
     ports:
       - "${NGINX_PORT:-8080}:80"
     volumes:
-      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # Full main config since #231's wrapper (worker_processes / events / http),
+      # not a conf.d fragment. Mounting at conf.d/default.conf makes nginx
+      # refuse to start: 'worker_processes' directive is not allowed here.
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./cache:/var/cache/nginx/
     depends_on:
       - betmas
