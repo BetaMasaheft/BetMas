@@ -1,0 +1,28 @@
+test/restore-users-from-volume.bats
+  s_e98fb2299e704f::t_6f2d2fb57384e0 40
+.github/workflows/bats-test.yml
+  s_e98fb2299e704f::t_06b371391a0140 37-40
+test/app-image-expand.bats
+  s_e98fb2299e704f::t_dc67f74f14466a 8-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4d364c2ed3d2a27f9740703fe2c3f9e62b012646",
+  "prompts": {},
+  "humans": {
+    "h_ff0005bef58c9d": {
+      "author": "duncdrum <d.paterson@me.com>"
+    }
+  },
+  "sessions": {
+    "s_e98fb2299e704f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "fe63e19d-7812-4cd3-8078-f384be04c806",
+        "model": "default"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
