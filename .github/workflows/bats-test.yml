@@ -34,6 +34,10 @@ jobs:
     # adds real time on top of the ~11GB base layer pull - was fine at 30
     # under pull-only, wider margin now that a build is on the critical path.
     timeout-minutes: 45
+    # Core compose keeps nginx as the only public port; bats/xst talk to
+    # Jetty on host :8082 via the dev overlay (docker-compose.dev.yml).
+    env:
+      COMPOSE_FILE: docker-compose.yml:docker-compose.dev.yml
 
     steps:
       # The betmas image built/pulled below is ~11GB+ once layered - the

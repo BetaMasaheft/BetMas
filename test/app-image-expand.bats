@@ -5,8 +5,8 @@
 # every consumer workflow.
 #
 # Run: npm run test:app-image
-# Requires: `docker compose up -d betmas` healthy, host port 8082 (see
-# docker-compose.yml).
+# Requires: betmas healthy with host :8082 — use the dev overlay:
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml docker compose up -d betmas
 
 EXIST_REST="${EXIST_REST:-http://localhost:8082/exist/rest/db/}"
 

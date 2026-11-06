@@ -37,7 +37,7 @@
 # Run: npm run test:restore-users  (or: bats --tap test/restore-users-from-volume.bats)
 # Requires: the `betmas` compose service already has betmas-users-data
 # mounted and USERS_VOLUME_DIRECTORY set (see docker-compose.yml), and a
-# host port exposed for xst (see the TEMP block in docker-compose.yml).
+# host :8082 for xst (docker-compose.dev.yml; CI sets COMPOSE_FILE).
 
 setup_file() {
 	cd "$BATS_TEST_DIRNAME/.."

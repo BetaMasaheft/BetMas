@@ -25,3 +25,25 @@ IMAGE=nginx:1.27-alpine
 	[[ "$output" == *"worker_processes"*"not allowed here"* ]] ||
 		[[ "$output" == *"is not allowed here"* ]]
 }
+
+@test "docker/nginx.conf rate-limits verified clients by IP" {
+	# Cookie gate alone is forgeable; per-IP zones must exist for abort-storm deterrence.
+	run grep -E 'limit_req_zone \$binary_remote_addr zone=perip:' "$CONF"
+	[ "$status" -eq 0 ]
+	run grep -E 'limit_req_zone \$binary_remote_addr zone=perip_heavy:' "$CONF"
+	[ "$status" -eq 0 ]
+	run grep -E 'limit_conn_zone \$binary_remote_addr zone=perip_conn:' "$CONF"
+	[ "$status" -eq 0 ]
+	run grep -F 'location ^~ /manuscripts/' "$CONF"
+	[ "$status" -eq 0 ]
+}
+
+@test "core compose does not publish eXist on the host" {
+	ROOT="$(cd "$BATS_TEST_DIRNAME/.." && pwd)"
+	# :8082 belongs only in docker-compose.dev.yml
+	if grep -E '8082:8080' "$ROOT/docker-compose.yml"; then
+		return 1
+	fi
+	grep -E '8082:8080' "$ROOT/docker-compose.dev.yml"
+	grep -E 'mem_limit:' "$ROOT/docker-compose.yml"
+}
