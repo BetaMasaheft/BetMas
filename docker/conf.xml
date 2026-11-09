@@ -204,7 +204,7 @@
         you have some more memory to waste. If you deal with lots of
         collections, you can also increase the collectionCacheSize value
     -->
-    <db-connection cacheSize="1024M" checkMaxCacheSize="true" collectionCache="64M" database="native"
+    <db-connection cacheSize="1024M" checkMaxCacheSize="true" collectionCache="256M" database="native"
         files="../data" pageSize="4096" nodesBuffer="-1" cacheShrinkThreshold="10000"
         minDiskSpace="1024M" posix-chown-restricted="true" preserve-on-copy="false">
 
