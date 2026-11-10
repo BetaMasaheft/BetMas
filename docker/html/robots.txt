@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /newSearch.html
+Disallow: /exist/apps/BetMasWeb/newSearch.html
+
+# Keep bots out of internal database system areas
+Disallow: /exist/rest/
+Disallow: /exist/apps/dashboard/
+Disallow: /exist/apps/monex/
+
+Disallow: /

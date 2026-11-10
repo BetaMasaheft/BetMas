@@ -61,6 +61,7 @@ services:
       # not a conf.d fragment. Mounting at conf.d/default.conf makes nginx
       # refuse to start: 'worker_processes' directive is not allowed here.
       - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/html:/etc/nginx/html
       - ./cache:/var/cache/nginx/
     depends_on:
       - betmas

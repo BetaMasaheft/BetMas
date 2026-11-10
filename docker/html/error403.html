@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>403 Access Denied</title>
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f4f4f9; max-width: 650px; margin: 80px auto; padding: 20px; color: #333; text-align: center; }
+        .box { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e1e1e8; }
+        h2 { color: #8b0000; margin-top: 0; }
+        p { line-height: 1.5; color: #555; }
+        
+        /* Expanded input box style */
+        input[type="text"] { 
+            width: 100%; 
+            padding: 12px 15px; 
+            font-size: 15px; 
+            margin: 15px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus {
+            border-color: #8b0000;
+        }
+
+        button { 
+            padding: 12px 25px; 
+            font-size: 16px; 
+            background: #8b0000; 
+            color: #fff; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: 500;
+        }
+        button:hover { background: #5a0000; }
+        .hint { font-size: 13px; color: #777; margin-top: 15px; }
+    </style></head>
+<body>
+<div class="box">
+        <h2>Access Notice</h2>
+        <p>This request was blocked by our automated security filter (often due to missing browser headers or direct link navigation from external sites).</p>
+        <p>If you are a researcher trying to access a specific record or search result, please paste your link below to proceed:</p>
+        
+        <form id="redirectForm">
+            <input type="text" id="targetUrl" placeholder="https://betamasaheft.eu/..." required><br>
+            <button type="submit">Continue to Link</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('redirectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let url = document.getElementById('targetUrl').value.trim();
+            
+            try {
+                let parsed = new URL(url);
+                // Ensure they stay within your domain for safety
+                if (parsed.hostname.endsWith('betamasaheft.eu') || parsed.hostname.endsWith('awhamburg.de') || parsed.hostname.endsWith('localhost:8080') || parsed.hostname.endsWith('awhamburg.de:17150')) {
+                    window.location.href = url;
+                } else {
+                    alert('Please enter a valid Beta maṣāḥeft link.');
+                }
+            } catch (err) {
+                alert('Please enter a valid URL.');
+            }
+        });
+    </script>
+
+
+<p>If this did not help please send us an email to obtain permission.</p>
+<p><a href="https://www.betamasaheft.uni-hamburg.de/">You can check our institutional homepage for contact information and Clavis Aethiopica listings.</a></p>
+</body>
+</html>
