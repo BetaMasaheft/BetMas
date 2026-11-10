@@ -58,8 +58,15 @@
             
             try {
                 let parsed = new URL(url);
-                // Ensure they stay within your domain for safety
-                if (parsed.hostname.endsWith('betamasaheft.eu') || parsed.hostname.endsWith('awhamburg.de') || parsed.hostname.endsWith('localhost:8080') || parsed.hostname.endsWith('awhamburg.de:17150')) {
+                let host = parsed.hostname;
+                if (
+                    host === 'localhost' || 
+                    host === '127.0.0.1' || 
+                    host === 'betamasaheft.eu' || 
+                    host.endsWith('.betamasaheft.eu') || 
+                    host === 'awhamburg.de' || 
+                    host.endsWith('.awhamburg.de')
+                ) {
                     window.location.href = url;
                 } else {
                     alert('Please enter a valid Beta maṣāḥeft link.');
