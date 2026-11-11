@@ -84,6 +84,8 @@ services:
   iipsrv: # fixture pyramidal TIFFs baked in, not real scans (#122)
     profiles: [full]
     image: ghcr.io/betamasaheft/iipsrv-fixtures:main
+    environment:
+      IIIF_VERSION: 2
 
 volumes:
   betmas-id-manager-data:
