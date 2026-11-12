@@ -3,6 +3,6 @@ import module namespace seed = "https://www.betamasaheft.uni-hamburg.de/BetMasWe
 
 (: Run this file to seed the ID manager. It should only be used when the state of the id-manager gets lost, otherwise it will reserve many ids for a buffer :)
 
-(: Seed with plenty of leeway. 1000 should be fine. If not, change this value :)
-let $buffer := 1000
+(: Seed with no buffer. We will manually compare the contents of `new` on production. :)
+let $buffer := 0
 return seed:run($buffer)
