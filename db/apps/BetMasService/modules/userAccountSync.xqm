@@ -51,7 +51,7 @@ declare function userAccountSync:list-user-files() as xs:string* {
 	if (file:exists($userAccountSync:volume-path) and file:is-directory($userAccountSync:volume-path)) then
 		(: file:list() returns <list><file:file name="..." .../>...</list>, not a
 		   sequence of plain filename strings - confirmed empirically. :)
-		for $f in file:list($userAccountSync:volume-path)/*:file[ends-with(@name, ".xml")]
+		for $f in file:list($userAccountSync:volume-path)/*:file[ends-with(@name, ".xml")] and not(@name = ("admin.xml", "guest.xml", "SYSTEM.xml", "nobody.xml", "packageservice.xml", "eXide.xml", "monex.xml"))
 		return $userAccountSync:volume-path || "/" || $f/@name
 	else (
 	)
