@@ -72,7 +72,9 @@ declare function userAccountSync:sync-account($uri as xs:anyURI) {
 			let $_ := util:log("info", "Syncing account " || $uri || " to disk")
 			let $account := doc($uri)/*:account
 			let $username := $account/*:name/string()
-			return if (exists($account) and $username ne "" and file:exists($userAccountSync:volume-path)) then
+			return if (exists($account) and $username ne "" 
+			and not($username = ("admin", "guest", "SYSTEM", "nobody", "packageservice", "eXide", "monex"))
+			and file:exists($userAccountSync:volume-path)) then
 				file:serialize($account, userAccountSync:user-file-path($username), "indent=yes")
 			else (
 			)
@@ -89,7 +91,7 @@ declare function userAccountSync:remove-account($uri as xs:anyURI) {
 	try {
 		let $username := replace(tokenize(string($uri), "/")[last()], "\.xml$", "")
 		let $path := userAccountSync:user-file-path($username)
-		return if ($username ne "" and file:exists($path)) then
+		return if ($username ne "" and not($username = ("admin", "guest", "SYSTEM", "nobody", "packageservice", "eXide", "monex")) and file:exists($path)) then
 			file:delete($path)
 		else (
 		)
