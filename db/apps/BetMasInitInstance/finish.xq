@@ -117,7 +117,7 @@ return if (empty($usersVolumeDirectory) or not(file:is-directory($usersVolumeDir
 	let $groups := $account/*:group/@name/string()
 	let $primaryGroup := $groups[1]
 	let $rawPasswordHash := replace($account/*:password/string(), "^\{[^}]*\}", "")
-	where $username ne "" and exists($primaryGroup)
+	where $username ne "" and exists($primaryGroup) and normalize-space($rawPasswordHash) ne ""
 	let $_ := util:log("info", "Creating user from volume with name " || $username)
 	(: One malformed/unrestorable account must never take the rest of this
 	   script down with it - in particular the trigger registration below,
