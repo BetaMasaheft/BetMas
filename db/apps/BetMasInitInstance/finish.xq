@@ -112,7 +112,7 @@ return if (empty($usersVolumeDirectory) or not(file:is-directory($usersVolumeDir
 	   below never needs to create one implicitly. :)
 	let $_ := for $group in distinct-values($accounts/*:group/@name/string())
 		return local:ensure-group($group)
-	for $account in $accounts
+	for $account in $accounts[not(*:name = ("admin", "guest", "SYSTEM", "nobody", "packageservice", "eXide", "monex"))]
 	let $username := $account/*:name/string()
 	let $groups := $account/*:group/@name/string()
 	let $primaryGroup := $groups[1]
