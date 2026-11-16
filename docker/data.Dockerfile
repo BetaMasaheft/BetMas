@@ -117,6 +117,8 @@ ADD https://github.com/BetaMasaheft/Studies.git#${STUDIES_REF} /tmp/Studies
 WORKDIR /tmp/Studies
 RUN ant && mv build/*.xar /tmp/dependencies/Studies.xar
 
+ADD https://github.com/BetaMasaheft/fonts/releases/download/0.0.1/bm-fonts.xar /tmp/dependencies
+
 ADD https://github.com/BetaMasaheft/corpora.git#${CORPORA_REF} /tmp/corpora
 WORKDIR /tmp/corpora
 RUN ant && mv build/*.xar /tmp/dependencies/corpora.xar
