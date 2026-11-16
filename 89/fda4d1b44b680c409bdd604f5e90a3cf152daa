@@ -1,0 +1,24 @@
+.github/workflows/bats-test.yml
+  h_ff0005bef58c9d 32
+.github/workflows/build-data.yml
+  h_ff0005bef58c9d 29
+.github/workflows/docker-build.yml
+  h_ff0005bef58c9d 25
+.github/workflows/format-check.yml
+  h_ff0005bef58c9d 12
+.github/workflows/nginx-config.yml
+  h_ff0005bef58c9d 32
+.github/workflows/place-labels.yml
+  h_ff0005bef58c9d 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "89fda4d1b44b680c409bdd604f5e90a3cf152daa",
+  "prompts": {},
+  "humans": {
+    "h_ff0005bef58c9d": {
+      "author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
