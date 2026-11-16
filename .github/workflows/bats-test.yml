@@ -29,7 +29,7 @@ permissions:
 jobs:
   bats:
     name: Run bats tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Building the app image locally (rather than pulling the published one)
     # adds real time on top of the ~11GB base layer pull - was fine at 30
     # under pull-only, wider margin now that a build is on the critical path.

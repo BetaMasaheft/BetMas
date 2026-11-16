@@ -22,7 +22,7 @@ env:
 jobs:
   build:
     name: Build and Push App Image
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Only build and push images from master: after a successful format check
     # on master, or when manually dispatched on master
     if: >-
