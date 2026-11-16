@@ -9,7 +9,7 @@ on:
 jobs:
   format-check:
     name: Check code formatting
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     
     steps:
       - name: Checkout code
