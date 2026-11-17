@@ -97,40 +97,60 @@ return (
  : account is created/changed/deleted, from any code path). A freshly
  : recreated container has no accounts beyond whatever's baked into the
  : image, so this only ever needs to add/update, never delete.
+ :
+ : The restore does NOT run inline: this script executes during startup
+ : autodeploy, while the database instance is not yet "available", and
+ : sm:passwd-hash then throws "Database instance 'exist' is not available"
+ : (leaving the restored password hash unpersisted and skipping the rest of
+ : that account's restore). So the restore is stored as its own XQuery and
+ : run once by the scheduler after a delay, when startup has finished. This
+ : means accounts appear a little after the container turns healthy; callers
+ : must wait for the "restore-users job finished" log line (or poll for the
+ : account).
+ :
+ : Scheduler jobs run with the permissions of the resource owner only if it
+ : is owned by a DBA user and setuid, hence the chown/chmod below.
  :)
 let $usersVolumeDirectory := fn:environment-variable("USERS_VOLUME_DIRECTORY")
 return if (empty($usersVolumeDirectory) or not(file:is-directory($usersVolumeDirectory))) then (
 	(: Nothing to do: no users to import :)
 ) else (
-	let $accounts := for $file in file:list($usersVolumeDirectory)/*:file[ends-with(@name, ".xml")]
-		return parse-xml(file:read($usersVolumeDirectory || "/" || $file/@name))/*
-	(: sm:create-account/sm:add-group-member both fail if the group does not
-	   exist yet. A freshly recreated container only has whatever groups the
-	   image bakes in, which may not cover every group these accounts
-	   reference, so make sure each one exists before restoring accounts -
-	   this also covers each account's own primary group, so sm:create-account
-	   below never needs to create one implicitly. :)
-	let $_ := for $group in distinct-values($accounts/*:group/@name/string())
-		return local:ensure-group($group)
-	for $account in $accounts
+	let $restoreDelayMs := 30000
+	let $restoreScript :=
+``[xquery version "3.1";
+
+declare function local:ensure-group($group as xs:string) as empty-sequence() {
+	if (sm:group-exists($group)) then (
+	) else
+		try {
+			sm:create-group($group)
+		} catch * {
+			util:log("error", "BetMasInitInstance: could not create group " || $group || " - " || $err:code || ": " || $err:description)
+		}
+};
+
+let $usersVolumeDirectory := "`{$usersVolumeDirectory}`"
+let $accounts := for $file in file:list($usersVolumeDirectory)/*:file[ends-with(@name, ".xml")]
+	return parse-xml(file:read($usersVolumeDirectory || "/" || $file/@name))/*
+(: sm:create-account/sm:add-group-member both fail if the group does not
+   exist yet, and an account's primary group may not be baked into the image. :)
+let $_ := for $group in distinct-values($accounts/*:group/@name/string())
+	return local:ensure-group($group)
+let $_ := for $account in $accounts
 	let $username := $account/*:name/string()
 	let $groups := $account/*:group/@name/string()
 	let $primaryGroup := $groups[1]
 	let $rawPasswordHash := replace($account/*:password/string(), "^\{[^}]*\}", "")
 	where $username ne "" and exists($primaryGroup)
 	let $_ := util:log("info", "Creating user from volume with name " || $username)
-	(: One malformed/unrestorable account must never take the rest of this
-	   script down with it - in particular the trigger registration below,
-	   which every future account mutation depends on being in place. :)
+	(: One malformed/unrestorable account must never stop the others. :)
 	return try {
 		(
 			if (sm:user-exists($username)) then (
 				(: User is already there. Do not create, but overwrite password anyway :)
 			) else (
-				(: 4-arg sm:create-account($name, $password, $primary-group, $groups) -
-				   there is no 5-arg overload with a trailing personal-group-name; passing
-				   one there (as this used to) makes eXist create an extra personal group
-				   named after the account instead of just using $primaryGroup. :)
+				(: 4-arg sm:create-account($name, $password, $primary-group, $groups);
+				   a 5-arg call would create a personal group named after the account. :)
 				sm:create-account($username, "unused-overwritten-below", $primaryGroup, $groups[position() > 1])
 			),
 			sm:passwd-hash($username, $rawPasswordHash),
@@ -141,11 +161,19 @@ return if (empty($usersVolumeDirectory) or not(file:is-directory($usersVolumeDir
 			return sm:set-account-metadata($username, xs:anyURI($m/@key/string()), $m/string())
 		)
 	} catch * {
-		util:log(
-			"error",
-			"BetMasInitInstance: could not restore user " || $username || " - " || $err:code || ": " || $err:description
-		)
+		util:log("error", "BetMasInitInstance: could not restore user " || $username || " - " || $err:code || ": " || $err:description)
 	}
+return util:log("info", "BetMasInitInstance: restore-users job finished")
+]``
+	let $scriptCollection := "/db/apps/BetMasService/modules"
+	let $scriptPath := xmldb:store($scriptCollection, "restore-users.xq", $restoreScript, "application/xquery")
+	return (
+		sm:chown(xs:anyURI($scriptPath), "admin"),
+		sm:chgrp(xs:anyURI($scriptPath), "dba"),
+		sm:chmod(xs:anyURI($scriptPath), "rwsr-xr-x"),
+		scheduler:schedule-xquery-periodic-job($scriptPath, 3600000, "betmas-restore-users", <parameters/>, $restoreDelayMs, 0),
+		util:log("info", "BetMasInitInstance: scheduled restore-users job in " || $restoreDelayMs || "ms")
+	)
 ),
 (:~
  : Register the account-persistence trigger (BetMasService/modules/userAccountTrigger.xqm,
