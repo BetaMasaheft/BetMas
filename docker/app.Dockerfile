@@ -19,9 +19,7 @@ ARG BUILDER_IMAGE=ghcr.io/eeditiones/builder:latest
 ARG BETMASAPI_REF=main
 ARG BETMASWEB_REF=main
 ARG DILLMANN_REF=master
-# feat-expath: flat expath app (build.xml at repo root), no shared-resources
-# dep — aligns with tuttle.xml and with betmas-data after 3b2ec76.
-ARG GUIDELINESAPP_REF=feat-expath
+ARG GUIDELINESAPP_REF=master
 
 FROM ${BUILDER_IMAGE} AS build
 
