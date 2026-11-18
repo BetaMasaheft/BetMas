@@ -136,12 +136,12 @@ let $accounts := for $file in file:list($usersVolumeDirectory)/*:file[ends-with(
    exist yet, and an account's primary group may not be baked into the image. :)
 let $_ := for $group in distinct-values($accounts/*:group/@name/string())
 	return local:ensure-group($group)
-let $_ := for $account in $accounts
+let $_ := for $account in $accounts[not(*:name = ("admin", "guest", "SYSTEM", "nobody", "packageservice", "eXide", "monex"))]
 	let $username := $account/*:name/string()
 	let $groups := $account/*:group/@name/string()
 	let $primaryGroup := $groups[1]
 	let $rawPasswordHash := replace($account/*:password/string(), "^\{[^}]*\}", "")
-	where $username ne "" and exists($primaryGroup)
+	where $username ne "" and exists($primaryGroup) and normalize-space($rawPasswordHash) ne ""
 	let $_ := util:log("info", "Creating user from volume with name " || $username)
 	(: One malformed/unrestorable account must never stop the others. :)
 	return try {
