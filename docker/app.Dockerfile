@@ -72,8 +72,12 @@ RUN ant && mv build/*.xar /tmp/apps/16-Dillmann.xar
 # html-templating (eXist core), schemas (17-), and guidelines-data (18-) —
 # no shared-resources. Build.xml is at the repo root on this ref (master
 # still nests under guidelines/).
-ADD https://github.com/BetaMasaheft/Schema/releases/latest/download/betamas-schemas.xar /tmp/apps/17-Schema.xar
-ADD https://github.com/BetaMasaheft/guidelines/releases/latest/download/guidelines-data.xar /tmp/apps/18-GuidelinesData.xar
+ADD https://github.com/BetaMasaheft/Schema.git#master /tmp/Schema
+WORKDIR /tmp/Schema
+RUN ant && mv build/*.xar /tmp/apps/17-Schema.xar
+ADD https://github.com/BetaMasaheft/guidelines.git#master /tmp/guidelines
+WORKDIR /tmp/guidelines
+RUN ant && mv build/*.xar /tmp/apps/18-GuidelinesData.xar
 ADD https://github.com/BetaMasaheft/guidelinesApp.git#${GUIDELINESAPP_REF} /tmp/guidelinesApp
 WORKDIR /tmp/guidelinesApp
 RUN ant && mv build/*.xar /tmp/apps/19-guidelinesApp.xar
