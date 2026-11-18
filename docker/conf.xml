@@ -388,7 +388,7 @@
                 and if inconsistencies are found in the db, it writes an emergency
                 backup to the same directory.
         -->
-        <recovery enabled="yes" group-commit="yes" journal-dir="../data"
+        <recovery enabled="no" group-commit="yes" journal-dir="../data"
             size="250M" sync-on-commit="no" force-restart="no" consistency-check="no"/>
 
         <!--
