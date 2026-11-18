@@ -411,7 +411,14 @@
                 milliseconds) that the query can take before it is killed..
 
         -->
-        <watchdog output-size-limit="5000000" query-timeout="-1"/>
+        <!--
+            BetMas: kill queries after 30 s (was -1, i.e. never). Abandoned
+            requests (nginx gives up after proxy_read_timeout 60s, crawlers
+            disconnect) otherwise keep running and pin Jetty threads. 30 s is
+            above the slowest real pages (about 15-20 s warm); the first hit on
+            a heavy page right after a restart can be killed and succeed on retry.
+        -->
+        <watchdog output-size-limit="5000000" query-timeout="30000"/>
 
     </db-connection>
 
