@@ -205,7 +205,7 @@
         collections, you can also increase the collectionCacheSize value
     -->
     <db-connection cacheSize="1024M" checkMaxCacheSize="true" collectionCache="256M" database="native"
-        files="../data" pageSize="4096" nodesBuffer="-1" cacheShrinkThreshold="10000"
+        files="../data" pageSize="4096" nodesBuffer="512M" cacheShrinkThreshold="10000"
         minDiskSpace="1024M" posix-chown-restricted="true" preserve-on-copy="false">
 
         <!--
@@ -388,8 +388,8 @@
                 and if inconsistencies are found in the db, it writes an emergency
                 backup to the same directory.
         -->
-        <recovery enabled="yes"  group-commit="no"   journal-dir="../data"
-                  size="100M" sync-on-commit="no"  force-restart="no"  consistency-check="yes"/>
+        <recovery enabled="no" group-commit="yes" journal-dir="../data"
+            size="250M" sync-on-commit="no" force-restart="no" consistency-check="no"/>
 
         <!--
             This is the global configuration for the query watchdog. The
