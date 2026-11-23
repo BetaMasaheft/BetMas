@@ -38,7 +38,7 @@ RUN mkdir /tmp/apps /tmp/stage-2
 
 # Numbered for autodeploy's lexicographic install order. BetMasApi (12-)
 # must follow BetMasWeb (11-): its expath-pkg declares betmasweb >= 0.1 and
-# roaster >= 1.12.1 (the latter ships in the base).
+# roaster >= 2.1.4 (the latter ships in the base).
 WORKDIR /tmp/BetMasService
 RUN jar cfM0 /tmp/apps/10-BetMasService.xar .
 
