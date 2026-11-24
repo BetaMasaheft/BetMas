@@ -1,9 +1,0 @@
-<collection xmlns="http://exist-db.org/collection-config/1.0">
-    <index>
-        <fulltext default="none" attributes="false"/>
-        <!-- catalog:bibl-from-ethio looks entries up by citation/@tag (doc("/db/apps/EthioStudies/citations.xml")//*[@tag = $id]) -->
-        <range>
-            <create qname="@tag" type="xs:string"/>
-        </range>
-    </index>
-</collection>
