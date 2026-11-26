@@ -51,7 +51,7 @@ declare function userAccountSync:list-user-files() as xs:string* {
 	if (file:exists($userAccountSync:volume-path) and file:is-directory($userAccountSync:volume-path)) then
 		(: file:list() returns <list><file:file name="..." .../>...</list>, not a
 		   sequence of plain filename strings - confirmed empirically. :)
-		for $f in file:list($userAccountSync:volume-path)/*:file[ends-with(@name, ".xml")]
+		for $f in file:list($userAccountSync:volume-path)/*:file[ends-with(@name, ".xml")] and not(@name = ("admin.xml", "guest.xml", "SYSTEM.xml", "nobody.xml", "packageservice.xml", "eXide.xml", "monex.xml"))
 		return $userAccountSync:volume-path || "/" || $f/@name
 	else (
 	)
@@ -72,7 +72,9 @@ declare function userAccountSync:sync-account($uri as xs:anyURI) {
 			let $_ := util:log("info", "Syncing account " || $uri || " to disk")
 			let $account := doc($uri)/*:account
 			let $username := $account/*:name/string()
-			return if (exists($account) and $username ne "" and file:exists($userAccountSync:volume-path)) then
+			return if (exists($account) and $username ne "" 
+			and not($username = ("admin", "guest", "SYSTEM", "nobody", "packageservice", "eXide", "monex"))
+			and file:exists($userAccountSync:volume-path)) then
 				file:serialize($account, userAccountSync:user-file-path($username), "indent=yes")
 			else (
 			)
@@ -89,7 +91,7 @@ declare function userAccountSync:remove-account($uri as xs:anyURI) {
 	try {
 		let $username := replace(tokenize(string($uri), "/")[last()], "\.xml$", "")
 		let $path := userAccountSync:user-file-path($username)
-		return if ($username ne "" and file:exists($path)) then
+		return if ($username ne "" and not($username = ("admin", "guest", "SYSTEM", "nobody", "packageservice", "eXide", "monex")) and file:exists($path)) then
 			file:delete($path)
 		else (
 		)
