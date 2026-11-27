@@ -38,4 +38,12 @@
     issue="https://github.com/BetaMasaheft/bibliography/issues/28">
     <reason>Expanded bm: pointer (2 ptrs); still absent from EthioStudies @ 83f1118; no lists entry.</reason>
   </entry>
+  <entry bm="bm:Colin1988Hedar" disposition="pending-export" lists-fallback="false"
+    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
+    <reason>Works/expanded ptr (LIT2375Synaxa); EthioStudies has Zotero RX422QEZ without bm: tag; no lists entry.</reason>
+  </entry>
+  <entry bm="bm:Missal1926" disposition="pending-export" lists-fallback="false"
+    issue="https://github.com/BetaMasaheft/bibliography/issues/28">
+    <reason>Manuscripts ptr (BAVet185); absent from EthioStudies citations; no lists entry.</reason>
+  </entry>
 </bibl-exceptions>
